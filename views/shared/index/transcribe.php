@@ -125,6 +125,46 @@ jQuery(document).ready(function() {
             }
         );
     });
+    
+    // Handle protect talk page.
+    jQuery('#scripto-talk-page-protect').click(function() {
+        var protectButton = jQuery('#scripto-talk-page-protect');
+        var unprotectButton = jQuery('#scripto-talk-page-unprotect');
+        protectButton.prop('disabled', true).text('Protecting...');
+        jQuery.post(
+            <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
+            {
+                page_action: 'protect', 
+                page: 'talk', 
+                item_id: <?php echo js_escape($this->doc->getId()); ?>, 
+                file_id: <?php echo js_escape($this->doc->getPageId()); ?>
+            }, 
+            function(data) {
+                protectButton.hide().prop('disabled', false).text('Protect');
+                unprotectButton.show();
+            }
+        );
+    });
+    
+    // Handle unprotect talk page.
+    jQuery('#scripto-talk-page-unprotect').click(function() {
+        var unprotectButton = jQuery('#scripto-talk-page-unprotect');
+        var protectButton = jQuery('#scripto-talk-page-protect');
+        unprotectButton.prop('disabled', true).text('Unprotecting...');
+        jQuery.post(
+            <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
+            {
+                page_action: 'unprotect', 
+                page: 'talk', 
+                item_id: <?php echo js_escape($this->doc->getId()); ?>, 
+                file_id: <?php echo js_escape($this->doc->getPageId()); ?>
+            }, 
+            function(data) {
+                unprotectButton.hide().prop('disabled', false).text('Unprotect');
+                protectButton.show();
+            }
+        );
+    });
     <?php endif; ?>
     
     // Handle default transcription/talk visibility.
