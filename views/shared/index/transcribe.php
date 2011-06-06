@@ -9,7 +9,7 @@ jQuery(document).ready(function() {
     
     // Handle edit transcription page.
     jQuery('#scripto-transcription-page-edit').click(function() {
-        jQuery('#scripto-transcription-page-edit').prop('disabled', true).text('Editing transcription...');
+        jQuery('#scripto-transcription-page-edit').prop('disabled', true).text('Editing...');
         jQuery.post(
             <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
             {
@@ -20,7 +20,7 @@ jQuery(document).ready(function() {
                 wikitext: jQuery('#scripto-transcription-page-wikitext').val()
             }, 
             function(data) {
-                jQuery('#scripto-transcription-page-edit').prop('disabled', false).text('Edit transcription');
+                jQuery('#scripto-transcription-page-edit').prop('disabled', false).text('Edit');
                 jQuery('#scripto-transcription-page-html').html(data);
             }
         );
@@ -28,7 +28,7 @@ jQuery(document).ready(function() {
     
     // Handle edit talk page.
     jQuery('#scripto-talk-page-edit').click(function() {
-        jQuery('#scripto-talk-page-edit').prop('disabled', true).text('Editing discussion...');
+        jQuery('#scripto-talk-page-edit').prop('disabled', true).text('Editing...');
         jQuery.post(
             <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
             {
@@ -39,7 +39,7 @@ jQuery(document).ready(function() {
                 wikitext: jQuery('#scripto-talk-page-wikitext').val()
             }, 
             function(data) {
-                jQuery('#scripto-talk-page-edit').prop('disabled', false).text('Edit discussion');
+                jQuery('#scripto-talk-page-edit').prop('disabled', false).text('Edit');
                 jQuery('#scripto-talk-page-html').html(data);
             }
         );
@@ -195,6 +195,18 @@ jQuery(document).ready(function() {
         jQuery('#scripto-transcription-show').css('font-weight', 'inherit');
         jQuery('#scripto-talk-show').css('font-weight', 'bold');
     });
+    
+    // Handle show transcription edit.
+    jQuery('#scripto-transcription-edit-show').click(function() {
+        jQuery(this).hide();
+        jQuery('#scripto-transcription-edit').slideDown();
+    });
+    
+    // Handle show talk edit.
+    jQuery('#scripto-talk-edit-show').click(function() {
+        jQuery(this).hide();
+        jQuery('#scripto-talk-edit').slideDown();
+    });
 });
 </script>
 <h1><?php echo'Scripto | Transcribe'; ?></h1>
@@ -231,39 +243,42 @@ Logged in as <strong><a href="<?php echo uri('scripto'); ?>"><?php echo $this->s
 <!-- transcription -->
 <div id="scripto-transcription">
     <?php if ($this->doc->canEditTranscriptionPage()): ?>
-    <div><?php echo $this->formTextarea('scripto-transcription-page-wikitext', $this->doc->getTranscriptionPageWikitext(), array('cols' => '76', 'rows' => '16')); ?></div>
-    <div>
-        <?php echo $this->formButton('scripto-transcription-page-edit', 'Edit transcription', array('style' => 'display:inline; float:none;')); ?> 
-        <?php if ($this->scripto->isLoggedIn()): ?>
-        <?php
-        if ($this->doc->isWatchedTranscriptionPage()) {
-            $transcriptionWatchStyle = 'display: none; float: none;';
-            $transcriptionUnwatchStyle = 'display: inline; float: none;';
-        } else {
-            $transcriptionWatchStyle = 'display: inline; float: none';
-            $transcriptionUnwatchStyle = 'display: none; float: none;';
-        }
-        ?>
-        <?php echo $this->formButton('scripto-transcription-page-watch', 'Watch', array('style' => $transcriptionWatchStyle)); ?> 
-        <?php echo $this->formButton('scripto-transcription-page-unwatch', 'Unwatch', array('style' => $transcriptionUnwatchStyle)); ?> 
-        <?php endif; ?>
-        <?php if ($this->scripto->canProtect()): ?>
-        <?php
-        if ($this->doc->isProtectedTranscriptionPage()) {
-            $transcriptionProtectStyle = 'display: none; float: none;';
-            $transcriptionUnprotectStyle = 'display: inline; float: none;';
-        } else {
-            $transcriptionProtectStyle = 'display: inline; float: none';
-            $transcriptionUnprotectStyle = 'display: none; float: none;';
-        }
-        ?>
-        <?php echo $this->formButton('scripto-transcription-page-protect', 'Protect', array('style' => $transcriptionProtectStyle)); ?> 
-        <?php echo $this->formButton('scripto-transcription-page-unprotect', 'Unprotect', array('style' => $transcriptionUnprotectStyle)); ?> 
-        <?php endif; ?>
-    </div>
+    <div id="scripto-transcription-edit" style="display: none;">
+        <div><?php echo $this->formTextarea('scripto-transcription-page-wikitext', $this->doc->getTranscriptionPageWikitext(), array('cols' => '76', 'rows' => '16')); ?></div>
+        <div>
+            <?php echo $this->formButton('scripto-transcription-page-edit', 'Edit', array('style' => 'display:inline; float:none;')); ?> 
+            <?php if ($this->scripto->isLoggedIn()): ?>
+            <?php
+            if ($this->doc->isWatchedTranscriptionPage()) {
+                $transcriptionWatchStyle = 'display: none; float: none;';
+                $transcriptionUnwatchStyle = 'display: inline; float: none;';
+            } else {
+                $transcriptionWatchStyle = 'display: inline; float: none';
+                $transcriptionUnwatchStyle = 'display: none; float: none;';
+            }
+            ?>
+            <?php echo $this->formButton('scripto-transcription-page-watch', 'Watch', array('style' => $transcriptionWatchStyle)); ?> 
+            <?php echo $this->formButton('scripto-transcription-page-unwatch', 'Unwatch', array('style' => $transcriptionUnwatchStyle)); ?> 
+            <?php endif; ?>
+            <?php if ($this->scripto->canProtect()): ?>
+            <?php
+            if ($this->doc->isProtectedTranscriptionPage()) {
+                $transcriptionProtectStyle = 'display: none; float: none;';
+                $transcriptionUnprotectStyle = 'display: inline; float: none;';
+            } else {
+                $transcriptionProtectStyle = 'display: inline; float: none';
+                $transcriptionUnprotectStyle = 'display: none; float: none;';
+            }
+            ?>
+            <?php echo $this->formButton('scripto-transcription-page-protect', 'Protect', array('style' => $transcriptionProtectStyle)); ?> 
+            <?php echo $this->formButton('scripto-transcription-page-unprotect', 'Unprotect', array('style' => $transcriptionUnprotectStyle)); ?> 
+            <?php endif; ?>
+        </div>
+    </div><!-- #scripto-transcription-edit -->
     <?php else: ?>
     <p style="color: red;">You don't have permission to transcribe this page.</p>
     <?php endif; ?>
+    <?php echo $this->formButton('scripto-transcription-edit-show', 'Edit transcription', array('style' => 'display:inline; float:none;')); ?>
     <h2>Current Transcription</h2>
     <div id="scripto-transcription-page-html"><?php echo $this->transcriptionPageHtml; ?></div>
 </div><!-- #scripto-transcription -->
@@ -271,26 +286,29 @@ Logged in as <strong><a href="<?php echo uri('scripto'); ?>"><?php echo $this->s
 <!-- discussion -->
 <div id="scripto-talk">
     <?php if ($this->doc->canEditTalkPage()): ?>
-    <div><?php echo $this->formTextarea('scripto-talk-page-wikitext', $this->doc->getTalkPageWikitext(), array('cols' => '76', 'rows' => '16')); ?></div>
-    <div>
-        <?php echo $this->formButton('scripto-talk-page-edit', 'Edit discussion', array('style' => 'display:inline; float:none;')); ?> 
-        <?php if ($this->scripto->canProtect()): ?>
-        <?php
-        if ($this->doc->isProtectedTalkPage()) {
-            $talkProtectStyle = 'display: none; float: none;';
-            $talkUnprotectStyle = 'display: inline; float: none;';
-        } else {
-            $talkProtectStyle = 'display: inline; float: none';
-            $talkUnprotectStyle = 'display: none; float: none;';
-        }
-        ?>
-        <?php echo $this->formButton('scripto-talk-page-protect', 'Protect', array('style' => $talkProtectStyle)); ?> 
-        <?php echo $this->formButton('scripto-talk-page-unprotect', 'Unprotect', array('style' => $talkUnprotectStyle)); ?> 
-        <?php endif; ?>
-    </div>
+    <div id="scripto-talk-edit" style="display: none;">
+        <div><?php echo $this->formTextarea('scripto-talk-page-wikitext', $this->doc->getTalkPageWikitext(), array('cols' => '76', 'rows' => '16')); ?></div>
+        <div>
+            <?php echo $this->formButton('scripto-talk-page-edit', 'Edit', array('style' => 'display:inline; float:none;')); ?> 
+            <?php if ($this->scripto->canProtect()): ?>
+            <?php
+            if ($this->doc->isProtectedTalkPage()) {
+                $talkProtectStyle = 'display: none; float: none;';
+                $talkUnprotectStyle = 'display: inline; float: none;';
+            } else {
+                $talkProtectStyle = 'display: inline; float: none';
+                $talkUnprotectStyle = 'display: none; float: none;';
+            }
+            ?>
+            <?php echo $this->formButton('scripto-talk-page-protect', 'Protect', array('style' => $talkProtectStyle)); ?> 
+            <?php echo $this->formButton('scripto-talk-page-unprotect', 'Unprotect', array('style' => $talkUnprotectStyle)); ?> 
+            <?php endif; ?>
+        </div>
+    </div><!-- #scripto-talk-edit -->
     <?php else: ?>
     <p style="color: red;">You don't have permission to discuss this page.</p>
     <?php endif; ?>
+    <?php echo $this->formButton('scripto-talk-edit-show', 'Edit discussion', array('style' => 'display:inline; float:none;')); ?>
     <h2>Current Discussion</h2>
     <div id="scripto-talk-page-html"><?php echo $this->talkPageHtml; ?></div>
 </div><!-- #scripto-talk -->
