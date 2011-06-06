@@ -15,7 +15,8 @@ Logged in as <strong><?php echo $this->scripto->getUserName(); ?></strong>
 <?php else: ?>
 <a href="<?php echo uri('scripto/login'); ?>">Log in to Scripto</a>
 <?php endif; ?>
- | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a></p>
+ | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a>
+</p>
 
 <h2>Your Watchlist</h2>
 

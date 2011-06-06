@@ -56,12 +56,6 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         $item = $this->_getItem($documentId);
         $documentPages = array();
         foreach ($item->Files as $file) {
-            
-            // Exclude files that are not images.
-            if (!$file->has_derivative_image) {
-                continue;
-            }
-            
             // The page name is either the Dublin Core title of the file or the 
             // file's original filename.
             $titles = $file->getElementTextsByElementNameAndSetName('Title', 'Dublin Core');
@@ -70,20 +64,19 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
             } else {
                 $pageName = $titles[0]->text;
             }
-            
             $documentPages[$file->id] = $pageName;
         }
         return $documentPages;
     }
     
     /**
-     * Get the URL of the specified document page image.
+     * Get the URL of the specified document page file.
      * 
      * @param int|string $documentId The unique document ID
      * @param int|string $pageId The unique page ID
-     * @return string The page image URL
+     * @return string The page file URL
      */
-    public function getDocumentPageImageUrl($documentId, $pageId)
+    public function getDocumentPageFileUrl($documentId, $pageId)
     {
         $file = $this->_getFile($pageId);
         return $file->getWebPath('archive');

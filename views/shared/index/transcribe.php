@@ -5,21 +5,7 @@ head($head);
 <?php echo js('OpenLayers'); ?>
 <?php echo js('jquery'); ?>
 <script type="text/javascript">
-
-var scriptoMap;
-
 jQuery(document).ready(function() {
-    
-    // Set the OpenLayers image viewer.
-    scriptoMap = new OpenLayers.Map('scripto-map');
-    var graphic = new OpenLayers.Layer.Image(
-        'Document Page',
-        <?php echo js_escape($this->pageImageUrl); ?>,
-        new OpenLayers.Bounds(-<?php echo $this->imageSize['width']; ?>, -<?php echo $this->imageSize['height']; ?>, <?php echo $this->imageSize['width']; ?>, <?php echo $this->imageSize['height']; ?>),
-        new OpenLayers.Size(<?php echo $this->imageSize['width']; ?>, <?php echo $this->imageSize['height']; ?>)
-    );
-    scriptoMap.addLayers([graphic]);
-    scriptoMap.zoomToMaxExtent();
     
     // Handle edit transcription page.
     jQuery('#scripto-transcription-page-edit').click(function() {
@@ -183,6 +169,7 @@ Logged in as <strong><a href="<?php echo uri('scripto'); ?>"><?php echo $this->s
 <?php else: ?>
 <a href="<?php echo uri('scripto/login'); ?>">Log into Scripto</a>
 <?php endif; ?>
+ | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a> 
  | <a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 0), 'scripto_history'); ?>">Transcription history</a>
  | <a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 1), 'scripto_history'); ?>">Discussion history</a>
 </p> 
@@ -190,8 +177,8 @@ Logged in as <strong><a href="<?php echo uri('scripto'); ?>"><?php echo $this->s
 <h2><?php if ($this->doc->getTitle()): ?><?php echo $this->doc->getTitle(); ?><?php else: ?>Untitled<?php endif; ?></h2>
 <h3><?php echo $this->pages[$this->doc->getPageId()]; ?></h3>
 
-<!-- document page viewer -->
-<div id="scripto-map" style="height: 300px; border: 1px grey solid; margin-bottom: 12px;"></div>
+<?php echo display_file($this->file, array('image_size' => $this->imageSize, 
+                                           'page_file_url' => $this->pageFileUrl)); ?>
 
 <!-- pagination -->
 <p>

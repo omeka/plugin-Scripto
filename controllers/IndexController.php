@@ -1,10 +1,22 @@
 <?php
 class Scripto_IndexController extends Omeka_Controller_Action
 {
+    public function init()
+    {
+        // Change the display strategy for image files to be OpenLayers.
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        if ('transcribe' == $request->getActionName()) {
+            add_mime_display_type(array('image/gif', 'image/jpeg', 'image/jpg', 
+                                        'image/pjpeg', 'image/png', 'image/tif', 
+                                        'image/tiff', 'image/x-ms-bmp'), 
+                                  'ScriptoPlugin::imageViewer');
+        }
+    }
+    
     public function indexAction()
     {
         try {
-            $scripto = $this->_getScripto();
+            $scripto = ScriptoPlugin::getScripto();
             $watchlist = array();
             if ($scripto->isLoggedIn()) {
                 $watchlist = $scripto->getWatchlist(100);
@@ -20,11 +32,11 @@ class Scripto_IndexController extends Omeka_Controller_Action
     public function loginAction()
     {
         try {
-            $scripto = $this->_getScripto();
+            $scripto = ScriptoPlugin::getScripto();
             if ($this->_getParam('scripto_mediawiki_login')) {
                 $scripto->login($this->_getParam('scripto_mediawiki_username'), 
                                 $this->_getParam('scripto_mediawiki_password'));
-                $this->flash('Successfully logged into Scripto.');
+                $this->flashSuccess('Successfully logged into Scripto.');
             }
             if ($scripto->isLoggedIn()) {
                 $this->_helper->redirector->goto('index');
@@ -39,9 +51,9 @@ class Scripto_IndexController extends Omeka_Controller_Action
     public function logoutAction()
     {
         try {
-            $scripto = $this->_getScripto();
+            $scripto = ScriptoPlugin::getScripto();
             $scripto->logout();
-            $this->flash('Successfully logged out of Scripto.');
+            $this->flashSuccess('Successfully logged out of Scripto.');
         } catch (Scripto_Exception $e) {
             $this->flashError($e->getMessage());
         }
@@ -52,7 +64,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
     public function yourContributionsAction()
     {
         try {
-            $scripto = $this->_getScripto();
+            $scripto = ScriptoPlugin::getScripto();
             if (!$scripto->isLoggedIn()) {
                 $this->_helper->redirector->goto('index');
             }
@@ -68,7 +80,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
     public function recentChangesAction()
     {
         try {
-            $scripto = $this->_getScripto();
+            $scripto = ScriptoPlugin::getScripto();
             $recentChanges = $scripto->getRecentChanges(100);
         } catch (Scripto_Exception $e) {
             $this->flashError($e->getMessage());
@@ -82,20 +94,15 @@ class Scripto_IndexController extends Omeka_Controller_Action
     {
         try {
             // Set the document and its pages.
-            $scripto = $this->_getScripto();
+            $scripto = ScriptoPlugin::getScripto();
             $doc = $scripto->getDocument($this->_getParam('item-id'));
             $doc->setPage($this->_getParam('file-id'));
             
-            // Set the image URL and dimensions.
-            $pageImageUrl = $doc->getPageImageUrl();
-            if (!$imageSize = $this->_getImageSize($pageImageUrl, 250)) {
-                $this->flashError('Cannot recognize the provided page image.');
-                $this->_helper->redirector->goto('index');
-            }
-            
+            $file = $this->getDb()->getTable('File')->find($doc->getPageId());
+            $pageFileUrl = $doc->getPageFileUrl();
+            $imageSize = $this->_getImageSize($pageFileUrl, 250);
             $transcriptionPageHtml = Scripto::removeHtmlAttributes($doc->getTranscriptionPageHtml());
             $talkPageHtml = Scripto::removeHtmlAttributes($doc->getTalkPageHtml());
-            
             $pages = $doc->getPages();
             
             // Set the pagination.
@@ -125,7 +132,8 @@ class Scripto_IndexController extends Omeka_Controller_Action
             $this->_helper->redirector->goto('index');
         }
         
-        $this->view->pageImageUrl = $pageImageUrl;
+        $this->view->file = $file;
+        $this->view->pageFileUrl = $pageFileUrl;
         $this->view->imageSize = $imageSize;
         $this->view->transcriptionPageHtml = $transcriptionPageHtml;
         $this->view->talkPageHtml = $talkPageHtml;
@@ -138,7 +146,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
     public function historyAction()
     {
         try {
-            $scripto = $this->_getScripto();
+            $scripto = ScriptoPlugin::getScripto();
             $doc = $scripto->getDocument($this->_getParam('item-id'));
             $doc->setPage($this->_getParam('file-id'));
             if (1 == $this->_getParam('namespace-index')) {
@@ -162,7 +170,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
     public function differenceAction()
     {
         try {
-            $scripto = $this->_getScripto();
+            $scripto = ScriptoPlugin::getScripto();
             $doc = $scripto->getDocument($this->_getParam('item-id'));
             $doc->setPage($this->_getParam('file-id'));
             $diff = $scripto->getRevisionDiff($this->_getParam('old-revision-id'), $this->_getParam('revision-id'));
@@ -201,14 +209,14 @@ class Scripto_IndexController extends Omeka_Controller_Action
         }
         
         try {
-            $scripto = $this->_getScripto();
+            $scripto = ScriptoPlugin::getScripto();
             $doc = $scripto->getDocument($this->_getParam('item_id'));
             $doc->setPage($this->_getParam('file_id'));
             
             $body = null;
             switch ($this->_getParam('page_action')) {
                 case 'edit':
-                    if ('talk' == $this->_getParam('type')) {
+                    if ('talk' == $this->_getParam('page')) {
                         $doc->editTalkPage($this->_getParam('wikitext'));
                         $body = $doc->getTalkPageHtml();
                     } else {
@@ -217,28 +225,28 @@ class Scripto_IndexController extends Omeka_Controller_Action
                     }
                     break;
                 case 'watch':
-                    if ('talk' == $this->_getParam('type')) {
+                    if ('talk' == $this->_getParam('page')) {
                         $doc->watchTalkPage();
                     } else {
                         $doc->watchTranscriptionPage();
                     }
                     break;
                 case 'unwatch':
-                    if ('talk' == $this->_getParam('type')) {
+                    if ('talk' == $this->_getParam('page')) {
                         $doc->unwatchTalkPage();
                     } else {
                         $doc->unwatchTranscriptionPage();
                     }
                     break;
                 case 'protect':
-                    if ('talk' == $this->_getParam('type')) {
+                    if ('talk' == $this->_getParam('page')) {
                         $doc->protectTalkPage();
                     } else {
                         $doc->protectTranscriptionPage();
                     }
                     break;
                 case 'unprotect':
-                    if ('talk' == $this->_getParam('type')) {
+                    if ('talk' == $this->_getParam('page')) {
                         $doc->unprotectTalkPage();
                     } else {
                         $doc->unprotectTranscriptionPage();
@@ -263,13 +271,6 @@ class Scripto_IndexController extends Omeka_Controller_Action
         }
         $itemTypeElements = array(0 => 'Select Below...') + $itemTypeElements;
         $this->_helper->json($itemTypeElements);
-    }
-    
-    private function _getScripto()
-    {
-        return new Scripto(new ScriptoAdapterOmeka, 
-                           array('api_url' => get_option('scripto_mediawiki_api_url'), 
-                                 'db_name' => get_option('scripto_mediawiki_db_name')));
     }
     
     private function _getImageSize($filename, $width = null)

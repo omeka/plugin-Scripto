@@ -89,7 +89,38 @@ class ScriptoPlugin
     }
     
     /**
+     * add_mime_display_type() callback for image files.
      * 
+     * @see Scripto_IndexController::init()
+     * @param File $file
+     * @param array $options
+     */
+    public static function imageViewer($file, $options)
+    {
+        $imageSize = $options['image_size'];
+        $pageFileUrl = $options['page_file_url'];
+?>
+<script type="text/javascript">
+// Set the OpenLayers image viewer.
+jQuery(document).ready(function() {
+    var scriptoMap = new OpenLayers.Map('scripto-map');
+    var graphic = new OpenLayers.Layer.Image(
+        'Document Page',
+        <?php echo js_escape($pageFileUrl); ?>,
+        new OpenLayers.Bounds(-<?php echo $imageSize['width']; ?>, -<?php echo $imageSize['height']; ?>, <?php echo $imageSize['width']; ?>, <?php echo $imageSize['height']; ?>),
+        new OpenLayers.Size(<?php echo $imageSize['width']; ?>, <?php echo $imageSize['height']; ?>)
+    );
+    scriptoMap.addLayers([graphic]);
+    scriptoMap.zoomToMaxExtent();
+});
+</script>
+<!-- document page viewer -->
+<div id="scripto-map" style="height: 300px; border: 1px grey solid; margin-bottom: 12px;"></div>
+<?php
+    }
+    
+    /**
+     * Append the transcribe link to the items show page.
      */
     public static function appendToItemsShow()
     {
@@ -99,7 +130,7 @@ class ScriptoPlugin
             return;
         }
         $url = uri(array('action'  => 'transcribe',  
-                         'item-id' => $item->id), 'scripto_action_item_file');
+                         'item-id' => $item->id), 'scripto_action_item');
         
 
 ?>
@@ -107,13 +138,19 @@ class ScriptoPlugin
 <?php
     }
     
+    /**
+     * Convenience method to get the Scripto object.
+     * 
+     * @param string $apiUrl
+     * @param string $dbName
+     */
     public static function getScripto($apiUrl = null, $dbName = null)
     {
         if (null === $apiUrl) {
             $apiUrl = get_option('scripto_mediawiki_api_url');
         }
         if (null === $dbName) {
-            get_option('scripto_mediawiki_db_name');
+            $dbName = get_option('scripto_mediawiki_db_name');
         }
         
         return new Scripto(new ScriptoAdapterOmeka, 
