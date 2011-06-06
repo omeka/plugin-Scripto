@@ -225,18 +225,10 @@ class Scripto_IndexController extends Omeka_Controller_Action
                     }
                     break;
                 case 'watch':
-                    if ('talk' == $this->_getParam('page')) {
-                        $doc->watchTalkPage();
-                    } else {
-                        $doc->watchTranscriptionPage();
-                    }
+                    $doc->watchTranscriptionPage();
                     break;
                 case 'unwatch':
-                    if ('talk' == $this->_getParam('page')) {
-                        $doc->unwatchTalkPage();
-                    } else {
-                        $doc->unwatchTranscriptionPage();
-                    }
+                    $doc->unwatchTranscriptionPage();
                     break;
                 case 'protect':
                     if ('talk' == $this->_getParam('page')) {
