@@ -63,6 +63,11 @@ Logged in as <strong><?php echo $this->scripto->getUserName(); ?></strong>
         'item-id' => $revision['document_id'], 
         'file-id' => $revision['document_page_id']
     ), 'scripto_action_item_file');
+    if (1 == $revision['namespace_index']) {
+        $urlTranscribe .= '#discussion';
+    } else {
+        $urlTranscribe .= '#transcription';
+    }
     
     // document title
     $urlItem = uri(array(
