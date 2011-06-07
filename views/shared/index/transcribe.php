@@ -174,19 +174,21 @@ jQuery(document).ready(function() {
         jQuery('#scripto-talk').hide();
     }
     
-    jQuery('#scripto-talk-show').click(function() {
-        event.preventDefault();
-        jQuery('#scripto-transcription').hide();
-        jQuery('#scripto-talk').show();
-    });
-    
+    // Handle transcription visibility.
     jQuery('#scripto-transcription-show').click(function() {
         event.preventDefault();
         jQuery('#scripto-talk').hide();
         jQuery('#scripto-transcription').show();
     });
     
-    // Handle show transcription edit.
+    // Handle talk visibility.
+    jQuery('#scripto-talk-show').click(function() {
+        event.preventDefault();
+        jQuery('#scripto-transcription').hide();
+        jQuery('#scripto-talk').show();
+    });
+    
+    // Toggle show transcription edit.
     jQuery('#scripto-transcription-edit-show').toggle(function(event) {
         event.preventDefault();
         jQuery(this).text('hide edit');
@@ -197,10 +199,15 @@ jQuery(document).ready(function() {
         jQuery('#scripto-transcription-edit').slideUp('fast');
     });
     
-    // Handle show talk edit.
-    jQuery('#scripto-talk-edit-show').click(function(event) {
+    // Toggle show talk edit.
+    jQuery('#scripto-talk-edit-show').toggle(function(event) {
         event.preventDefault();
+        jQuery(this).text('hide edit');
         jQuery('#scripto-talk-edit').slideDown('fast');
+    }, function(event) {
+        event.preventDefault();
+        jQuery(this).text('edit');
+        jQuery('#scripto-talk-edit').slideUp('fast');
     });
 });
 </script>
