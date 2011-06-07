@@ -248,7 +248,8 @@ Logged in as <strong><a href="<?php echo uri('scripto'); ?>"><?php echo $this->s
 <p>
 <?php if (isset($this->paginationUrls['previous'])): ?><a href="<?php echo $this->paginationUrls['previous']; ?>">&#171; previous page</a><?php else: ?>&#171; previous page<?php endif; ?>
  | <?php if (isset($this->paginationUrls['next'])): ?><a href="<?php echo $this->paginationUrls['next']; ?>">next page &#187;</a><?php else: ?>next page &#187;<?php endif; ?>
- | <a href="#" id="scripto-page-show"></a>
+ | <a href="#" id="scripto-page-show"></a> 
+ | <a href="http://www.mediawiki.org/wiki/Help:Formatting" target="_blank">wiki formatting help</a>
 </p>
 
 <!-- transcription -->
@@ -265,7 +266,7 @@ Logged in as <strong><a href="<?php echo uri('scripto'); ?>"><?php echo $this->s
     <?php else: ?>
     <p style="color: red;">You don't have permission to transcribe this page.</p>
     <?php endif; ?>
-    <h2>Current Transcription [<a href="#" id="scripto-transcription-edit-show">edit</a>]</h2>
+    <h2>Current Transcription<?php if ($this->doc->canEditTranscriptionPage()): ?> [<a href="#" id="scripto-transcription-edit-show">edit</a>]<?php endif; ?></h2>
     <div id="scripto-transcription-page-html"><?php echo $this->transcriptionPageHtml; ?></div>
 </div><!-- #scripto-transcription -->
 
@@ -282,7 +283,7 @@ Logged in as <strong><a href="<?php echo uri('scripto'); ?>"><?php echo $this->s
     <?php else: ?>
     <p style="color: red;">You don't have permission to discuss this page.</p>
     <?php endif; ?>
-    <h2>Current Discussion [<a href="#" id="scripto-talk-edit-show">edit</a>]</h2>
+    <h2>Current Discussion<?php if ($this->doc->canEditTalkPage()): ?> [<a href="#" id="scripto-talk-edit-show">edit</a>]<?php endif; ?></h2>
     <div id="scripto-talk-page-html"><?php echo $this->talkPageHtml; ?></div>
 </div><!-- #scripto-talk -->
 
