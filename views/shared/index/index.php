@@ -9,7 +9,7 @@ head($head);
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
-Logged in as <strong><?php echo $this->scripto->getUserName(); ?></strong> 
+Logged in as <?php echo $this->scripto->getUserName(); ?> 
 (<a href="<?php echo uri('scripto/logout'); ?>">logout</a>) 
  | <a href="<?php echo uri('scripto/your-contributions'); ?>">Your contributions</a> 
 <?php else: ?>

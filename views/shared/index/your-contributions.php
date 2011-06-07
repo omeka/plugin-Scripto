@@ -8,7 +8,7 @@ head($head);
 
 <!-- navigation -->
 <p>
-Logged in as <strong><a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a></strong> 
+Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
 (<a href="<?php echo uri('scripto/logout'); ?>">logout</a>)
  | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a>
 </p>

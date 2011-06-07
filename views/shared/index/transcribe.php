@@ -228,7 +228,7 @@ jQuery(document).ready(function() {
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
-Logged in as <strong><a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a></strong> 
+Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
 (<a href="<?php echo uri('scripto/logout'); ?>">logout</a>)
 <?php else: ?>
 <a href="<?php echo uri('scripto/login'); ?>">Log into Scripto</a>
