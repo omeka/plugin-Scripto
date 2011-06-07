@@ -241,8 +241,7 @@ Logged in as <strong><a href="<?php echo uri('scripto'); ?>"><?php echo $this->s
 <h2><?php if ($this->doc->getTitle()): ?><?php echo $this->doc->getTitle(); ?><?php else: ?>Untitled<?php endif; ?></h2>
 <h3><?php echo $this->pages[$this->doc->getPageId()]; ?></h3>
 
-<?php echo display_file($this->file, array('image_size' => $this->imageSize, 
-                                           'page_file_url' => $this->pageFileUrl)); ?>
+<?php echo display_file($this->file); ?>
 
 <!-- pagination -->
 <p>

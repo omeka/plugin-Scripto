@@ -93,12 +93,17 @@ class ScriptoPlugin
      * 
      * @see Scripto_IndexController::init()
      * @param File $file
-     * @param array $options
      */
-    public static function imageViewer($file, $options)
+    public static function imageViewer($file)
     {
-        $imageSize = $options['image_size'];
-        $pageFileUrl = $options['page_file_url'];
+        // OpenLayers doesn't render TIFF files, so render the converted 
+        // fullsize image instead.
+        if (in_array($file->mime_browser, array('image/tiff', 'image/tif'))) {
+            $pageFileUrl = $file->getWebPath('fullsize');
+        } else {
+            $pageFileUrl = $file->getWebPath('archive');
+        }
+        $imageSize = ScriptoPlugin::getImageSize($pageFileUrl, 250);
 ?>
 <script type="text/javascript">
 // Set the OpenLayers image viewer.
@@ -155,5 +160,20 @@ jQuery(document).ready(function() {
         
         return new Scripto(new ScriptoAdapterOmeka, 
                            array('api_url' => $apiUrl, 'db_name' => $dbName));
+    }
+    
+    public static function getImageSize($filename, $width = null)
+    {
+        $size = getimagesize($filename);
+        if (!$size) {
+            return false;
+        }
+        if (is_int($width)) {
+            $height = round(($width * $size[1]) / $size[0]);
+        } else {
+            $width = $size[1];
+            $height = $size[0];
+        }
+        return array('width' => $width, 'height' => $height);
     }
 }

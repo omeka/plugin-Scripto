@@ -99,8 +99,6 @@ class Scripto_IndexController extends Omeka_Controller_Action
             $doc->setPage($this->_getParam('file-id'));
             
             $file = $this->getDb()->getTable('File')->find($doc->getPageId());
-            $pageFileUrl = $doc->getPageFileUrl();
-            $imageSize = $this->_getImageSize($pageFileUrl, 250);
             $transcriptionPageHtml = Scripto::removeHtmlAttributes($doc->getTranscriptionPageHtml());
             $talkPageHtml = Scripto::removeHtmlAttributes($doc->getTalkPageHtml());
             $pages = $doc->getPages();
@@ -133,8 +131,6 @@ class Scripto_IndexController extends Omeka_Controller_Action
         }
         
         $this->view->file = $file;
-        $this->view->pageFileUrl = $pageFileUrl;
-        $this->view->imageSize = $imageSize;
         $this->view->transcriptionPageHtml = $transcriptionPageHtml;
         $this->view->talkPageHtml = $talkPageHtml;
         $this->view->pages = $pages;
@@ -263,20 +259,5 @@ class Scripto_IndexController extends Omeka_Controller_Action
         }
         $itemTypeElements = array(0 => 'Select Below...') + $itemTypeElements;
         $this->_helper->json($itemTypeElements);
-    }
-    
-    private function _getImageSize($filename, $width = null)
-    {
-        $size = getimagesize($filename);
-        if (!$size) {
-            return false;
-        }
-        if (is_int($width)) {
-            $height = round(($width * $size[1]) / $size[0]);
-        } else {
-            $width = $size[1];
-            $height = $size[0];
-        }
-        return array('width' => $width, 'height' => $height);
     }
 }
