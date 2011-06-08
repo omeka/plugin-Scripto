@@ -1,0 +1,1 @@
+<iframe src="<?php echo $docsViewerUrl; ?>" width="500" height="500" style="border: none;"></iframe>

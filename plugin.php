@@ -136,32 +136,26 @@ class ScriptoPlugin
      */
     public static function imageViewer($file)
     {
-        // OpenLayers doesn't render TIFF files, so render the converted 
-        // fullsize image instead.
-        if (in_array($file->mime_browser, array('image/tiff', 'image/tif'))) {
-            $pageFileUrl = $file->getWebPath('fullsize');
-        } else {
-            $pageFileUrl = $file->getWebPath('archive');
-        }
-        $imageSize = ScriptoPlugin::getImageSize($pageFileUrl, 250);
-?>
-<script type="text/javascript">
-// Set the OpenLayers image viewer.
-jQuery(document).ready(function() {
-    var scriptoMap = new OpenLayers.Map('scripto-map');
-    var graphic = new OpenLayers.Layer.Image(
-        'Document Page',
-        <?php echo js_escape($pageFileUrl); ?>,
-        new OpenLayers.Bounds(-<?php echo $imageSize['width']; ?>, -<?php echo $imageSize['height']; ?>, <?php echo $imageSize['width']; ?>, <?php echo $imageSize['height']; ?>),
-        new OpenLayers.Size(<?php echo $imageSize['width']; ?>, <?php echo $imageSize['height']; ?>)
-    );
-    scriptoMap.addLayers([graphic]);
-    scriptoMap.zoomToMaxExtent();
-});
-</script>
-<!-- document page viewer -->
-<div id="scripto-map" style="height: 300px; border: 1px grey solid; margin-bottom: 12px;"></div>
-<?php
+        $imageUrl = $file->getWebPath('archive');
+        $imageSize = ScriptoPlugin::getImageSize($imageUrl, 250);
+        
+        include 'image_viewer.php';
+    }
+    
+    /**
+     * add_mime_display_type() callback for document files.
+     * 
+     * @see Scripto_IndexController::init()
+     * @param File $file
+     */
+    public static function documentViewer($file)
+    {
+        $uri = Zend_Uri::factory('http://docs.google.com/viewer');
+        $uri->setQuery(array('url'      => $file->getWebPath('archive'), 
+                             'embedded' => 'true'));
+        $docsViewerUrl = $uri->getUri();
+        
+        include 'document_viewer.php';
     }
     
     /**
@@ -170,11 +164,10 @@ jQuery(document).ready(function() {
     public static function appendToItemsShow()
     {
         $item = get_current_item();
-        $url = uri(array('action'  => 'transcribe',  
-                         'item-id' => $item->id), 'scripto_action_item');
-?>
-<p><a href="<?php echo $url; ?>" id="scripto-transcribe-item">Transcribe this item.</a></p>
-<?php
+        $scripto = self::getScripto();
+        $doc = $scripto->getDocument($item->id);
+        
+        include 'page_links.php';
     }
     
     /**
