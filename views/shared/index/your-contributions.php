@@ -17,7 +17,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <thead>
     <tr>
         <th>Document Page Name</th>
-        <th>Contribution Time</th>
+        <th>Most Recent Contribution</th>
         <th>Document Title</th>
     </tr>
     </thead>

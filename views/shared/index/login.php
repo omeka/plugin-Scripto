@@ -8,8 +8,8 @@ head($head);
 <!-- navigation -->
 <p><a href="<?php echo uri('scripto/index/recent-changes'); ?>">Recent changes</a></p>
 <p>Log in to Scripto using your MediaWiki username and password to access your 
-account and enable certain Scripto features. The administrator may not require 
-a login.</p>
+account and enable certain Scripto features. Login may not be required by the 
+administrator.</p>
 <form action="<?php echo uri('scripto/index/login'); ?>" method="post">
 <div class="field">
     <label for="scripto_mediawiki_username">Username</label>

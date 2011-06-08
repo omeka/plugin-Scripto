@@ -111,6 +111,28 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
     }
     
     /**
+     * Get the title of the document page.
+     * 
+     * @param int|string $documentId The document ID
+     * @param int|string $pageId The unique page ID
+     * @return string
+     */
+    public function getDocumentPageTitle($documentId, $pageId)
+    {
+        $file = $this->_getFile($pageId);
+        
+        // The page name is either the Dublin Core title of the file or the 
+        // file's original filename.
+        $titles = $file->getElementTextsByElementNameAndSetName('Title', 'Dublin Core');
+        if (empty($titles)) {
+            $pageName = $file->original_filename;
+        } else {
+            $pageName = $titles[0]->text;
+        }
+        return $pageName;
+    }
+    
+    /**
      * Indicate whether the document transcription has been imported.
      * 
      * @param int|string $documentId The document ID

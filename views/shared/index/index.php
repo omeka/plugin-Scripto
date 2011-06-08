@@ -33,7 +33,7 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
         <th>Changes</th>
         <th>Document Page Name</th>
         <th>Changed on</th>
-        <th>Length Changed</th>
+        <th>Changed (bytes)</th>
         <th>Changed by</th>
         <th>Document Title</th>
     </tr>

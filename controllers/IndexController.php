@@ -133,7 +133,6 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->view->file = $file;
         $this->view->transcriptionPageHtml = $transcriptionPageHtml;
         $this->view->talkPageHtml = $talkPageHtml;
-        $this->view->pages = $pages;
         $this->view->paginationUrls = $paginationUrls;
         $this->view->scripto = $scripto;
         $this->view->doc = $doc;
@@ -161,6 +160,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->view->doc = $doc;
         $this->view->info = $info;
         $this->view->history = $history;
+        $this->view->namespace_index = $this->_getParam('namespace-index');
     }
     
     public function differenceAction()

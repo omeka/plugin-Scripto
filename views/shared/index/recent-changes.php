@@ -25,7 +25,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
             <th>Changes</th>
             <th>Document Page Name</th>
             <th>Changed on</th>
-            <th>Length Changed</th>
+            <th>Changed (bytes)</th>
             <th>Changed By</th>
             <th>Document Title</th>
         </tr>

@@ -13,12 +13,13 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 <?php else: ?>
 <a href="<?php echo uri('scripto/login'); ?>">Log in to Scripto</a>
 <?php endif; ?>
- | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">View this document</a></p>
+ | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">Transcribe this document</a></p>
 
 <?php if ($this->doc->getTitle()): ?><h2><?php echo $this->doc->getTitle(); ?></h2><?php endif; ?>
+<h3><?php if (1 == $this->namespace_index): ?>Talk: <?php endif; ?><?php echo $this->doc->getPageTitle(); ?></h3>
 
 <?php if (empty($this->history)): ?>
-<p>This page has not been created.</p>
+<p>This page has not yet been created.</p>
 <?php else: ?>
 <table>
     <thead>
