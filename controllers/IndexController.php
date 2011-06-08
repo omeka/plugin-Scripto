@@ -250,14 +250,4 @@ class Scripto_IndexController extends Omeka_Controller_Action
             $this->getResponse()->setHttpResponseCode(500);
         }
     }
-    
-    public function itemTypeElementsAction() {
-        $itemTypeElements = array();
-        $elements = $this->getDb()->getTable('ItemType')->find($this->_getParam('id'))->Elements;
-        foreach ($elements as $element) {
-            $itemTypeElements[$element->id] = $element->name;
-        }
-        $itemTypeElements = array(0 => 'Select Below...') + $itemTypeElements;
-        $this->_helper->json($itemTypeElements);
-    }
 }

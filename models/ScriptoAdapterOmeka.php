@@ -197,10 +197,6 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         if (!($item instanceof Item)) {
             return false;
         }
-        // The item's item type must match the configured item type.
-        if ($item->item_type_id !== (int) get_option('scripto_document_item_type_id')) {
-            return false;
-        }
         // The item must have at least one file assigned to it.
         if (!isset($item->Files[0])) {
             return false;

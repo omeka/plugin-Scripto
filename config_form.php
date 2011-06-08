@@ -17,6 +17,8 @@ jQuery(document).ready(function () {
 a popular free web-based wiki software application that Scripto uses to manage 
 transcription data. Once you have successfully installed MediaWiki, you can 
 complete the following form and install the plugin.</p>
+<p>This plugin will assume files belonging to an item are in logical order, 
+first to last page.</p>
 <div class="field">
     <label for="scripto_mediawiki_api_url" class="required">MediaWiki API URL</label>
         <div class="inputs">
@@ -29,25 +31,5 @@ complete the following form and install the plugin.</p>
         <div class="inputs">
         <?php echo __v()->formText('scripto_mediawiki_db_name', get_option('scripto_mediawiki_db_name')); ?>
         <p class="explanation">Name of your MediaWiki database.</p>
-    </div>
-</div>
-<div class="field">
-    <label for="scripto_document_item_type_id" class="required">Item type</label>
-        <div class="inputs">
-        <?php echo __v()->formSelect('scripto_document_item_type_id', get_option('scripto_document_item_type_id'), array(), $itemTypes); ?>
-        <p class="explanation">You must select an existing Omeka item type 
-        before using this plugin. Scripto will only recognize items belonging to 
-        this item type, and items that have at least one image file, as 
-        transcribable documents. It will assume image files belonging to an item 
-        are in logical order, first to last page.</p>
-    </div>
-</div>
-<div class="field">
-    <label for="scripto_transcription_element_id" class="required">Transcription element</label>
-        <div class="inputs">
-        <?php echo __v()->formSelect('scripto_transcription_element_id', get_option('scripto_transcription_element_id'), array(), $itemTypeElements); ?>
-        <p class="explanation">You must select an element belonging to the 
-        selected item type. Scripto will export transcriptions from MediaWiki to 
-        this element.</p>
     </div>
 </div>

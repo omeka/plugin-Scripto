@@ -8,6 +8,9 @@ function d($var, $dump = false, $exit = true)
     if ($exit) exit;
 }
 
+add_plugin_hook('install', 'ScriptoPlugin::install');
+add_plugin_hook('uninstall', 'ScriptoPlugin::uninstall');
+add_plugin_hook('admin_append_to_plugin_uninstall_message', 'ScriptoPlugin::adminAppendToPluginUninstallMessage');
 add_plugin_hook('define_routes', 'ScriptoPlugin::defineRoutes');
 add_plugin_hook('config_form', 'ScriptoPlugin::configForm');
 add_plugin_hook('config', 'ScriptoPlugin::config');
@@ -15,12 +18,60 @@ add_plugin_hook('public_append_to_items_show', 'ScriptoPlugin::appendToItemsShow
 add_plugin_hook('admin_append_to_items_show_primary', 'ScriptoPlugin::appendToItemsShow');
 
 add_filter('admin_navigation_main', 'ScriptoPlugin::adminNavigationMain');
+add_filter('public_navigation_main', 'ScriptoPlugin::publicNavigationMain');
 
 /**
  * Contains methods specific to the Scripto plugin.
  */
 class ScriptoPlugin
 {
+    /**
+     * The name of the Scripto element set.
+     */
+    const ELEMENT_SET_NAME = 'Scripto';
+    
+    /**
+     * Install Scripto.
+     */
+    public static function install()
+    {
+        $db = get_db();
+        
+        // Don't install if an element set by the name "Scripto" already exists.
+        if ($db->getTable('ElementSet')->findByName(self::ELEMENT_SET_NAME)) {
+            throw new Exception('An element set by the name "' . self::ELEMENT_SET_NAME . '" already exists. You must delete that element set to install this plugin.');
+        }
+        
+        // Insert the Scripto element set.
+        insert_element_set('Scripto', array(
+            array('name' => 'Transcription', 
+                  'description' => 'A written representation of an item.')
+        ));
+    }
+    
+    /**
+     * Uninstall Scripto.
+     */
+    public static function uninstall()
+    {
+        $db = get_db();
+        
+        // Delete the Scripto element set.
+        $db->getTable('ElementSet')->findByName(self::ELEMENT_SET_NAME)->delete();
+        
+        // Delete the Scripto-specific options.
+        delete_option('scripto_mediawiki_api_url');
+        delete_option('scripto_mediawiki_db_name');
+    }
+    
+    /**
+     * Appends a warning message to the uninstall confirmation page.
+     */
+    public static function adminAppendToPluginUninstallMessage()
+    {
+        echo '<p><strong>Warning</strong>: This will permanently delete the "' . self::ELEMENT_SET_NAME . '" element set and all transcriptions imported from MediaWiki. You may deactivate this plugin if you do not want to lose data. Uninstalling this plugin will not affect your MediaWiki database in any way.</p>';
+    }
+    
     /**
      * Define routes.
      * 
@@ -36,27 +87,6 @@ class ScriptoPlugin
      */
     public static function configForm()
     {
-        $db = get_db();
-        
-        // Get all the item types.
-        $itemTypes = $db->getTable('ItemType')->findPairsForSelectForm();
-        $itemTypes = array(0 => 'Select Below...') + $itemTypes;
-        
-        // Get all the item type's elements, if any.
-        $itemTypeElements = array();
-        if ($itemTypeId = get_option('scripto_document_item_type_id')) {
-            $elements = $db->getTable('ItemType')->find($itemTypeId)->Elements;
-            foreach ($elements as $element) {
-                $itemTypeElements[$element->id] = $element->name;
-            }
-        }
-        $itemTypeElements = array(0 => 'Select Below...') + $itemTypeElements;
-       
-        $url = uri(array('module'     => 'scripto', 
-                         'controller' => 'index', 
-                         'action'     => 'item-type-elements',  
-                         'id'         => ''));
-        
         include 'config_form.php';
     }
     
@@ -72,8 +102,6 @@ class ScriptoPlugin
         
         set_option('scripto_mediawiki_api_url', $_POST['scripto_mediawiki_api_url']);
         set_option('scripto_mediawiki_db_name', $_POST['scripto_mediawiki_db_name']);
-        set_option('scripto_document_item_type_id', $_POST['scripto_document_item_type_id']);
-        set_option('scripto_transcription_element_id', $_POST['scripto_transcription_element_id']);
     }
     
     /**
@@ -83,6 +111,18 @@ class ScriptoPlugin
      * @return array
      */
     public static function adminNavigationMain($nav)
+    {
+        $nav['Scripto'] = uri('scripto');
+        return $nav;
+    }
+    
+    /**
+     * Add Scripto to the public navigation.
+     * 
+     * @param array $nav
+     * @return array
+     */
+    public static function publicNavigationMain($nav)
     {
         $nav['Scripto'] = uri('scripto');
         return $nav;
@@ -129,17 +169,11 @@ jQuery(document).ready(function() {
      */
     public static function appendToItemsShow()
     {
-        // check if this item is a valid Scripto item type
         $item = get_current_item();
-        if ($item->item_type_id !== (int) get_option('scripto_document_item_type_id')) {
-            return;
-        }
         $url = uri(array('action'  => 'transcribe',  
                          'item-id' => $item->id), 'scripto_action_item');
-        
-
 ?>
-<p><a href="<?php echo $url; ?>">Transcribe this item.</a></p>
+<p><a href="<?php echo $url; ?>" id="scripto-transcribe-item">Transcribe this item.</a></p>
 <?php
     }
     
@@ -162,6 +196,13 @@ jQuery(document).ready(function() {
                            array('api_url' => $apiUrl, 'db_name' => $dbName));
     }
     
+    /**
+     * Get dimensions of the provided image.
+     * 
+     * @param string $filename URI to file.
+     * @param int $width Width constraint.
+     * @return array
+     */
     public static function getImageSize($filename, $width = null)
     {
         $size = getimagesize($filename);
