@@ -84,7 +84,7 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
   ?>
     <tr>
         <td><?php echo $changes; ?></td>
-        <td><a href="<?php echo $urlTranscribe; ?>"><?php if ('Talk' == $revision['namespace_name']): ?>Talk: <?php endif; ?>doc <?php echo $revision['document_id']; ?>, page <?php echo $revision['document_page_id']; ?></a></td>
+        <td><a href="<?php echo $urlTranscribe; ?>"><?php if ('Talk' == $revision['namespace_name']): ?>Talk: <?php endif; ?><?php echo $revision['document_page_name']; ?></a></td>
         <td><?php echo date('H:i:s M d, Y', strtotime($revision['timestamp'])); ?></td>
         <td><?php echo $lengthChanged; ?></td>
         <td><?php echo $revision['user']; ?></td>

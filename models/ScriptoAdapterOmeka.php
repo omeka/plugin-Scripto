@@ -111,13 +111,13 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
     }
     
     /**
-     * Get the title of the document page.
+     * Get the name of the document page.
      * 
      * @param int|string $documentId The document ID
      * @param int|string $pageId The unique page ID
      * @return string
      */
-    public function getDocumentPageTitle($documentId, $pageId)
+    public function getDocumentPageName($documentId, $pageId)
     {
         $file = $this->_getFile($pageId);
         

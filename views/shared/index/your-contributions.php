@@ -44,7 +44,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     ), 'id');
     ?>
     <tr>
-        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $documentPage['namespace_index']): ?>Talk: <?php endif; ?>doc <?php echo $documentPage['document_id']; ?>, page <?php echo $documentPage['document_page_id']; ?></a></td>
+        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $documentPage['namespace_index']): ?>Talk: <?php endif; ?><?php echo $documentPage['document_page_name']; ?></a></td>
         <td><?php echo gmdate('H:i:s M d, Y', strtotime($documentPage['timestamp'])); ?></td>
         <td><a href="<?php echo $urlItem; ?>"><?php echo $documentPage['document_title']; ?></a></td>
     </tr>

@@ -95,7 +95,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     ?>
     <tr>
         <td><?php echo $changes; ?></td>
-        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $recentChange['namespace_index']): ?>Talk: <?php endif; ?>doc <?php echo $recentChange['document_id']; ?>, page <?php echo $recentChange['document_page_id']; ?></a></td>
+        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $recentChange['namespace_index']): ?>Talk: <?php endif; ?><?php echo $recentChange['document_page_name']; ?></a></td>
         <td><?php echo date('H:i:s M d, Y', strtotime($recentChange['timestamp'])); ?></td>
         <td><?php echo $lengthChanged; ?></td>
         <td><?php echo $recentChange['user']; ?></td>

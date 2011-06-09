@@ -64,7 +64,7 @@ class ScriptoPlugin
         // doc
         'application/msword', 'application/doc', 'appl/text', 
         'application/vnd.msword', 'application/vnd.ms-word', 
-        'application/winword', 'application/word', 
+        'application/winword', 'application/word', 'application/vnd.ms-office', 
         'application/x-msw6', 'application/x-msword', 
         // ppt
         'application/vnd.ms-powerpoint', 'application/mspowerpoint', 
