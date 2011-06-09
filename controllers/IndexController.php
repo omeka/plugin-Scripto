@@ -6,78 +6,10 @@ class Scripto_IndexController extends Omeka_Controller_Action
         // Change the display strategy for certain files.
         $request = Zend_Controller_Front::getInstance()->getRequest();
         if ('transcribe' == $request->getActionName()) {
-            
             // Image viewer.
-            add_mime_display_type(
-                array(
-                    // gif
-                    'image/gif', 'image/x-xbitmap', 'image/gi_', 
-                    // jpg
-                    'image/jpeg', 'image/jpg', 'image/jpe_', 'image/pjpeg', 
-                    'image/vnd.swiftview-jpeg', 
-                    // png
-                    'image/png', 'application/png', 'application/x-png', 
-                    // bmp
-                    'image/bmp', 'image/x-bmp', 'image/x-bitmap', 
-                    'image/x-xbitmap', 'image/x-win-bitmap', 
-                    'image/x-windows-bmp', 'image/ms-bmp', 'image/x-ms-bmp', 
-                    'application/bmp', 'application/x-bmp', 
-                    'application/x-win-bitmap', 
-                ), 
-                'ScriptoPlugin::imageViewer');
-            
+            add_mime_display_type(ScriptoPlugin::$imageMimeTypes, 'ScriptoPlugin::imageViewer');
             // Document viewer.
-            add_mime_display_type(
-                array(
-                    // pdf
-                    'application/pdf', 'application/x-pdf', 
-                    'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 
-                    'text/x-pdf', 
-                    // docx
-                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
-                    // doc
-                    'application/msword', 'application/doc', 'appl/text', 
-                    'application/vnd.msword', 'application/vnd.ms-word', 
-                    'application/winword', 'application/word', 
-                    'application/x-msw6', 'application/x-msword', 
-                    // ppt
-                    'application/vnd.ms-powerpoint', 'application/mspowerpoint', 
-                    'application/ms-powerpoint', 'application/mspowerpnt', 
-                    'application/vnd-mspowerpoint', 'application/powerpoint', 
-                    'application/x-powerpoint', 'application/x-m', 
-                    // pptx
-                    'application/vnd.openxmlformats-officedocument.presentationml.presentation', 
-                    // xls
-                    'application/vnd.ms-excel', 'application/msexcel', 
-                    'application/x-msexcel', 'application/x-ms-excel', 
-                    'application/vnd.ms-excel', 'application/x-excel', 
-                    'application/x-dos_ms_excel', 'application/xls', 
-                    // xlsx
-                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
-                    // tiff
-                    'image/tiff', 
-                    // ps, ai
-                    'application/postscript', 'application/ps', 
-                    'application/x-postscript', 'application/x-ps', 
-                    'text/postscript', 'application/x-postscript-not-eps', 
-                    // eps
-                    'application/eps', 'application/x-eps', 'image/eps', 
-                    'image/x-eps', 
-                    // psd
-                    'image/vnd.adobe.photoshop', 'image/photoshop', 
-                    'image/x-photoshop', 'image/psd', 'application/photoshop', 
-                    'application/psd', 'zz-application/zz-winassoc-psd', 
-                    // dxf
-                    'application/dxf', 'application/x-autocad', 
-                    'application/x-dxf', 'drawing/x-dxf', 'image/vnd.dxf', 
-                    'image/x-autocad', 'image/x-dxf', 
-                    'zz-application/zz-winassoc-dxf', 
-                    // xvg
-                    'image/svg+xml', 
-                    // xps
-                    'application/vnd.ms-xpsdocument', 
-                ),
-                'ScriptoPlugin::documentViewer');
+            add_mime_display_type(ScriptoPlugin::$documentMimeTypes, 'ScriptoPlugin::documentViewer');
         }
     }
     
@@ -87,7 +19,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
             $scripto = ScriptoPlugin::getScripto();
             $watchlist = array();
             if ($scripto->isLoggedIn()) {
-                $watchlist = $scripto->getWatchlist(100);
+                $watchlist = $scripto->getWatchlist(500);
             }
         } catch (Scripto_Exception $e) {
             $this->flashError($e->getMessage());
@@ -136,7 +68,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
             if (!$scripto->isLoggedIn()) {
                 $this->_helper->redirector->goto('index');
             }
-            $documentPages = $scripto->getUserDocumentPages(100);
+            $documentPages = $scripto->getUserDocumentPages(500);
         } catch (Scripto_Exception $e) {
             $this->flashError($e->getMessage());
         }
@@ -149,7 +81,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
     {
         try {
             $scripto = ScriptoPlugin::getScripto();
-            $recentChanges = $scripto->getRecentChanges(100);
+            $recentChanges = $scripto->getRecentChanges(500);
         } catch (Scripto_Exception $e) {
             $this->flashError($e->getMessage());
         }
@@ -250,6 +182,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
     
     public function pageActionAction()
     {
+        // Don't render the view script.
         $this->_helper->viewRenderer->setNoRender(true);
         
         // Only allow AJAX requests.
@@ -289,10 +222,10 @@ class Scripto_IndexController extends Omeka_Controller_Action
                     }
                     break;
                 case 'watch':
-                    $doc->watchTranscriptionPage();
+                    $doc->watchPage();
                     break;
                 case 'unwatch':
-                    $doc->unwatchTranscriptionPage();
+                    $doc->unwatchPage();
                     break;
                 case 'protect':
                     if ('talk' == $this->_getParam('page')) {

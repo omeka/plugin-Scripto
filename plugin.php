@@ -8,6 +8,7 @@ function d($var, $dump = false, $exit = true)
     if ($exit) exit;
 }
 
+// Plugin hooks.
 add_plugin_hook('install', 'ScriptoPlugin::install');
 add_plugin_hook('uninstall', 'ScriptoPlugin::uninstall');
 add_plugin_hook('admin_append_to_plugin_uninstall_message', 'ScriptoPlugin::adminAppendToPluginUninstallMessage');
@@ -17,6 +18,7 @@ add_plugin_hook('config', 'ScriptoPlugin::config');
 add_plugin_hook('public_append_to_items_show', 'ScriptoPlugin::appendToItemsShow');
 add_plugin_hook('admin_append_to_items_show_primary', 'ScriptoPlugin::appendToItemsShow');
 
+// Plugin filters.
 add_filter('admin_navigation_main', 'ScriptoPlugin::adminNavigationMain');
 add_filter('public_navigation_main', 'ScriptoPlugin::publicNavigationMain');
 
@@ -31,6 +33,78 @@ class ScriptoPlugin
     const ELEMENT_SET_NAME = 'Scripto';
     
     /**
+     * @var Image MIME types compatible with OpenLayers.
+     */
+    public static $imageMimeTypes = array(
+        // gif
+        'image/gif', 'image/x-xbitmap', 'image/gi_', 
+        // jpg
+        'image/jpeg', 'image/jpg', 'image/jpe_', 'image/pjpeg', 
+        'image/vnd.swiftview-jpeg', 
+        // png
+        'image/png', 'application/png', 'application/x-png', 
+        // bmp
+        'image/bmp', 'image/x-bmp', 'image/x-bitmap', 
+        'image/x-xbitmap', 'image/x-win-bitmap', 
+        'image/x-windows-bmp', 'image/ms-bmp', 'image/x-ms-bmp', 
+        'application/bmp', 'application/x-bmp', 
+        'application/x-win-bitmap', 
+    );
+    
+    /**
+     * @var Document MIME types compatible with Google Docs viewer.
+     */
+    public static $documentMimeTypes = array(
+        // pdf
+        'application/pdf', 'application/x-pdf', 
+        'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 
+        'text/x-pdf', 
+        // docx
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+        // doc
+        'application/msword', 'application/doc', 'appl/text', 
+        'application/vnd.msword', 'application/vnd.ms-word', 
+        'application/winword', 'application/word', 
+        'application/x-msw6', 'application/x-msword', 
+        // ppt
+        'application/vnd.ms-powerpoint', 'application/mspowerpoint', 
+        'application/ms-powerpoint', 'application/mspowerpnt', 
+        'application/vnd-mspowerpoint', 'application/powerpoint', 
+        'application/x-powerpoint', 'application/x-m', 
+        // pptx
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation', 
+        // xls
+        'application/vnd.ms-excel', 'application/msexcel', 
+        'application/x-msexcel', 'application/x-ms-excel', 
+        'application/vnd.ms-excel', 'application/x-excel', 
+        'application/x-dos_ms_excel', 'application/xls', 
+        // xlsx
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+        // tiff
+        'image/tiff', 
+        // ps, ai
+        'application/postscript', 'application/ps', 
+        'application/x-postscript', 'application/x-ps', 
+        'text/postscript', 'application/x-postscript-not-eps', 
+        // eps
+        'application/eps', 'application/x-eps', 'image/eps', 
+        'image/x-eps', 
+        // psd
+        'image/vnd.adobe.photoshop', 'image/photoshop', 
+        'image/x-photoshop', 'image/psd', 'application/photoshop', 
+        'application/psd', 'zz-application/zz-winassoc-psd', 
+        // dxf
+        'application/dxf', 'application/x-autocad', 
+        'application/x-dxf', 'drawing/x-dxf', 'image/vnd.dxf', 
+        'image/x-autocad', 'image/x-dxf', 
+        'zz-application/zz-winassoc-dxf', 
+        // xvg
+        'image/svg+xml', 
+        // xps
+        'application/vnd.ms-xpsdocument', 
+    );
+    
+    /**
      * Install Scripto.
      */
     public static function install()
@@ -39,7 +113,9 @@ class ScriptoPlugin
         
         // Don't install if an element set by the name "Scripto" already exists.
         if ($db->getTable('ElementSet')->findByName(self::ELEMENT_SET_NAME)) {
-            throw new Exception('An element set by the name "' . self::ELEMENT_SET_NAME . '" already exists. You must delete that element set to install this plugin.');
+            throw new Exception('An element set by the name "' 
+            . self::ELEMENT_SET_NAME . '" already exists. You must delete that ' 
+            . 'element set to install this plugin.');
         }
         
         // Insert the Scripto element set.
@@ -69,7 +145,11 @@ class ScriptoPlugin
      */
     public static function adminAppendToPluginUninstallMessage()
     {
-        echo '<p><strong>Warning</strong>: This will permanently delete the "' . self::ELEMENT_SET_NAME . '" element set and all transcriptions imported from MediaWiki. You may deactivate this plugin if you do not want to lose data. Uninstalling this plugin will not affect your MediaWiki database in any way.</p>';
+        echo '<p><strong>Warning</strong>: This will permanently delete the "' 
+           . self::ELEMENT_SET_NAME . '" element set and all transcriptions ' 
+           . 'imported from MediaWiki. You may deactivate this plugin if you do ' 
+           . 'not want to lose data. Uninstalling this plugin will not affect ' 
+           . 'your MediaWiki database in any way.</p>';
     }
     
     /**

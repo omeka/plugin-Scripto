@@ -94,15 +94,15 @@ jQuery(document).ready(function() {
     
     <?php if ($this->scripto->isLoggedIn()): ?>
     
-    // Handle default un/watch transcription page.
-    <?php if ($this->doc->isWatchedTranscriptionPage()): ?>
-    jQuery('#scripto-transcription-page-watch').text('Unwatch').css('float', 'none');
+    // Handle default un/watch page.
+    <?php if ($this->doc->isWatchedPage()): ?>
+    jQuery('#scripto-page-watch').text('Unwatch').css('float', 'none');
     <?php else: ?>
-    jQuery('#scripto-transcription-page-watch').text('Watch').css('float', 'none');
+    jQuery('#scripto-page-watch').text('Watch').css('float', 'none');
     <?php endif; ?>
     
-    // Handle un/watch transcription page.
-    jQuery('#scripto-transcription-page-watch').click(function() {
+    // Handle un/watch page.
+    jQuery('#scripto-page-watch').click(function() {
         if ('Watch' == jQuery(this).text()) {
             jQuery(this).prop('disabled', true).text('Watching...');
             jQuery.post(
@@ -114,7 +114,7 @@ jQuery(document).ready(function() {
                     file_id: <?php echo js_escape($this->doc->getPageId()); ?>
                 }, 
                 function(data) {
-                    jQuery('#scripto-transcription-page-watch').prop('disabled', false).text('Unwatch');
+                    jQuery('#scripto-page-watch').prop('disabled', false).text('Unwatch');
                 }
             );
         } else {
@@ -128,7 +128,7 @@ jQuery(document).ready(function() {
                     file_id: <?php echo js_escape($this->doc->getPageId()); ?>
                 }, 
                 function(data) {
-                    jQuery('#scripto-transcription-page-watch').prop('disabled', false).text('Watch');
+                    jQuery('#scripto-page-watch').prop('disabled', false).text('Watch');
                 }
             );
         }
@@ -258,7 +258,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
         <div><?php echo $this->formTextarea('scripto-transcription-page-wikitext', $this->doc->getTranscriptionPageWikitext(), array('cols' => '76', 'rows' => '16')); ?></div>
         <div>
             <?php echo $this->formButton('scripto-transcription-page-edit', 'Edit transcription', array('style' => 'display:inline; float:none;')); ?> 
-            <?php if ($this->scripto->isLoggedIn()): ?><?php echo $this->formButton('scripto-transcription-page-watch'); ?> <?php endif; ?>
+            <?php if ($this->scripto->isLoggedIn()): ?><?php echo $this->formButton('scripto-page-watch'); ?> <?php endif; ?>
             <?php if ($this->scripto->canProtect()): ?><?php echo $this->formButton('scripto-transcription-page-protect'); ?> <?php endif; ?>
         </div>
     </div><!-- #scripto-transcription-edit -->
