@@ -6,8 +6,11 @@ class Scripto_IndexController extends Omeka_Controller_Action
         // Change the display strategy for certain files.
         $request = Zend_Controller_Front::getInstance()->getRequest();
         if ('transcribe' == $request->getActionName()) {
-            // Image viewer.
-            add_mime_display_type(ScriptoPlugin::$imageMimeTypes, 'ScriptoPlugin::imageViewer');
+            
+            if (get_option('scripto_use_openlayers')) {
+                // Image viewer.
+                add_mime_display_type(ScriptoPlugin::$imageMimeTypes, 'ScriptoPlugin::imageViewer');
+            }
             
             if (get_option('scripto_use_google_docs_viewer')) {
                 // Google Docs viewer.

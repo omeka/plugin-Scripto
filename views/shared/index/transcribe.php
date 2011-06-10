@@ -242,7 +242,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 <h2><?php if ($this->doc->getTitle()): ?><?php echo $this->doc->getTitle(); ?><?php else: ?>Untitled<?php endif; ?></h2>
 <h3><?php echo $this->doc->getPageName(); ?></h3>
 
-<?php echo display_file($this->file); ?>
+<?php echo display_file($this->file, array('imageSize' => 'fullsize')); ?>
 
 <!-- pagination -->
 <p>

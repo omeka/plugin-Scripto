@@ -19,9 +19,16 @@ first to last page.</p>
     </div>
 </div>
 <div class="field">
+    <label for="scripto_use_openlayers">Use OpenLayers image viewer?</label>
+        <div class="inputs">
+        <?php echo __v()->formCheckbox('scripto_use_openlayers', null, array('checked' => (bool) $useOpenlayers)); ?>
+        <p class="explanation">Use the <a href="http://openlayers.org/">OpenLayers</a> 
+        image viewer when transcribing image files? (Highly recommended.)</p>
+    </div>
+</div><div class="field">
     <label for="scripto_use_google_docs_viewer">Use Google Docs Viewer?</label>
         <div class="inputs">
-        <?php echo __v()->formCheckbox('scripto_use_google_docs_viewer', null, array('checked' => (bool) get_option('scripto_use_google_docs_viewer'))); ?>
+        <?php echo __v()->formCheckbox('scripto_use_google_docs_viewer', null, array('checked' => (bool) $useGoogleDocsViewer)); ?>
         <p class="explanation">Use Google Docs Viewer when transcribing document 
         files? Document files include PDF, DOC, PPT, XLS, TIFF, PS, and PSD 
         files. By using this service you acknowledge that you have read and 
