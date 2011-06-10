@@ -70,7 +70,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     }
     
     // document page name
-    $documentPageName = ScriptoPlugin::truncate($recentChange['document_page_name'], 30);
+    $documentPageName = ScriptoPlugin::truncate($recentChange['document_page_name'], 20);
     $urlTranscribe = uri(array(
         'action' => 'transcribe', 
         'item-id' => $recentChange['document_id'], 

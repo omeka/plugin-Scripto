@@ -48,7 +48,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     $changes .= " (<a href=\"$urlHistory\">hist</a>)";
     
     // document page name
-    $documentPageName = ScriptoPlugin::truncate($revision['document_page_name'], 30);
+    $documentPageName = ScriptoPlugin::truncate($revision['document_page_name'], 20);
     $urlTranscribe = uri(array(
         'action' => 'transcribe', 
         'item-id' => $revision['document_id'], 

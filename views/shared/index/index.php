@@ -37,7 +37,7 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
     <?php foreach ($this->documentPages as $documentPage): ?>
     <?php
     // document page name
-    $documentPageName = ScriptoPlugin::truncate($documentPage['document_page_name'], 45);
+    $documentPageName = ScriptoPlugin::truncate($documentPage['document_page_name'], 30);
     $urlTranscribe = uri(array(
         'action' => 'transcribe', 
         'item-id' => $documentPage['document_id'], 
