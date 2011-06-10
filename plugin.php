@@ -243,10 +243,13 @@ class ScriptoPlugin
     /**
      * Append the transcribe link to the items show page.
      */
-    public static function appendToItemsShow()
+    public static function appendToItemsShow($item)
     {
-        $item = get_current_item();
         $scripto = self::getScripto();
+        // Do not show page links if document is not valid.
+        if (!$scripto->documentExists($item->id)) {
+            return;
+        }
         $doc = $scripto->getDocument($item->id);
         
         include 'page_links.php';
