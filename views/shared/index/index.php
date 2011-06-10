@@ -19,8 +19,7 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
 </p>
 
 <?php if (!$this->scripto->isLoggedIn()): ?>
-<p>Log in to scripto using your MediaWiki account or view recent changes to help 
-transcribe documents.</p>
+<p>Log in to Scripto or view recent changes to help transcribe documents.</p>
 <?php else: ?>
 <?php if (empty($this->documentPages)): ?>
 <p style="color: red;">You have no contributions.</p>
