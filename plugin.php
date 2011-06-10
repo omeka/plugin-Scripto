@@ -295,7 +295,7 @@ class ScriptoPlugin
      * @param int $length
      * @return string
      */
-    public function truncate($str, $length)
+    public static function truncate($str, $length)
     {
         if (strlen($str) <= $length) {
             return $str;
