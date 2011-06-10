@@ -253,8 +253,9 @@ class ScriptoPlugin
     /**
      * Append the transcribe link to the items show page.
      */
-    public static function appendToItemsShow($item)
+    public static function appendToItemsShow()
     {
+        $item = get_current_item();
         $scripto = self::getScripto();
         // Do not show page links if document is not valid.
         if (!$scripto->documentExists($item->id)) {
