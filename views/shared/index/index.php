@@ -11,59 +11,39 @@ head($head);
 <?php if ($this->scripto->isLoggedIn()): ?>
 Logged in as <?php echo $this->scripto->getUserName(); ?> 
 (<a href="<?php echo uri('scripto/logout'); ?>">logout</a>) 
- | <a href="<?php echo uri('scripto/your-contributions'); ?>">Your contributions</a> 
+ | <a href="<?php echo uri('scripto/watchlist'); ?>">Your watchlist</a> 
 <?php else: ?>
-<a href="<?php echo uri('scripto/login'); ?>">Log in to Scripto</a>
+<a href="<?php echo uri('scripto/login'); ?>">Log in to Scripto</a> 
 <?php endif; ?>
  | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a>
 </p>
 
-<h2>Your Watchlist</h2>
-
-<!-- watchlist -->
 <?php if (!$this->scripto->isLoggedIn()): ?>
-<p>You must log in to Scripto to view your watchlist.</p>
+<p>Log in to scripto using your MediaWiki account or view recent changes to help 
+transcribe documents.</p>
 <?php else: ?>
-<?php if (empty($this->watchlist)): ?>
-<p>There are no document pages in your watchlist.</p>
+<?php if (empty($this->documentPages)): ?>
+<p style="color: red;">You have no contributions.</p>
 <?php else: ?>
+<h2>Your Contributions</h2>
 <table>
     <thead>
     <tr>
-        <th>Changes</th>
         <th>Document Page Name</th>
-        <th>Changed on</th>
-        <th>Changed (bytes)</th>
-        <th>Changed by</th>
+        <th>Most Recent Contribution</th>
         <th>Document Title</th>
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($this->watchlist as $revision): ?>
+    <?php foreach ($this->documentPages as $documentPage): ?>
     <?php
-    // changes
-    $changes = '';
-    if ($revision['new']) {
-        $changes .= 'Created';
-    } else if (0 == $revision['revision_id']) {
-        $changes = 'Un/protected';
-    } else {
-        $changes .= 'Edited';
-    }
-    $urlHistory = uri(array(
-        'item-id' => $revision['document_id'], 
-        'file-id' => $revision['document_page_id'], 
-        'namespace-index' => $revision['namespace_index'], 
-    ), 'scripto_history');
-    $changes .= " (<a href=\"$urlHistory\">hist</a>)";
-    
     // document page name
     $urlTranscribe = uri(array(
         'action' => 'transcribe', 
-        'item-id' => $revision['document_id'], 
-        'file-id' => $revision['document_page_id']
+        'item-id' => $documentPage['document_id'], 
+        'file-id' => $documentPage['document_page_id']
     ), 'scripto_action_item_file');
-    if (1 == $revision['namespace_index']) {
+    if (1 == $documentPage['namespace_index']) {
         $urlTranscribe .= '#discussion';
     } else {
         $urlTranscribe .= '#transcription';
@@ -73,22 +53,13 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
     $urlItem = uri(array(
         'controller' => 'items', 
         'action' => 'show', 
-        'id' => $revision['document_id']
+        'id' => $documentPage['document_id']
     ), 'id');
-    
-    // length changed
-    $lengthChanged = $revision['new_length'] - $revision['old_length'];
-    if (0 <= $lengthChanged) {
-        $lengthChanged = "+$lengthChanged";
-    }
-  ?>
+    ?>
     <tr>
-        <td><?php echo $changes; ?></td>
-        <td><a href="<?php echo $urlTranscribe; ?>"><?php if ('Talk' == $revision['namespace_name']): ?>Talk: <?php endif; ?><?php echo $revision['document_page_name']; ?></a></td>
-        <td><?php echo date('H:i:s M d, Y', strtotime($revision['timestamp'])); ?></td>
-        <td><?php echo $lengthChanged; ?></td>
-        <td><?php echo $revision['user']; ?></td>
-        <td><a href="<?php echo $urlItem; ?>"><?php echo $revision['document_title']; ?></a></td>
+        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $documentPage['namespace_index']): ?>Talk: <?php endif; ?><?php echo $documentPage['document_page_name']; ?></a></td>
+        <td><?php echo gmdate('H:i:s M d, Y', strtotime($documentPage['timestamp'])); ?></td>
+        <td><a href="<?php echo $urlItem; ?>"><?php echo $documentPage['document_title']; ?></a></td>
     </tr>
     <?php endforeach; ?>
     </tbody>

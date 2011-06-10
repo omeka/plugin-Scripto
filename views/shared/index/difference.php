@@ -18,7 +18,8 @@ del.diffchange {background-color: #FFBDBD;}
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
 Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
-(<a href="<?php echo uri('scripto/index/logout'); ?>">logout</a>)
+(<a href="<?php echo uri('scripto/index/logout'); ?>">logout</a>) 
+ | <a href="<?php echo uri('scripto/watchlist'); ?>">Your watchlist</a> 
 <?php else: ?>
 <a href="<?php echo uri('scripto/index/login'); ?>">Log into Scripto</a>
 <?php endif; ?>

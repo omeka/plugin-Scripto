@@ -17,16 +17,16 @@ class Scripto_IndexController extends Omeka_Controller_Action
     {
         try {
             $scripto = ScriptoPlugin::getScripto();
-            $watchlist = array();
+            $documentPages = array();
             if ($scripto->isLoggedIn()) {
-                $watchlist = $scripto->getWatchlist(500);
+                $documentPages = $scripto->getUserDocumentPages(500);
             }
         } catch (Scripto_Exception $e) {
             $this->flashError($e->getMessage());
         }
         
         $this->view->scripto = $scripto;
-        $this->view->watchlist = $watchlist;
+        $this->view->documentPages = $documentPages;
     }
     
     public function loginAction()
@@ -61,20 +61,20 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->_helper->redirector->goto('index');
     }
     
-    public function yourContributionsAction()
+    public function watchlistAction()
     {
         try {
             $scripto = ScriptoPlugin::getScripto();
             if (!$scripto->isLoggedIn()) {
                 $this->_helper->redirector->goto('index');
             }
-            $documentPages = $scripto->getUserDocumentPages(500);
+            $watchlist = $scripto->getWatchlist(500);
         } catch (Scripto_Exception $e) {
             $this->flashError($e->getMessage());
         }
         
         $this->view->scripto = $scripto;
-        $this->view->documentPages = $documentPages;
+        $this->view->watchlist = $watchlist;
     }
     
     public function recentChangesAction()

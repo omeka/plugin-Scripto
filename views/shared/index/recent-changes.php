@@ -11,13 +11,14 @@ head($head);
 <?php if ($this->scripto->isLoggedIn()): ?>
 Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
 (<a href="<?php echo uri('scripto/logout'); ?>">logout</a>) 
+ | <a href="<?php echo uri('scripto/watchlist'); ?>">Your watchlist</a> 
 <?php else: ?>
 <a href="<?php echo uri('scripto/login'); ?>">Log into Scripto</a>
 <?php endif; ?>
 </p>
 
 <?php if (empty($this->recentChanges)): ?>
-<p>There are no recent changes.</p>
+<p style="color: red;">There are no recent changes.</p>
 <?php else: ?>
 <table>
     <thead>

@@ -9,7 +9,8 @@ head($head);
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
 Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
-(<a href="<?php echo uri('scripto/logout'); ?>">logout</a>)
+(<a href="<?php echo uri('scripto/logout'); ?>">logout</a>) 
+ | <a href="<?php echo uri('scripto/watchlist'); ?>">Your watchlist</a> 
 <?php else: ?>
 <a href="<?php echo uri('scripto/login'); ?>">Log in to Scripto</a>
 <?php endif; ?>
