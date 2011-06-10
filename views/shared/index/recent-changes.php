@@ -26,7 +26,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
             <th>Changes</th>
             <th>Document Page Name</th>
             <th>Changed on</th>
-            <th>Changed (bytes)</th>
+            <th>Changed</th>
             <th>Changed By</th>
             <th>Document Title</th>
         </tr>
@@ -70,6 +70,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     }
     
     // document page name
+    $documentPageName = ScriptoPlugin::truncate($recentChange['document_page_name'], 30);
     $urlTranscribe = uri(array(
         'action' => 'transcribe', 
         'item-id' => $recentChange['document_id'], 
@@ -96,7 +97,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     ?>
     <tr>
         <td><?php echo $changes; ?></td>
-        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $recentChange['namespace_index']): ?>Talk: <?php endif; ?><?php echo $recentChange['document_page_name']; ?></a></td>
+        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $recentChange['namespace_index']): ?>Talk: <?php endif; ?><?php echo $documentPageName; ?></a></td>
         <td><?php echo date('H:i:s M d, Y', strtotime($recentChange['timestamp'])); ?></td>
         <td><?php echo $lengthChanged; ?></td>
         <td><?php echo $recentChange['user']; ?></td>

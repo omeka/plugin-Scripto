@@ -272,6 +272,25 @@ class ScriptoPlugin
     }
     
     /**
+     * Return a truncated string with left and right padding.
+     * 
+     * Primarily used for truncating long document page names that would 
+     * otherwise break tables.
+     * 
+     * @param string $str
+     * @param int $length
+     * @return string
+     */
+    public function truncate($str, $length)
+    {
+        if (strlen($str) <= $length) {
+            return $str;
+        }
+        $padding = floor($length / 2);
+        return preg_replace('/^(.{' . $padding . '}).*(.{' . $padding . '})$/', '$1...$2', $str);
+    }
+    
+    /**
      * Get dimensions of the provided image.
      * 
      * @param string $filename URI to file.

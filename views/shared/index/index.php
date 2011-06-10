@@ -37,6 +37,7 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
     <?php foreach ($this->documentPages as $documentPage): ?>
     <?php
     // document page name
+    $documentPageName = ScriptoPlugin::truncate($documentPage['document_page_name'], 45);
     $urlTranscribe = uri(array(
         'action' => 'transcribe', 
         'item-id' => $documentPage['document_id'], 
@@ -56,7 +57,7 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
     ), 'id');
     ?>
     <tr>
-        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $documentPage['namespace_index']): ?>Talk: <?php endif; ?><?php echo $documentPage['document_page_name']; ?></a></td>
+        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $documentPage['namespace_index']): ?>Talk: <?php endif; ?><?php echo $documentPageName; ?></a></td>
         <td><?php echo gmdate('H:i:s M d, Y', strtotime($documentPage['timestamp'])); ?></td>
         <td><a href="<?php echo $urlItem; ?>"><?php echo $documentPage['document_title']; ?></a></td>
     </tr>

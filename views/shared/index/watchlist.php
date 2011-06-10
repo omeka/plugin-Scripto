@@ -23,7 +23,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
         <th>Changes</th>
         <th>Document Page Name</th>
         <th>Changed on</th>
-        <th>Changed (bytes)</th>
+        <th>Changed</th>
         <th>Changed by</th>
         <th>Document Title</th>
     </tr>
@@ -48,6 +48,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     $changes .= " (<a href=\"$urlHistory\">hist</a>)";
     
     // document page name
+    $documentPageName = ScriptoPlugin::truncate($revision['document_page_name'], 30);
     $urlTranscribe = uri(array(
         'action' => 'transcribe', 
         'item-id' => $revision['document_id'], 
@@ -71,10 +72,10 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     if (0 <= $lengthChanged) {
         $lengthChanged = "+$lengthChanged";
     }
-  ?>
+    ?>
     <tr>
         <td><?php echo $changes; ?></td>
-        <td><a href="<?php echo $urlTranscribe; ?>"><?php if ('Talk' == $revision['namespace_name']): ?>Talk: <?php endif; ?><?php echo $revision['document_page_name']; ?></a></td>
+        <td><a href="<?php echo $urlTranscribe; ?>"><?php if ('Talk' == $revision['namespace_name']): ?>Talk: <?php endif; ?><?php echo $documentPageName; ?></a></td>
         <td><?php echo date('H:i:s M d, Y', strtotime($revision['timestamp'])); ?></td>
         <td><?php echo $lengthChanged; ?></td>
         <td><?php echo $revision['user']; ?></td>
