@@ -138,6 +138,7 @@ class ScriptoPlugin
         // Delete the Scripto-specific options.
         delete_option('scripto_mediawiki_api_url');
         delete_option('scripto_mediawiki_db_name');
+        delete_option('scripto_use_google_docs_viewer');
     }
     
     /**
@@ -182,6 +183,7 @@ class ScriptoPlugin
         
         set_option('scripto_mediawiki_api_url', $_POST['scripto_mediawiki_api_url']);
         set_option('scripto_mediawiki_db_name', $_POST['scripto_mediawiki_db_name']);
+        set_option('scripto_use_google_docs_viewer', $_POST['scripto_use_google_docs_viewer']);
     }
     
     /**

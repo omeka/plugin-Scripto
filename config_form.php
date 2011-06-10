@@ -18,3 +18,14 @@ first to last page.</p>
         <p class="explanation">Name of your MediaWiki database.</p>
     </div>
 </div>
+<div class="field">
+    <label for="scripto_use_google_docs_viewer">Use Google Docs Viewer?</label>
+        <div class="inputs">
+        <?php echo __v()->formCheckbox('scripto_use_google_docs_viewer', null, array('checked' => (bool) get_option('scripto_use_google_docs_viewer'))); ?>
+        <p class="explanation">Use Google Docs Viewer when transcribing document 
+        files? Document files include PDF, DOC, PPT, XLS, TIFF, PS, and PSD 
+        files. By using this service you acknowledge that you have read and 
+        agreed to the <a href="http://docs.google.com/viewer/TOS?hl=en">Google 
+        Docs Viewer Terms of Service</a>.</p>
+    </div>
+</div>

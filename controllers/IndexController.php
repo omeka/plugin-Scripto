@@ -8,8 +8,11 @@ class Scripto_IndexController extends Omeka_Controller_Action
         if ('transcribe' == $request->getActionName()) {
             // Image viewer.
             add_mime_display_type(ScriptoPlugin::$imageMimeTypes, 'ScriptoPlugin::imageViewer');
-            // Document viewer.
-            add_mime_display_type(ScriptoPlugin::$documentMimeTypes, 'ScriptoPlugin::documentViewer');
+            
+            if (get_option('scripto_use_google_docs_viewer')) {
+                // Google Docs viewer.
+                add_mime_display_type(ScriptoPlugin::$documentMimeTypes, 'ScriptoPlugin::documentViewer');
+            }
         }
     }
     
