@@ -190,7 +190,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->view->namespace_index = $this->_getParam('namespace-index');
     }
     
-    public function differenceAction()
+    public function diffAction()
     {
         try {
             $scripto = ScriptoPlugin::getScripto();
@@ -205,6 +205,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->view->scripto = $scripto;
         $this->view->doc = $doc;
         $this->view->diff = $diff;
+        $this->view->namespace_index = $this->_getParam('namespace-index');
     }
     
     public function pageActionAction()

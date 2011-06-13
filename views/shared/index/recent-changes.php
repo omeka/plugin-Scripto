@@ -52,12 +52,13 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
         } else {
             $changes .= 'Edited';
         }
-        $urlDifference = uri(array(
+        $urlDiff = uri(array(
             'item-id' => $recentChange['document_id'], 
             'file-id' => $recentChange['document_page_id'], 
+            'namespace-index' => $recentChange['namespace_index'], 
             'old-revision-id' => $recentChange['old_revision_id'], 
             'revision-id' => $recentChange['revision_id'], 
-        ), 'scripto_difference');
+        ), 'scripto_diff');
         $urlHistory = uri(array(
             'item-id' => $recentChange['document_id'], 
             'file-id' => $recentChange['document_page_id'], 
@@ -66,7 +67,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
         if ($recentChange['new']) {
             $changes .= " (diff | <a href=\"$urlHistory\">hist</a>)";
         } else {
-            $changes .= " (<a href=\"$urlDifference\">diff</a> | <a href=\"$urlHistory\">hist</a>)";
+            $changes .= " (<a href=\"$urlDiff\">diff</a> | <a href=\"$urlHistory\">hist</a>)";
         }
     }
     
