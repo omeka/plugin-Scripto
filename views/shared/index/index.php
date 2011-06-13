@@ -18,6 +18,7 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
  | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a>
 </p>
 
+<!-- your contributions -->
 <?php if (!$this->scripto->isLoggedIn()): ?>
 <p>Log in to Scripto or view recent changes to help transcribe documents.</p>
 <?php else: ?>

@@ -14,6 +14,7 @@ del.diffchange {background-color: #FFBDBD;}
 <h1><?php echo $head['title']; ?></h1>
 <div id="primary">
 <?php echo flash(); ?>
+
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
@@ -27,7 +28,9 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
  | <a href="<?php echo uri('scripto/index/history/doc/' . $this->doc->getId() . '/page/' . $this->doc->getPageId()); ?>">Page history</a></p> 
 
 <?php if ($this->doc->getTitle()): ?><h2><?php echo $this->doc->getTitle(); ?></h2><?php endif; ?>
+<h3><?php if (1 == $this->namespace_index): ?>Talk: <?php endif; ?><?php echo $this->doc->getPageName(); ?></h3>
 
+<!-- difference -->
 <table id="scripto-diff"><?php echo $this->diff; ?></table>
 </div>
 <?php foot(); ?>

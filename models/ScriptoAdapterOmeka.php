@@ -1,17 +1,24 @@
 <?php
-require_once 'Scripto/Adapter/Interface.php';
-
+/**
+ * Omeka adapter for Scripto.
+ */
 class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
 {
+    /**
+     * @var Omeka_Db
+     */
     private $_db;
     
+    /**
+     * Set the database object on construvtion.
+     */
     public function __construct()
     {
         $this->_db = get_db();
     }
     
     /**
-     * Indicate whether the document exists in the external system.
+     * Indicate whether the document exists in Omeka.
      * 
      * @param int|string $documentId The unique document ID
      * @return bool True: it exists; false: it does not exist
@@ -22,7 +29,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
     }
     
     /**
-     * Indicate whether the document page exists in the external system.
+     * Indicate whether the document page exists in Omeka.
      * 
      * @param int|string $documentId The unique document ID
      * @param int|string $pageId The unique page ID
@@ -139,9 +146,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
      * @return bool True: has been imported; false: has not been imported
      */
     public function documentTranscriptionIsImported($documentId)
-    {
-        
-    }
+    {}
     
     /**
      * Indicate whether the document page transcription has been imported.
@@ -150,12 +155,10 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
      * @param int|string $pageId The page ID
      */
     public function documentPageTranscriptionIsImported($documentId, $pageId)
-    {
-        
-    }
+    {}
     
     /**
-     * Import a document page's transcription into the external system.
+     * Import a document page's transcription into Omeka.
      * 
      * @param int|string $documentId The document ID
      * @param int|string $pageId The page ID
@@ -163,34 +166,47 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
      * @return bool True: success; false: fail
      */
     public function importDocumentPageTranscription($documentId, $pageId, $text)
-    {
-        
-    }
+    {}
     
     /**
-     * Import an entire document's transcription into the external system.
+     * Import an entire document's transcription into Omeka.
      * 
      * @param int|string The document ID
      * @param string The text to import
      * @return bool True: success; false: fail
      */
     public function importDocumentTranscription($documentId, $text)
-    {
-        
-    }
+    {}
     
-    // Returns an Omeka item object.
+    /**
+     * Return an Omeka item object.
+     * 
+     * @param int $itemId
+     * @return Item|null
+     */
     private function _getItem($itemId)
     {
         return $this->_db->getTable('Item')->find($itemId);
     }
     
+    /**
+     * Return an Omeka file object.
+     * 
+     * @param int $fileId
+     * @return File|int
+     */
     private function _getFile($fileId)
     {
         return $this->_db->getTable('File')->find($fileId);
     }
     
-    // Checks if an Omeka item is a valid Scripto document.
+    /**
+     * Check if the provided item exists in Omeka and is a valid Scripto 
+     * document.
+     * 
+     * @param Item $item
+     * @return bool
+     */
     private function _validDocument($item)
     {
         // The item must exist.

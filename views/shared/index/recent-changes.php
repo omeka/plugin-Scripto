@@ -17,6 +17,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 <?php endif; ?>
 </p>
 
+<!-- recent changes -->
 <?php if (empty($this->recentChanges)): ?>
 <p style="color: red;">There are no recent changes.</p>
 <?php else: ?>

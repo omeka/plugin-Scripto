@@ -1,6 +1,12 @@
 <?php
+/**
+ * The index controller for the Scripto plugin.
+ */
 class Scripto_IndexController extends Omeka_Controller_Action
 {
+    /**
+     * Initiate this controller.
+     */
     public function init()
     {
         // Change the display strategy for certain files.
@@ -19,6 +25,9 @@ class Scripto_IndexController extends Omeka_Controller_Action
         }
     }
     
+    /**
+     * View document pages to which you have contributed.
+     */
     public function indexAction()
     {
         try {
@@ -35,6 +44,9 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->view->documentPages = $documentPages;
     }
     
+    /**
+     * Log in to Scripto.
+     */
     public function loginAction()
     {
         try {
@@ -54,6 +66,9 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->view->scripto = $scripto;
     }
     
+    /**
+     * Log out of Scripto.
+     */
     public function logoutAction()
     {
         try {
@@ -67,6 +82,9 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->_helper->redirector->goto('index');
     }
     
+    /**
+     * View your watchlist.
+     */
     public function watchlistAction()
     {
         try {
@@ -83,6 +101,9 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->view->watchlist = $watchlist;
     }
     
+    /**
+     * View recent changes to the document pages.
+     */
     public function recentChangesAction()
     {
         try {

@@ -23,6 +23,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 <?php if ($this->doc->getTitle()): ?><h2><?php echo $this->doc->getTitle(); ?></h2><?php endif; ?>
 <h3><?php if (1 == $this->namespace_index): ?>Talk: <?php endif; ?><?php echo $this->doc->getPageName(); ?></h3>
 
+<!-- page history -->
 <?php if (empty($this->history)): ?>
 <p>This page has not yet been created.</p>
 <?php else: ?>
