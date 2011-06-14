@@ -187,7 +187,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->view->doc = $doc;
         $this->view->info = $info;
         $this->view->history = $history;
-        $this->view->namespace_index = $this->_getParam('namespace-index');
+        $this->view->namespaceIndex = $this->_getParam('namespace-index');
     }
     
     public function diffAction()
@@ -197,6 +197,8 @@ class Scripto_IndexController extends Omeka_Controller_Action
             $doc = $scripto->getDocument($this->_getParam('item-id'));
             $doc->setPage($this->_getParam('file-id'));
             $diff = $scripto->getRevisionDiff($this->_getParam('old-revision-id'), $this->_getParam('revision-id'));
+            $oldRevision = $scripto->getRevision($this->_getParam('old-revision-id'));
+            $revision = $scripto->getRevision($this->_getParam('revision-id'));
         } catch (Scripto_Exception $e) {
             $this->flashError($e->getMessage());
             $this->_helper->redirector->goto('index');
@@ -205,7 +207,9 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $this->view->scripto = $scripto;
         $this->view->doc = $doc;
         $this->view->diff = $diff;
-        $this->view->namespace_index = $this->_getParam('namespace-index');
+        $this->view->namespaceIndex = $this->_getParam('namespace-index');
+        $this->view->oldRevision = $oldRevision;
+        $this->view->revision = $revision;
     }
     
     public function pageActionAction()

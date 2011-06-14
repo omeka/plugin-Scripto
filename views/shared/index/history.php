@@ -42,13 +42,13 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <?php
     $urlCurrent = uri(array('item-id' => $this->doc->getId(), 
                             'file-id' => $this->doc->getPageId(), 
-                            'namespace-index' => $revision['namespace_index'], 
+                            'namespace-index' => $this->namespaceIndex, 
                             'old-revision-id' => $revision['revision_id'], 
                             'revision-id' => $this->info['last_revision_id']), 
                       'scripto_diff');
     $urlPrevious = uri(array('item-id' => $this->doc->getId(), 
                              'file-id' => $this->doc->getPageId(), 
-                             'namespace-index' => $revision['namespace_index'], 
+                             'namespace-index' => $this->namespaceIndex, 
                              'old-revision-id' => $revision['parent_id'], 
                              'revision-id' => $revision['revision_id']), 
                        'scripto_diff');

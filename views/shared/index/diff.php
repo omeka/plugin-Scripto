@@ -25,13 +25,33 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 <a href="<?php echo uri('scripto/index/login'); ?>">Log into Scripto</a>
 <?php endif; ?>
  | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">Transcribe this document</a>
- | <a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => $this->namespace_index), 'scripto_history'); ?>">Page history</a>
+ | <a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => $this->namespaceIndex), 'scripto_history'); ?>">Page history</a>
 </p> 
 
 <?php if ($this->doc->getTitle()): ?><h2><?php echo $this->doc->getTitle(); ?></h2><?php endif; ?>
-<h3><?php if (1 == $this->namespace_index): ?>Talk: <?php endif; ?><?php echo $this->doc->getPageName(); ?></h3>
+<h3><?php if (1 == $this->namespaceIndex): ?>Talk: <?php endif; ?><?php echo $this->doc->getPageName(); ?></h3>
 
 <!-- difference -->
-<table id="scripto-diff"><?php echo $this->diff; ?></table>
+<?php
+$actions = array('Protected', 'Unprotected', 'Created');
+$pattern = '/^(' . implode('|', $actions) . ').+$/';
+$actionOldRevision = preg_replace($pattern, '$1', $this->oldRevision['comment']);
+$actionRevision = preg_replace($pattern, '$1', $this->revision['comment']);
+?>
+<table id="scripto-diff">
+    <thead>
+    <tr>
+        <th colspan="2">Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->oldRevision['timestamp'])); ?><br />
+        <?php echo $actionOldRevision; ?> by <?php echo $this->oldRevision['user']; ?></th>
+        <th colspan="2">Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->revision['timestamp'])); ?><br />
+        <?php echo $actionRevision; ?> by <?php echo $this->revision['user']; ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php echo $this->diff; ?>
+    </tbody>
+</table>
+<h3>Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->revision['timestamp'])); ?></h3>
+<div><?php echo $this->revision['html']; ?></div>
 </div>
 <?php foot(); ?>
