@@ -24,7 +24,9 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 <?php else: ?>
 <a href="<?php echo uri('scripto/index/login'); ?>">Log into Scripto</a>
 <?php endif; ?>
- | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">Transcribe this document</a>
+ | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a> 
+ | <a href="<?php echo uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id'); ?>">View item</a>
+ | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">Transcribe document</a>
  | <a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => $this->namespaceIndex), 'scripto_history'); ?>">Page history</a>
 </p> 
 
