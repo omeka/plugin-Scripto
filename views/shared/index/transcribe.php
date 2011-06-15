@@ -268,7 +268,9 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <?php else: ?>
     <p style="color: red;">You don't have permission to transcribe this page.</p>
     <?php endif; ?>
-    <h2>Current Transcription<?php if ($this->doc->canEditTranscriptionPage()): ?> [<a href="#" id="scripto-transcription-edit-show">edit</a>]<?php endif; ?></h2>
+    <h2>Current Transcription<?php if ($this->doc->canEditTranscriptionPage()): ?> 
+    [<a href="#" id="scripto-transcription-edit-show">edit</a>]<?php endif; ?> 
+    <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTranscriptionPageMediawikiUrl(); ?>">wiki page</a>]<?php endif; ?></h2>
     <div id="scripto-transcription-page-html"><?php echo $this->transcriptionPageHtml; ?></div>
 </div><!-- #scripto-transcription -->
 
@@ -285,7 +287,9 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <?php else: ?>
     <p style="color: red;">You don't have permission to discuss this page.</p>
     <?php endif; ?>
-    <h2>Current Discussion<?php if ($this->doc->canEditTalkPage()): ?> [<a href="#" id="scripto-talk-edit-show">edit</a>]<?php endif; ?></h2>
+    <h2>Current Discussion<?php if ($this->doc->canEditTalkPage()): ?> 
+    [<a href="#" id="scripto-talk-edit-show">edit</a>]<?php endif; ?> 
+    <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTalkPageMediawikiUrl(); ?>">wiki page</a>]<?php endif; ?></h2>
     <div id="scripto-talk-page-html"><?php echo $this->talkPageHtml; ?></div>
 </div><!-- #scripto-talk -->
 

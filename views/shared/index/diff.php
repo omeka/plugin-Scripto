@@ -1,5 +1,5 @@
 <?php
-$head = array('title' => html_escape('Scripto | Page Difference'));
+$head = array('title' => html_escape('Scripto | Revision Difference'));
 head($head);
 ?>
 <style type="text/css">
@@ -51,7 +51,7 @@ $actionRevision = preg_replace($pattern, '$1', $this->revision['comment']);
     <?php echo $this->diff; ?>
     </tbody>
 </table>
-<h3>Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->revision['timestamp'])); ?></h3>
+<h2>Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->revision['timestamp'])); ?></h2>
 <div><?php echo $this->revision['html']; ?></div>
 </div>
 <?php foot(); ?>
