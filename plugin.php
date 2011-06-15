@@ -301,7 +301,7 @@ class ScriptoPlugin
             return $str;
         }
         $padding = floor($length / 2);
-        return preg_replace('/^(.{' . $padding . '}).*(.{' . $padding . '})$/', '$1...$2', $str);
+        return preg_replace('/^(.{' . $padding . '}).*(.{' . $padding . '})$/', '$1... $2', $str);
     }
     
     /**

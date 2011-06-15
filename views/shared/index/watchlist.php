@@ -48,7 +48,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     $changes .= " (<a href=\"$urlHistory\">hist</a>)";
     
     // document page name
-    $documentPageName = ScriptoPlugin::truncate($revision['document_page_name'], 20);
+    $documentPageName = ScriptoPlugin::truncate($revision['document_page_name'], 30);
     $urlTranscribe = uri(array(
         'action' => 'transcribe', 
         'item-id' => $revision['document_id'], 
@@ -61,6 +61,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     }
     
     // document title
+    $documentTitle = ScriptoPlugin::truncate($revision['document_title'], 30);
     $urlItem = uri(array(
         'controller' => 'items', 
         'action' => 'show', 
@@ -79,7 +80,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
         <td><?php echo date('H:i:s M d, Y', strtotime($revision['timestamp'])); ?></td>
         <td><?php echo $lengthChanged; ?></td>
         <td><?php echo $revision['user']; ?></td>
-        <td><a href="<?php echo $urlItem; ?>"><?php echo $revision['document_title']; ?></a></td>
+        <td><a href="<?php echo $urlItem; ?>"><?php echo $documentTitle; ?></a></td>
     </tr>
     <?php endforeach; ?>
     </tbody>
