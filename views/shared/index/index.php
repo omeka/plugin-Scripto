@@ -6,6 +6,7 @@ head($head);
 <div id="primary">
 <?php echo flash(); ?>
 
+<div id="scripto-index" class="scripto">
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
@@ -68,5 +69,6 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
 </table>
 <?php endif; ?>
 <?php endif; ?>
+</div><!-- end #scripto-index -->
 </div>
 <?php foot(); ?>

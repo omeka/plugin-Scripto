@@ -6,6 +6,7 @@ head($head);
 <div id="primary">
 <?php echo flash(); ?>
 
+<div id="scripto-recent-changes" class="scripto">
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
@@ -110,5 +111,6 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     </tbody>
 </table>
 <?php endif; ?>
+</div><!-- end #scripto-recent-changes -->
 </div>
 <?php foot(); ?>

@@ -15,6 +15,7 @@ del.diffchange {background-color: #FFBDBD;}
 <div id="primary">
 <?php echo flash(); ?>
 
+<div id="scripto-diff" class="scripto">
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
@@ -40,7 +41,7 @@ $pattern = '/^(' . implode('|', $actions) . ').+$/';
 $actionOldRevision = preg_replace($pattern, '$1', $this->oldRevision['comment']);
 $actionRevision = preg_replace($pattern, '$1', $this->revision['comment']);
 ?>
-<table id="scripto-diff">
+<table>
     <thead>
     <tr>
         <th colspan="2">Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->oldRevision['timestamp'])); ?><br />
@@ -55,5 +56,6 @@ $actionRevision = preg_replace($pattern, '$1', $this->revision['comment']);
 </table>
 <h2>Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->revision['timestamp'])); ?></h2>
 <div><?php echo $this->revision['html']; ?></div>
+</div><!-- end #scripto-diff -->
 </div>
 <?php foot(); ?>

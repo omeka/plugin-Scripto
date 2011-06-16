@@ -225,6 +225,7 @@ jQuery(document).ready(function() {
 <div id="primary">
 <?php echo flash(); ?>
 
+<div id="scripto-transcribe" class="scripto">
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
@@ -294,5 +295,6 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <div id="scripto-talk-page-html"><?php echo $this->talkPageHtml; ?></div>
 </div><!-- #scripto-talk -->
 
+</div><!-- end #scripto-transcribe -->
 </div>
 <?php foot(); ?>

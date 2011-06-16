@@ -6,6 +6,7 @@ head($head);
 <div id="primary">
 <?php echo flash(); ?>
 
+<div id="scripto-login" class="scripto">
 <!-- navigation -->
 <p><a href="<?php echo uri('scripto/index/recent-changes'); ?>">Recent changes</a></p>
 <p>Log in to Scripto using your MediaWiki username and password to access your 
@@ -28,5 +29,6 @@ administrator.</p>
 </div>
 <?php echo $this->formSubmit('scripto_mediawiki_login', 'Login', array('style' => 'display:inline; float:none;')); ?>
 </form>
+</div><!-- end #scripto-login -->
 </div>
 <?php foot(); ?>

@@ -6,6 +6,7 @@ head($head);
 <div id="primary">
 <?php echo flash(); ?>
 
+<div id="scripto-watchlist" class="scripto">
 <!-- navigation -->
 <p>
 Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
@@ -86,5 +87,6 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     </tbody>
 </table>
 <?php endif; ?>
+</div><!-- end #scripto-watchlist -->
 </div>
 <?php foot(); ?>
