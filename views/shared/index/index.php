@@ -24,7 +24,7 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
 <p>Log in to Scripto or view recent changes to help transcribe documents.</p>
 <?php else: ?>
 <?php if (empty($this->documentPages)): ?>
-<p style="color: red;">You have no contributions.</p>
+<p>You have no contributions.</p>
 <?php else: ?>
 <h2>Your Contributions</h2>
 <table>

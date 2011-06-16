@@ -265,7 +265,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
         </div>
     </div><!-- #scripto-transcription-edit -->
     <?php else: ?>
-    <p style="color: red;">You don't have permission to transcribe this page.</p>
+    <p>You don't have permission to transcribe this page.</p>
     <?php endif; ?>
     <h2>Current Transcription
     <?php if ($this->doc->canEditTranscriptionPage()): ?> [<a href="#" id="scripto-transcription-edit-show">edit</a>]<?php endif; ?> 
@@ -286,7 +286,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
         </div>
     </div><!-- #scripto-talk-edit -->
     <?php else: ?>
-    <p style="color: red;">You don't have permission to discuss this page.</p>
+    <p>You don't have permission to discuss this page.</p>
     <?php endif; ?>
     <h2>Current Discussion
     <?php if ($this->doc->canEditTalkPage()): ?> [<a href="#" id="scripto-talk-edit-show">edit</a>]<?php endif; ?> 

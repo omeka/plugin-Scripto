@@ -16,7 +16,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 
 <!-- watchlist -->
 <?php if (empty($this->watchlist)): ?>
-<p style="color: red;">There are no document pages in your watchlist.</p>
+<p>There are no document pages in your watchlist.</p>
 <?php else: ?>
 <table>
     <thead>
