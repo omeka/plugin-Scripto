@@ -29,6 +29,6 @@ administrator.</p>
 </div>
 <?php echo $this->formSubmit('scripto_mediawiki_login', 'Login', array('style' => 'display:inline; float:none;')); ?>
 </form>
-</div><!-- end #scripto-login -->
+</div><!-- #scripto-login -->
 </div>
 <?php foot(); ?>

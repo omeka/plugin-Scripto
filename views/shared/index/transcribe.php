@@ -272,7 +272,6 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <h2>Current Transcription
     <?php if ($this->doc->canEditTranscriptionPage()): ?> [<a href="#" id="scripto-transcription-edit-show">edit</a>]<?php endif; ?> 
     <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTranscriptionPageMediawikiUrl(); ?>">wiki</a>]<?php endif; ?></h2>
-    <p></p>
     <div id="scripto-transcription-page-html"><?php echo $this->transcriptionPageHtml; ?></div>
 </div><!-- #scripto-transcription -->
 
@@ -295,6 +294,6 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <div id="scripto-talk-page-html"><?php echo $this->talkPageHtml; ?></div>
 </div><!-- #scripto-talk -->
 
-</div><!-- end #scripto-transcribe -->
+</div><!-- #scripto-transcribe -->
 </div>
 <?php foot(); ?>

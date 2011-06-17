@@ -65,6 +65,6 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     </tbody>
 </table>
 <?php endif; ?>
-</div><!-- end #scripto-history -->
+</div><!-- #scripto-history -->
 </div>
 <?php foot(); ?>

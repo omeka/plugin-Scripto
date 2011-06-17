@@ -69,6 +69,6 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
 </table>
 <?php endif; ?>
 <?php endif; ?>
-</div><!-- end #scripto-index -->
+</div><!-- #scripto-index -->
 </div>
 <?php foot(); ?>

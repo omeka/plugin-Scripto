@@ -56,6 +56,6 @@ $actionRevision = preg_replace($pattern, '$1', $this->revision['comment']);
 </table>
 <h2>Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->revision['timestamp'])); ?></h2>
 <div><?php echo $this->revision['html']; ?></div>
-</div><!-- end #scripto-diff -->
+</div><!-- #scripto-diff -->
 </div>
 <?php foot(); ?>
