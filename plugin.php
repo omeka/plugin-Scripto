@@ -17,6 +17,7 @@ add_plugin_hook('config_form', 'ScriptoPlugin::configForm');
 add_plugin_hook('config', 'ScriptoPlugin::config');
 add_plugin_hook('public_append_to_items_show', 'ScriptoPlugin::appendToItemsShow');
 add_plugin_hook('admin_append_to_items_show_primary', 'ScriptoPlugin::appendToItemsShow');
+add_plugin_hook('admin_append_to_files_form', 'ScriptoPlugin::adminAppendToFilesForm');
 
 // Plugin filters.
 add_filter('admin_navigation_main', 'ScriptoPlugin::adminNavigationMain');
@@ -118,11 +119,19 @@ class ScriptoPlugin
             . 'element set to install this plugin.');
         }
         
-        // Insert the Scripto element set.
-        insert_element_set('Scripto', array(
+        // Must create the element set from scratch since insert_element_set() 
+        // only allows element sets with the Item record type (v1.4).
+        $recordTypeId = $db->getTable('RecordType')->findIdFromName('All');
+        $elementSet = new ElementSet;
+        $elementSet->name = 'Scripto';
+        $elementSet->description = '';
+        $elementSet->record_type_id = $recordTypeId;
+        $elementSet->addElements(array(
             array('name' => 'Transcription', 
-                  'description' => 'A written representation of an item.')
+                  'description' => 'A written representation of a document.', 
+                  'record_type_id' => $recordTypeId)
         ));
+        $elementSet->save();
     }
     
     /**
@@ -243,7 +252,7 @@ class ScriptoPlugin
     public static function documentViewer($file)
     {
         $uri = Zend_Uri::factory('http://docs.google.com/viewer');
-        $uri->setQuery(array('url'      => $file->getWebPath('archive'), 
+        $uri->setQuery(array('url' => $file->getWebPath('archive'), 
                              'embedded' => 'true'));
         $docsViewerUrl = $uri->getUri();
         
@@ -264,6 +273,11 @@ class ScriptoPlugin
         $doc = $scripto->getDocument($item->id);
         
         include 'page_links.php';
+    }
+    
+    public static function adminAppendToFilesForm($file)
+    {
+        include 'files_form.php';
     }
     
     /**
