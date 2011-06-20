@@ -18,7 +18,8 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 <?php endif; ?>
  | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a> 
  | <a href="<?php echo uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id'); ?>">View item</a>
- | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>#<?php if (1 == $this->namespaceIndex): ?>discussion<?php else: ?>transcription<?php endif; ?>">Transcribe document</a>
+ | <a href="<?php echo uri(array('controller' => 'files', 'action' => 'show', 'id' => $this->doc->getPageId()), 'id'); ?>">View file</a>
+ | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">Transcribe</a>
 </p>
 
 <?php if ($this->doc->getTitle()): ?><h2><?php echo $this->doc->getTitle(); ?></h2><?php endif; ?>

@@ -275,7 +275,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
  | <a href="<?php echo uri(array('controller' => 'files', 'action' => 'show', 'id' => $this->doc->getPageId()), 'id'); ?>">View file</a>
 </p> 
 
-<h2><?php if ($this->doc->getTitle()): ?><?php echo $this->doc->getTitle(); ?><?php else: ?>Untitled<?php endif; ?></h2>
+<?php if ($this->doc->getTitle()): ?><h2><?php echo $this->doc->getTitle(); ?></h2><?php endif; ?>
 
 <?php if ($this->scripto->canExport()): ?>
 <div><?php echo $this->formButton('scripto-transcription-document-export', 'Export document', array('style' => 'display:inline; float:none;')); ?></div>
