@@ -166,7 +166,13 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
      * @return bool True: success; false: fail
      */
     public function importDocumentPageTranscription($documentId, $pageId, $text)
-    {}
+    {
+        $file = $this->_getFile($pageId);
+        $element = $file->getElementByNameAndSetName('Transcription', 'Scripto');
+        $file->deleteElementTextsByElementId(array($element->id));
+        $file->addTextForElement($element, $text);
+        $file->save();
+    }
     
     /**
      * Import an entire document's transcription into Omeka.

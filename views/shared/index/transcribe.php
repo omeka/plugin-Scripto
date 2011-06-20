@@ -219,6 +219,25 @@ jQuery(document).ready(function() {
     });
     
     <?php endif; // end canProtect() ?>
+    <?php if ($this->scripto->canExport()): ?>
+    
+    jQuery('#scripto-transcription-page-export').click(function() {
+        jQuery(this).prop('disabled', true).text('Exporting...');
+        jQuery.post(
+            <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
+            {
+                page_action: 'export', 
+                page: 'transcription', 
+                item_id: <?php echo js_escape($this->doc->getId()); ?>, 
+                file_id: <?php echo js_escape($this->doc->getPageId()); ?>
+            }, 
+            function(data) {
+                jQuery('#scripto-transcription-page-export').prop('disabled', false).text('Export');
+            }
+        );
+    });
+    
+    <?php endif; // end canExport() ?>
 });
 </script>
 <h1><?php echo'Scripto | Transcribe'; ?></h1>
@@ -236,9 +255,8 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 <a href="<?php echo uri('scripto/login'); ?>">Log into Scripto</a>
 <?php endif; ?>
  | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a> 
- | <a href="<?php echo uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id'); ?>">View item</a>
- | <a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 0), 'scripto_history'); ?>">Transcription history</a> 
- | <a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 1), 'scripto_history'); ?>">Discussion history</a> 
+ | <a href="<?php echo uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id'); ?>">View item</a> 
+ | <a href="<?php echo uri(array('controller' => 'files', 'action' => 'show', 'id' => $this->doc->getPageId()), 'id'); ?>">View file</a>
 </p> 
 
 <h2><?php if ($this->doc->getTitle()): ?><?php echo $this->doc->getTitle(); ?><?php else: ?>Untitled<?php endif; ?></h2>
@@ -251,8 +269,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 <p>
 <?php if (isset($this->paginationUrls['previous'])): ?><a href="<?php echo $this->paginationUrls['previous']; ?>">&#171; previous page</a><?php else: ?>&#171; previous page<?php endif; ?>
  | <?php if (isset($this->paginationUrls['next'])): ?><a href="<?php echo $this->paginationUrls['next']; ?>">next page &#187;</a><?php else: ?>next page &#187;<?php endif; ?>
- | <a href="#" id="scripto-page-show"></a> 
- | <a href="http://www.mediawiki.org/wiki/Help:Formatting" target="_blank">wiki formatting help</a>
+ | <a href="#" id="scripto-page-show"></a>
 </p>
 
 <!-- transcription -->
@@ -262,16 +279,21 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
         <div><?php echo $this->formTextarea('scripto-transcription-page-wikitext', $this->doc->getTranscriptionPageWikitext(), array('cols' => '76', 'rows' => '16')); ?></div>
         <div>
             <?php echo $this->formButton('scripto-transcription-page-edit', 'Edit transcription', array('style' => 'display:inline; float:none;')); ?> 
-            <?php if ($this->scripto->isLoggedIn()): ?><?php echo $this->formButton('scripto-page-watch'); ?> <?php endif; ?>
-            <?php if ($this->scripto->canProtect()): ?><?php echo $this->formButton('scripto-transcription-page-protect'); ?> <?php endif; ?>
         </div>
+        <p><a href="http://www.mediawiki.org/wiki/Help:Formatting" target="_blank">wiki formatting help</a></p>
     </div><!-- #scripto-transcription-edit -->
     <?php else: ?>
     <p>You don't have permission to transcribe this page.</p>
     <?php endif; ?>
     <h2>Current Transcription
     <?php if ($this->doc->canEditTranscriptionPage()): ?> [<a href="#" id="scripto-transcription-edit-show">edit</a>]<?php endif; ?> 
-    <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTranscriptionPageMediawikiUrl(); ?>">wiki</a>]<?php endif; ?></h2>
+    <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTranscriptionPageMediawikiUrl(); ?>">wiki</a>]<?php endif; ?> 
+    [<a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 0), 'scripto_history'); ?>">history</a>]</h2>
+    <div>
+        <?php if ($this->scripto->isLoggedIn()): ?><?php echo $this->formButton('scripto-page-watch'); ?> <?php endif; ?>
+        <?php if ($this->scripto->canProtect()): ?><?php echo $this->formButton('scripto-transcription-page-protect'); ?> <?php endif; ?>
+        <?php if ($this->scripto->canExport()): ?><?php echo $this->formButton('scripto-transcription-page-export', 'Export', array('style' => 'display:inline; float:none;')); ?><?php endif; ?>
+    </div>
     <div id="scripto-transcription-page-html"><?php echo $this->transcriptionPageHtml; ?></div>
 </div><!-- #scripto-transcription -->
 
@@ -282,15 +304,19 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
         <div><?php echo $this->formTextarea('scripto-talk-page-wikitext', $this->doc->getTalkPageWikitext(), array('cols' => '76', 'rows' => '16')); ?></div>
         <div>
             <?php echo $this->formButton('scripto-talk-page-edit', 'Edit discussion', array('style' => 'display:inline; float:none;')); ?> 
-            <?php if ($this->scripto->canProtect()): ?><?php echo $this->formButton('scripto-talk-page-protect'); ?> <?php endif; ?>
         </div>
+        <p><a href="http://www.mediawiki.org/wiki/Help:Formatting" target="_blank">wiki formatting help</a></p>
     </div><!-- #scripto-talk-edit -->
     <?php else: ?>
     <p>You don't have permission to discuss this page.</p>
     <?php endif; ?>
     <h2>Current Discussion
     <?php if ($this->doc->canEditTalkPage()): ?> [<a href="#" id="scripto-talk-edit-show">edit</a>]<?php endif; ?> 
-    <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTalkPageMediawikiUrl(); ?>">wiki</a>]<?php endif; ?></h2>
+    <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTalkPageMediawikiUrl(); ?>">wiki</a>]<?php endif; ?>
+    [<a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 1), 'scripto_history'); ?>">history</a>]</h2>
+    <div>
+        <?php if ($this->scripto->canProtect()): ?><?php echo $this->formButton('scripto-talk-page-protect'); ?> <?php endif; ?>
+    </div>
     <div id="scripto-talk-page-html"><?php echo $this->talkPageHtml; ?></div>
 </div><!-- #scripto-talk -->
 
