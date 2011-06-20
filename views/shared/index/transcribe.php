@@ -96,15 +96,15 @@ jQuery(document).ready(function() {
     
     // Handle default un/watch page.
     <?php if ($this->doc->isWatchedPage()): ?>
-    jQuery('#scripto-page-watch').text('Unwatch').css('float', 'none');
+    jQuery('#scripto-page-watch').text('Unwatch page').css('float', 'none');
     <?php else: ?>
-    jQuery('#scripto-page-watch').text('Watch').css('float', 'none');
+    jQuery('#scripto-page-watch').text('Watch page').css('float', 'none');
     <?php endif; ?>
     
     // Handle un/watch page.
     jQuery('#scripto-page-watch').click(function() {
-        if ('Watch' == jQuery(this).text()) {
-            jQuery(this).prop('disabled', true).text('Watching...');
+        if ('Watch page' == jQuery(this).text()) {
+            jQuery(this).prop('disabled', true).text('Watching page...');
             jQuery.post(
                 <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
                 {
@@ -114,11 +114,11 @@ jQuery(document).ready(function() {
                     file_id: <?php echo js_escape($this->doc->getPageId()); ?>
                 }, 
                 function(data) {
-                    jQuery('#scripto-page-watch').prop('disabled', false).text('Unwatch');
+                    jQuery('#scripto-page-watch').prop('disabled', false).text('Unwatch page');
                 }
             );
         } else {
-            jQuery(this).prop('disabled', true).text('Unwatching...');
+            jQuery(this).prop('disabled', true).text('Unwatching page...');
             jQuery.post(
                 <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
                 {
@@ -128,7 +128,7 @@ jQuery(document).ready(function() {
                     file_id: <?php echo js_escape($this->doc->getPageId()); ?>
                 }, 
                 function(data) {
-                    jQuery('#scripto-page-watch').prop('disabled', false).text('Watch');
+                    jQuery('#scripto-page-watch').prop('disabled', false).text('Watch page');
                 }
             );
         }
@@ -140,14 +140,14 @@ jQuery(document).ready(function() {
     
     // Handle default un/protect transcription page.
     <?php if ($this->doc->isProtectedTranscriptionPage()): ?>
-    jQuery('#scripto-transcription-page-protect').text('Unprotect').css('float', 'none');
+    jQuery('#scripto-transcription-page-protect').text('Unprotect page').css('float', 'none');
     <?php else: ?>
-    jQuery('#scripto-transcription-page-protect').text('Protect').css('float', 'none');
+    jQuery('#scripto-transcription-page-protect').text('Protect page').css('float', 'none');
     <?php endif; ?>
     
     // Handle un/protect transcription page.
     jQuery('#scripto-transcription-page-protect').click(function() {
-        if ('Protect' == jQuery(this).text()) {
+        if ('Protect page' == jQuery(this).text()) {
             jQuery(this).prop('disabled', true).text('Protecting...');
             jQuery.post(
                 <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
@@ -158,11 +158,11 @@ jQuery(document).ready(function() {
                     file_id: <?php echo js_escape($this->doc->getPageId()); ?>
                 }, 
                 function(data) {
-                    jQuery('#scripto-transcription-page-protect').prop('disabled', false).text('Unprotect');
+                    jQuery('#scripto-transcription-page-protect').prop('disabled', false).text('Unprotect page');
                 }
             );
         } else {
-            jQuery(this).prop('disabled', true).text('Unprotecting...');
+            jQuery(this).prop('disabled', true).text('Unprotecting page...');
             jQuery.post(
                 <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
                 {
@@ -172,7 +172,7 @@ jQuery(document).ready(function() {
                     file_id: <?php echo js_escape($this->doc->getPageId()); ?>
                 }, 
                 function(data) {
-                    jQuery('#scripto-transcription-page-protect').prop('disabled', false).text('Protect');
+                    jQuery('#scripto-transcription-page-protect').prop('disabled', false).text('Protect page');
                 }
             );
         }
@@ -180,15 +180,15 @@ jQuery(document).ready(function() {
     
     // Handle default un/protect talk page.
     <?php if ($this->doc->isProtectedTalkPage()): ?>
-    jQuery('#scripto-talk-page-protect').text('Unprotect').css('float', 'none');
+    jQuery('#scripto-talk-page-protect').text('Unprotect page').css('float', 'none');
     <?php else: ?>
-    jQuery('#scripto-talk-page-protect').text('Protect').css('float', 'none');
+    jQuery('#scripto-talk-page-protect').text('Protect page').css('float', 'none');
     <?php endif; ?>
     
     // Handle un/protect talk page.
     jQuery('#scripto-talk-page-protect').click(function() {
-        if ('Protect' == jQuery(this).text()) {
-            jQuery(this).prop('disabled', true).text('Protecting...');
+        if ('Protect page' == jQuery(this).text()) {
+            jQuery(this).prop('disabled', true).text('Protecting page...');
             jQuery.post(
                 <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
                 {
@@ -198,11 +198,11 @@ jQuery(document).ready(function() {
                     file_id: <?php echo js_escape($this->doc->getPageId()); ?>
                 }, 
                 function(data) {
-                    jQuery('#scripto-talk-page-protect').prop('disabled', false).text('Unprotect');
+                    jQuery('#scripto-talk-page-protect').prop('disabled', false).text('Unprotect page');
                 }
             );
         } else {
-            jQuery(this).prop('disabled', true).text('Unprotecting...');
+            jQuery(this).prop('disabled', true).text('Unprotecting page...');
             jQuery.post(
                 <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
                 {
@@ -212,7 +212,7 @@ jQuery(document).ready(function() {
                     file_id: <?php echo js_escape($this->doc->getPageId()); ?>
                 }, 
                 function(data) {
-                    jQuery('#scripto-talk-page-protect').prop('disabled', false).text('Protect');
+                    jQuery('#scripto-talk-page-protect').prop('disabled', false).text('Protect page');
                 }
             );
         }
@@ -222,17 +222,33 @@ jQuery(document).ready(function() {
     <?php if ($this->scripto->canExport()): ?>
     
     jQuery('#scripto-transcription-page-export').click(function() {
-        jQuery(this).prop('disabled', true).text('Exporting...');
+        jQuery(this).prop('disabled', true).text('Exporting page...');
         jQuery.post(
             <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
             {
-                page_action: 'export', 
+                page_action: 'export-page', 
                 page: 'transcription', 
                 item_id: <?php echo js_escape($this->doc->getId()); ?>, 
                 file_id: <?php echo js_escape($this->doc->getPageId()); ?>
             }, 
             function(data) {
-                jQuery('#scripto-transcription-page-export').prop('disabled', false).text('Export');
+                jQuery('#scripto-transcription-page-export').prop('disabled', false).text('Export page');
+            }
+        );
+    });
+    
+    jQuery('#scripto-transcription-document-export').click(function() {
+        jQuery(this).prop('disabled', true).text('Exporting document...');
+        jQuery.post(
+            <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
+            {
+                page_action: 'export-document', 
+                page: 'transcription', 
+                item_id: <?php echo js_escape($this->doc->getId()); ?>, 
+                file_id: <?php echo js_escape($this->doc->getPageId()); ?>
+            }, 
+            function(data) {
+                jQuery('#scripto-transcription-document-export').prop('disabled', false).text('Export document');
             }
         );
     });
@@ -260,6 +276,11 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 </p> 
 
 <h2><?php if ($this->doc->getTitle()): ?><?php echo $this->doc->getTitle(); ?><?php else: ?>Untitled<?php endif; ?></h2>
+
+<?php if ($this->scripto->canExport()): ?>
+<div><?php echo $this->formButton('scripto-transcription-document-export', 'Export document', array('style' => 'display:inline; float:none;')); ?></div>
+<?php endif; ?>
+
 <h3><?php echo $this->doc->getPageName(); ?></h3>
 
 <!-- document viewer -->
@@ -292,7 +313,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <div>
         <?php if ($this->scripto->isLoggedIn()): ?><?php echo $this->formButton('scripto-page-watch'); ?> <?php endif; ?>
         <?php if ($this->scripto->canProtect()): ?><?php echo $this->formButton('scripto-transcription-page-protect'); ?> <?php endif; ?>
-        <?php if ($this->scripto->canExport()): ?><?php echo $this->formButton('scripto-transcription-page-export', 'Export', array('style' => 'display:inline; float:none;')); ?><?php endif; ?>
+        <?php if ($this->scripto->canExport()): ?><?php echo $this->formButton('scripto-transcription-page-export', 'Export page', array('style' => 'display:inline; float:none;')); ?><?php endif; ?>
     </div>
     <div id="scripto-transcription-page-html"><?php echo $this->transcriptionPageHtml; ?></div>
 </div><!-- #scripto-transcription -->

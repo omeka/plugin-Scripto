@@ -182,7 +182,13 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
      * @return bool True: success; false: fail
      */
     public function importDocumentTranscription($documentId, $text)
-    {}
+    {
+        $item = $this->_getItem($documentId);
+        $element = $item->getElementByNameAndSetName('Transcription', 'Scripto');
+        $item->deleteElementTextsByElementId(array($element->id));
+        $item->addTextForElement($element, $text);
+        $item->save();
+    }
     
     /**
      * Return an Omeka item object.

@@ -231,7 +231,8 @@ class Scripto_IndexController extends Omeka_Controller_Action
         }
         
         // Only allow valid page actions.
-        $pageActions = array('edit', 'watch', 'unwatch', 'protect', 'unprotect', 'export');
+        $pageActions = array('edit', 'watch', 'unwatch', 'protect', 'unprotect', 
+                             'export-page', 'export-document');
         if (!in_array($this->_getParam('page_action'), $pageActions)) {
             $this->getResponse()->setHttpResponseCode(400);
             return;
@@ -273,8 +274,11 @@ class Scripto_IndexController extends Omeka_Controller_Action
                         $doc->unprotectTranscriptionPage();
                     }
                     break;
-                case 'export':
+                case 'export-page':
                     $doc->exportPage();
+                    break;
+                case 'export-document':
+                    $doc->export();
                     break;
                 default:
                     $this->getResponse()->setHttpResponseCode(500);
