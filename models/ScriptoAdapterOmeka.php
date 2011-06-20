@@ -170,7 +170,11 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         $file = $this->_getFile($pageId);
         $element = $file->getElementByNameAndSetName('Transcription', 'Scripto');
         $file->deleteElementTextsByElementId(array($element->id));
-        $file->addTextForElement($element, $text);
+        $isHtml = false;
+        if ('html' == get_option('scripto_export_type')) {
+            $isHtml = true;
+        }
+        $file->addTextForElement($element, $text, $isHtml);
         $file->save();
     }
     
@@ -186,7 +190,11 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         $item = $this->_getItem($documentId);
         $element = $item->getElementByNameAndSetName('Transcription', 'Scripto');
         $item->deleteElementTextsByElementId(array($element->id));
-        $item->addTextForElement($element, $text);
+        $isHtml = false;
+        if ('html' == get_option('scripto_export_type')) {
+            $isHtml = true;
+        }
+        $item->addTextForElement($element, $text, $isHtml);
         $item->save();
     }
     

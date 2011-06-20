@@ -275,10 +275,10 @@ class Scripto_IndexController extends Omeka_Controller_Action
                     }
                     break;
                 case 'export-page':
-                    $doc->exportPage();
+                    $doc->exportPage(get_option('scripto_export_type'));
                     break;
                 case 'export-document':
-                    $doc->export();
+                    $doc->export(get_option('scripto_export_type'));
                     break;
                 default:
                     $this->getResponse()->setHttpResponseCode(500);

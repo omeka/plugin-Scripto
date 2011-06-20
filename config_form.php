@@ -25,7 +25,8 @@ first to last page.</p>
         <p class="explanation">Use the <a href="http://openlayers.org/">OpenLayers</a> 
         image viewer when transcribing image files? (Highly recommended.)</p>
     </div>
-</div><div class="field">
+</div>
+<div class="field">
     <label for="scripto_use_google_docs_viewer">Use Google Docs Viewer?</label>
         <div class="inputs">
         <?php echo __v()->formCheckbox('scripto_use_google_docs_viewer', null, array('checked' => (bool) $useGoogleDocsViewer)); ?>
@@ -34,5 +35,14 @@ first to last page.</p>
         files. By using this service you acknowledge that you have read and 
         agreed to the <a href="http://docs.google.com/viewer/TOS?hl=en">Google 
         Docs Viewer Terms of Service</a>.</p>
+    </div>
+</div>
+<div class="field">
+    <label for="scripto_export_type">Export type?</label>
+        <div class="inputs">
+        <?php echo __v()->formRadio('scripto_export_type', $exportType, null, array('html' => 'HTML', 'plain_text' => 'plain text'), null); ?>
+        <p class="explanation">Export transcriptions as HTML or plain text? 
+        Exporting will copy document and page transcriptions from MediaWiki to 
+        their corresponding items and files in Omeka.</p>
     </div>
 </div>

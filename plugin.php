@@ -186,6 +186,10 @@ class ScriptoPlugin
         if (is_null($useGoogleDocsViewer)) {
             $useGoogleDocsViewer = 0;
         }
+        $exportType = get_option('scripto_export_type');
+        if (is_null($exportType)) {
+            $exportType = 'html';
+        }
         include 'config_form.php';
     }
     
@@ -203,6 +207,7 @@ class ScriptoPlugin
         set_option('scripto_mediawiki_db_name', $_POST['scripto_mediawiki_db_name']);
         set_option('scripto_use_openlayers', $_POST['scripto_use_openlayers']);
         set_option('scripto_use_google_docs_viewer', $_POST['scripto_use_google_docs_viewer']);
+        set_option('scripto_export_type', $_POST['scripto_export_type']);
     }
     
     /**
