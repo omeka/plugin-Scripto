@@ -1,9 +1,9 @@
 <p>This plugin requires you to download and install <a href="http://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a>, 
 a popular free web-based wiki software application that Scripto uses to manage 
-transcription data. Once you have successfully installed MediaWiki, you can 
-complete the following form and install the plugin.</p>
-<p>This plugin will assume files belonging to an item are in logical order, 
-first to last page.</p>
+user and transcription data. Once you have successfully installed MediaWiki, you 
+can complete the following form and install the plugin.</p>
+<p>Scripto will assume files belonging to an item are in logical order, first to 
+last page.</p>
 <div class="field">
     <label for="scripto_mediawiki_api_url" class="required">MediaWiki API URL</label>
         <div class="inputs">
@@ -53,7 +53,7 @@ first to last page.</p>
         <div class="inputs">
         <?php echo __v()->formTextarea('scripto_home_page_text', get_option('scripto_home_page_text'), array('cols' => '64', 'rows' => '12')); ?>
         <p class="explanation">Enter text that will appear on the Scripto home 
-        page. Use this to make custom messages to your users, such as 
+        page. Use this to display custom messages to your users, such as 
         instructions on how to use Scripto and how to register for a MediaWiki 
         account. Default text will appear if nothing is entered. You may use 
         HTML. (Wrapping &lt;p&gt;&lt;/p&gt; tags recommended.)</p>
