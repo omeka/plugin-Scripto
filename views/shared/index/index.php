@@ -21,6 +21,9 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
 
 <!-- your contributions -->
 <?php if (!$this->scripto->isLoggedIn()): ?>
+<?php if ($this->homePageText): ?>
+<?php echo $this->homePageText ?>
+<?php else: ?>
 <h2>Welcome to Scripto!</h2>
 <p>By using this plugin you are helping to transcribe items 
 in <i><?php echo settings('site_title'); ?></i>. All items with files can be 
@@ -31,6 +34,7 @@ files are its <em>pages</em>. To begin transcribing documents,
 to Scripto. You may <a href="<?php echo uri('scripto/login'); ?>">log in</a> to 
 access your account and enable certain Scripto features. Login may not be 
 required by the administrator.</p>
+<?php endif; ?>
 <?php else: ?>
 <?php if (empty($this->documentPages)): ?>
 <p>You have no contributions.</p>

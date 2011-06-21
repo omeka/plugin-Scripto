@@ -42,6 +42,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
         
         $this->view->scripto = $scripto;
         $this->view->documentPages = $documentPages;
+        $this->view->homePageText = trim(get_option('scripto_home_page_text'));
     }
     
     /**

@@ -149,6 +149,8 @@ class ScriptoPlugin
         delete_option('scripto_mediawiki_db_name');
         delete_option('scripto_use_openlayers');
         delete_option('scripto_use_google_docs_viewer');
+        delete_option('scripto_export_type');
+        delete_option('scripto_home_page_text');
     }
     
     /**
@@ -208,6 +210,7 @@ class ScriptoPlugin
         set_option('scripto_use_openlayers', $_POST['scripto_use_openlayers']);
         set_option('scripto_use_google_docs_viewer', $_POST['scripto_use_google_docs_viewer']);
         set_option('scripto_export_type', $_POST['scripto_export_type']);
+        set_option('scripto_home_page_text', $_POST['scripto_home_page_text']);
     }
     
     /**

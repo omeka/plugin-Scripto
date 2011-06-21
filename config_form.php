@@ -15,8 +15,8 @@ first to last page.</p>
     <label for="scripto_mediawiki_db_name">MediaWiki database name</label>
         <div class="inputs">
         <?php echo __v()->formText('scripto_mediawiki_db_name', get_option('scripto_mediawiki_db_name')); ?>
-        <p class="explanation">Name of your MediaWiki database. No changes to 
-        the database will be made. This is required to log in to Scripto.</p>
+        <p class="explanation">Name of your MediaWiki database. This is required 
+        to log in to Scripto.</p>
     </div>
 </div>
 <div class="field">
@@ -39,11 +39,23 @@ first to last page.</p>
     </div>
 </div>
 <div class="field">
-    <label for="scripto_export_type">Export type?</label>
+    <label for="scripto_export_type">Export type</label>
         <div class="inputs">
         <?php echo __v()->formRadio('scripto_export_type', $exportType, null, array('html' => 'HTML', 'plain_text' => 'plain text'), null); ?>
         <p class="explanation">Export transcriptions as HTML or plain text? 
         Exporting will copy document and page transcriptions from MediaWiki to 
-        their corresponding items and files in Omeka.</p>
+        their corresponding items and files in Omeka. Choose HTML if you want to 
+        preserve formatting. Choose plain text if formatting is not important.</p>
+    </div>
+</div>
+<div class="field">
+    <label for="scripto_home_page_text">Home page text</label>
+        <div class="inputs">
+        <?php echo __v()->formTextarea('scripto_home_page_text', get_option('scripto_home_page_text'), array('cols' => '64', 'rows' => '12')); ?>
+        <p class="explanation">Enter text that will appear on the Scripto home 
+        page. Use this to make custom messages to your users, such as 
+        instructions on how to use Scripto and how to register for a MediaWiki 
+        account. Default text will appear if nothing is entered. You may use 
+        HTML. (Wrapping &lt;p&gt;&lt;/p&gt; tags recommended.)</p>
     </div>
 </div>
