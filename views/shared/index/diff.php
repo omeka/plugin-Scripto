@@ -23,7 +23,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 (<a href="<?php echo uri('scripto/index/logout'); ?>">logout</a>) 
  | <a href="<?php echo uri('scripto/watchlist'); ?>">Your watchlist</a> 
 <?php else: ?>
-<a href="<?php echo uri('scripto/index/login'); ?>">Log into Scripto</a>
+<a href="<?php echo uri('scripto/index/login'); ?>">Log in to Scripto</a>
 <?php endif; ?>
  | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a> 
  | <a href="<?php echo uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id'); ?>">View item</a>

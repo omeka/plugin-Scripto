@@ -14,7 +14,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 (<a href="<?php echo uri('scripto/logout'); ?>">logout</a>) 
  | <a href="<?php echo uri('scripto/watchlist'); ?>">Your watchlist</a> 
 <?php else: ?>
-<a href="<?php echo uri('scripto/login'); ?>">Log into Scripto</a>
+<a href="<?php echo uri('scripto/login'); ?>">Log in to Scripto</a>
 <?php endif; ?>
 </p>
 
