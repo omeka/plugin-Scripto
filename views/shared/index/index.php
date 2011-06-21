@@ -36,10 +36,10 @@ access your account and enable certain Scripto features. Login may not be
 required by the administrator.</p>
 <?php endif; ?>
 <?php else: ?>
+<h2>Your Contributions</h2>
 <?php if (empty($this->documentPages)): ?>
 <p>You have no contributions.</p>
 <?php else: ?>
-<h2>Your Contributions</h2>
 <table>
     <thead>
     <tr>
