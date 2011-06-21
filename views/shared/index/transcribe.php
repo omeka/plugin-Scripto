@@ -275,12 +275,8 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
  | <a href="<?php echo uri(array('controller' => 'files', 'action' => 'show', 'id' => $this->doc->getPageId()), 'id'); ?>">View file</a>
 </p> 
 
-<?php if ($this->doc->getTitle()): ?><h2><?php echo $this->doc->getTitle(); ?></h2><?php endif; ?>
-
-<?php if ($this->scripto->canExport()): ?>
-<div><?php echo $this->formButton('scripto-transcription-document-export', 'Export document', array('style' => 'display:inline; float:none;')); ?></div>
-<?php endif; ?>
-
+<h2><?php if ($this->doc->getTitle()): ?><?php echo $this->doc->getTitle(); ?><?php else: ?>Untitled Document<?php endif; ?></h2>
+<?php if ($this->scripto->canExport()): ?><div><?php echo $this->formButton('scripto-transcription-document-export', 'Export document', array('style' => 'display:inline; float:none;')); ?></div><?php endif; ?>
 <h3><?php echo $this->doc->getPageName(); ?></h3>
 
 <!-- document viewer -->
@@ -306,7 +302,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <?php else: ?>
     <p>You don't have permission to transcribe this page.</p>
     <?php endif; ?>
-    <h2>Current Transcription
+    <h2>Current Page Transcription
     <?php if ($this->doc->canEditTranscriptionPage()): ?> [<a href="#" id="scripto-transcription-edit-show">edit</a>]<?php endif; ?> 
     <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTranscriptionPageMediawikiUrl(); ?>">wiki</a>]<?php endif; ?> 
     [<a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 0), 'scripto_history'); ?>">history</a>]</h2>
@@ -331,7 +327,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <?php else: ?>
     <p>You don't have permission to discuss this page.</p>
     <?php endif; ?>
-    <h2>Current Discussion
+    <h2>Current Page Discussion
     <?php if ($this->doc->canEditTalkPage()): ?> [<a href="#" id="scripto-talk-edit-show">edit</a>]<?php endif; ?> 
     <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTalkPageMediawikiUrl(); ?>">wiki</a>]<?php endif; ?>
     [<a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 1), 'scripto_history'); ?>">history</a>]</h2>

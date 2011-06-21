@@ -1,5 +1,5 @@
 <?php
-$head = array('title' => html_escape('Scripto | Revision Difference'));
+$head = array('title' => html_escape('Scripto'));
 head($head);
 ?>
 <style type="text/css">
@@ -28,12 +28,12 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
  | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a> 
  | <a href="<?php echo uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id'); ?>">View item</a>
  | <a href="<?php echo uri(array('controller' => 'files', 'action' => 'show', 'id' => $this->doc->getPageId()), 'id'); ?>">View file</a>
- | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">Transcribe</a>
- | <a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => $this->namespaceIndex), 'scripto_history'); ?>">History</a>
+ | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">Transcribe page</a>
+ | <a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => $this->namespaceIndex), 'scripto_history'); ?>">View history</a>
 </p> 
 
-<?php if ($this->doc->getTitle()): ?><h2><?php echo $this->doc->getTitle(); ?></h2><?php endif; ?>
-<h3><?php if (1 == $this->namespaceIndex): ?>Talk: <?php endif; ?><?php echo $this->doc->getPageName(); ?></h3>
+<h2><?php if (1 == $this->namespaceIndex): ?>Discussion<?php else: ?>Transcription<?php endif; ?> Revision Difference</h2>
+<h3><?php echo $this->doc->getPageName(); ?></h3>
 
 <!-- difference -->
 <?php

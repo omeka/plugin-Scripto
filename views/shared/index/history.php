@@ -1,5 +1,5 @@
 <?php
-$head = array('title' => html_escape('Scripto | Page History'));
+$head = array('title' => html_escape('Scripto'));
 head($head);
 ?>
 <h1><?php echo $head['title']; ?></h1>
@@ -19,11 +19,11 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
  | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a> 
  | <a href="<?php echo uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id'); ?>">View item</a>
  | <a href="<?php echo uri(array('controller' => 'files', 'action' => 'show', 'id' => $this->doc->getPageId()), 'id'); ?>">View file</a>
- | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">Transcribe</a>
+ | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">Transcribe page</a>
 </p>
 
-<?php if ($this->doc->getTitle()): ?><h2><?php echo $this->doc->getTitle(); ?></h2><?php endif; ?>
-<h3><?php if (1 == $this->namespace_index): ?>Talk: <?php endif; ?><?php echo $this->doc->getPageName(); ?></h3>
+<h2><?php if (1 == $this->namespaceIndex): ?>Discussion<?php else: ?>Transcription<?php endif; ?> Page History</h2>
+<h3><?php echo $this->doc->getPageName(); ?></h3>
 
 <!-- page history -->
 <?php if (empty($this->history)): ?>

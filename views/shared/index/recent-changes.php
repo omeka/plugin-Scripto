@@ -1,5 +1,5 @@
 <?php
-$head = array('title' => html_escape('Scripto | Recent Changes'));
+$head = array('title' => html_escape('Scripto'));
 head($head);
 ?>
 <h1><?php echo $head['title']; ?></h1>
@@ -19,6 +19,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 </p>
 
 <!-- recent changes -->
+<h2>Recent Changes</h2>
 <?php if (empty($this->recentChanges)): ?>
 <p>There are no recent changes.</p>
 <?php else: ?>

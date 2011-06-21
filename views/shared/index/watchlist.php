@@ -1,5 +1,5 @@
 <?php
-$head = array('title' => html_escape('Scripto | Watchlist'));
+$head = array('title' => html_escape('Scripto'));
 head($head);
 ?>
 <h1><?php echo $head['title']; ?></h1>
@@ -15,6 +15,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 </p>
 
 <!-- watchlist -->
+<h2>Your Watchlist</h2>
 <?php if (empty($this->watchlist)): ?>
 <p>There are no document pages in your watchlist.</p>
 <?php else: ?>
