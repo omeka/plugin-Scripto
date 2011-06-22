@@ -11,12 +11,12 @@ head($head);
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
 Logged in as <?php echo $this->scripto->getUserName(); ?> 
-(<a href="<?php echo uri('scripto/logout'); ?>">logout</a>) 
- | <a href="<?php echo uri('scripto/watchlist'); ?>">Your watchlist</a> 
+(<a href="<?php echo html_escape(uri('scripto/logout')); ?>">logout</a>) 
+ | <a href="<?php echo html_escape(uri('scripto/watchlist')); ?>">Your watchlist</a> 
 <?php else: ?>
-<a href="<?php echo uri('scripto/login'); ?>">Log in to Scripto</a> 
+<a href="<?php echo html_escape(uri('scripto/login')); ?>">Log in to Scripto</a> 
 <?php endif; ?>
- | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a>
+ | <a href="<?php echo html_escape(uri('scripto/recent-changes')); ?>">Recent changes</a>
 </p>
 
 <!-- your contributions -->
@@ -29,9 +29,9 @@ Logged in as <?php echo $this->scripto->getUserName(); ?>
 in <i><?php echo settings('site_title'); ?></i>. All items with files can be 
 transcribed. For these purposes an item is a <em>document</em>, and an item's 
 files are its <em>pages</em>. To begin transcribing documents, 
-<a href="<?php echo uri('items'); ?>">browse items</a> or 
-<a href="<?php echo uri('scripto/recent-changes'); ?>">view recent changes</a> 
-to Scripto. You may <a href="<?php echo uri('scripto/login'); ?>">log in</a> to 
+<a href="<?php echo html_escape(uri('items')); ?>">browse items</a> or 
+<a href="<?php echo html_escape(uri('scripto/recent-changes')); ?>">view recent changes</a> 
+to Scripto. You may <a href="<?php echo html_escape(uri('scripto/login')); ?>">log in</a> to 
 access your account and enable certain Scripto features. Login may not be 
 required by the administrator.</p>
 <?php endif; ?>
@@ -73,9 +73,9 @@ required by the administrator.</p>
     ), 'id');
     ?>
     <tr>
-        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $documentPage['namespace_index']): ?>Talk: <?php endif; ?><?php echo $documentPageName; ?></a></td>
+        <td><a href="<?php echo html_escape($urlTranscribe); ?>"><?php if (1 == $documentPage['namespace_index']): ?>Talk: <?php endif; ?><?php echo $documentPageName; ?></a></td>
         <td><?php echo gmdate('H:i:s M d, Y', strtotime($documentPage['timestamp'])); ?></td>
-        <td><a href="<?php echo $urlItem; ?>"><?php echo $documentTitle; ?></a></td>
+        <td><a href="<?php echo html_escape($urlItem); ?>"><?php echo $documentTitle; ?></a></td>
     </tr>
     <?php endforeach; ?>
     </tbody>

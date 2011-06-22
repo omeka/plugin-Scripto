@@ -9,9 +9,9 @@ head($head);
 <div id="scripto-watchlist" class="scripto">
 <!-- navigation -->
 <p>
-Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
-(<a href="<?php echo uri('scripto/logout'); ?>">logout</a>) 
- | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a>
+Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
+(<a href="<?php echo html_escape(uri('scripto/logout')); ?>">logout</a>) 
+ | <a href="<?php echo html_escape(uri('scripto/recent-changes')); ?>">Recent changes</a>
 </p>
 
 <!-- watchlist -->
@@ -47,7 +47,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
         'file-id' => $revision['document_page_id'], 
         'namespace-index' => $revision['namespace_index'], 
     ), 'scripto_history');
-    $changes .= " (<a href=\"$urlHistory\">hist</a>)";
+    $changes .= ' (<a href="' . html_escape($urlHistory) . '">hist</a>)';
     
     // document page name
     $documentPageName = ScriptoPlugin::truncate($revision['document_page_name'], 30);
@@ -78,11 +78,11 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     ?>
     <tr>
         <td><?php echo $changes; ?></td>
-        <td><a href="<?php echo $urlTranscribe; ?>"><?php if ('Talk' == $revision['namespace_name']): ?>Talk: <?php endif; ?><?php echo $documentPageName; ?></a></td>
+        <td><a href="<?php echo html_escape($urlTranscribe); ?>"><?php if ('Talk' == $revision['namespace_name']): ?>Talk: <?php endif; ?><?php echo $documentPageName; ?></a></td>
         <td><?php echo date('H:i:s M d, Y', strtotime($revision['timestamp'])); ?></td>
         <td><?php echo $lengthChanged; ?></td>
         <td><?php echo $revision['user']; ?></td>
-        <td><a href="<?php echo $urlItem; ?>"><?php echo $documentTitle; ?></a></td>
+        <td><a href="<?php echo html_escape($urlItem); ?>"><?php echo $documentTitle; ?></a></td>
     </tr>
     <?php endforeach; ?>
     </tbody>

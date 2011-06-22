@@ -264,15 +264,15 @@ jQuery(document).ready(function() {
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
-Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
-(<a href="<?php echo uri('scripto/logout'); ?>">logout</a>) 
- | <a href="<?php echo uri('scripto/watchlist'); ?>">Your watchlist</a> 
+Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
+(<a href="<?php echo html_escape(uri('scripto/logout')); ?>">logout</a>) 
+ | <a href="<?php echo html_escape(uri('scripto/watchlist')); ?>">Your watchlist</a> 
 <?php else: ?>
-<a href="<?php echo uri('scripto/login'); ?>">Log in to Scripto</a>
+<a href="<?php echo html_escape(uri('scripto/login')); ?>">Log in to Scripto</a>
 <?php endif; ?>
- | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a> 
- | <a href="<?php echo uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id'); ?>">View item</a> 
- | <a href="<?php echo uri(array('controller' => 'files', 'action' => 'show', 'id' => $this->doc->getPageId()), 'id'); ?>">View file</a>
+ | <a href="<?php echo html_escape(uri('scripto/recent-changes')); ?>">Recent changes</a> 
+ | <a href="<?php echo html_escape(uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id')); ?>">View item</a> 
+ | <a href="<?php echo html_escape(uri(array('controller' => 'files', 'action' => 'show', 'id' => $this->doc->getPageId()), 'id')); ?>">View file</a>
 </p> 
 
 <h2><?php if ($this->doc->getTitle()): ?><?php echo $this->doc->getTitle(); ?><?php else: ?>Untitled Document<?php endif; ?></h2>
@@ -284,8 +284,8 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
 
 <!-- pagination -->
 <p>
-<?php if (isset($this->paginationUrls['previous'])): ?><a href="<?php echo $this->paginationUrls['previous']; ?>">&#171; previous page</a><?php else: ?>&#171; previous page<?php endif; ?>
- | <?php if (isset($this->paginationUrls['next'])): ?><a href="<?php echo $this->paginationUrls['next']; ?>">next page &#187;</a><?php else: ?>next page &#187;<?php endif; ?>
+<?php if (isset($this->paginationUrls['previous'])): ?><a href="<?php echo html_escape($this->paginationUrls['previous']); ?>">&#171; previous page</a><?php else: ?>&#171; previous page<?php endif; ?>
+ | <?php if (isset($this->paginationUrls['next'])): ?><a href="<?php echo html_escape($this->paginationUrls['next']); ?>">next page &#187;</a><?php else: ?>next page &#187;<?php endif; ?>
  | <a href="#" id="scripto-page-show"></a>
 </p>
 
@@ -304,8 +304,8 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <?php endif; ?>
     <h2>Current Page Transcription
     <?php if ($this->doc->canEditTranscriptionPage()): ?> [<a href="#" id="scripto-transcription-edit-show">edit</a>]<?php endif; ?> 
-    <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTranscriptionPageMediawikiUrl(); ?>">wiki</a>]<?php endif; ?> 
-    [<a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 0), 'scripto_history'); ?>">history</a>]</h2>
+    <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo html_escape($this->doc->getTranscriptionPageMediawikiUrl()); ?>">wiki</a>]<?php endif; ?> 
+    [<a href="<?php echo html_escape(uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 0), 'scripto_history')); ?>">history</a>]</h2>
     <div>
         <?php if ($this->scripto->isLoggedIn()): ?><?php echo $this->formButton('scripto-page-watch'); ?> <?php endif; ?>
         <?php if ($this->scripto->canProtect()): ?><?php echo $this->formButton('scripto-transcription-page-protect'); ?> <?php endif; ?>
@@ -329,8 +329,8 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     <?php endif; ?>
     <h2>Current Page Discussion
     <?php if ($this->doc->canEditTalkPage()): ?> [<a href="#" id="scripto-talk-edit-show">edit</a>]<?php endif; ?> 
-    <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo $this->doc->getTalkPageMediawikiUrl(); ?>">wiki</a>]<?php endif; ?>
-    [<a href="<?php echo uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 1), 'scripto_history'); ?>">history</a>]</h2>
+    <?php if ($this->scripto->canProtect()): ?> [<a href="<?php echo html_escape($this->doc->getTalkPageMediawikiUrl()); ?>">wiki</a>]<?php endif; ?>
+    [<a href="<?php echo html_escape(uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => 1), 'scripto_history')); ?>">history</a>]</h2>
     <div>
         <?php if ($this->scripto->canProtect()): ?><?php echo $this->formButton('scripto-talk-page-protect'); ?> <?php endif; ?>
     </div>

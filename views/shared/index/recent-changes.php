@@ -10,11 +10,11 @@ head($head);
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
-Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
-(<a href="<?php echo uri('scripto/logout'); ?>">logout</a>) 
- | <a href="<?php echo uri('scripto/watchlist'); ?>">Your watchlist</a> 
+Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
+(<a href="<?php echo html_escape(uri('scripto/logout')); ?>">logout</a>) 
+ | <a href="<?php echo html_escape(uri('scripto/watchlist')); ?>">Your watchlist</a> 
 <?php else: ?>
-<a href="<?php echo uri('scripto/login'); ?>">Log in to Scripto</a>
+<a href="<?php echo html_escape(uri('scripto/login')); ?>">Log in to Scripto</a>
 <?php endif; ?>
 </p>
 
@@ -67,9 +67,9 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
             'namespace-index' => $recentChange['namespace_index'], 
         ), 'scripto_history');
         if ($recentChange['new']) {
-            $changes .= " (diff | <a href=\"$urlHistory\">hist</a>)";
+            $changes .= ' (diff | <a href="' . html_escape($urlHistory) . '">hist</a>)';
         } else {
-            $changes .= " (<a href=\"$urlDiff\">diff</a> | <a href=\"$urlHistory\">hist</a>)";
+            $changes .= ' (<a href="' . html_escape($urlDiff) . '">diff</a> | <a href="' . html_escape($urlHistory) . '">hist</a>)';
         }
     }
     
@@ -102,11 +102,11 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
     ?>
     <tr>
         <td><?php echo $changes; ?></td>
-        <td><a href="<?php echo $urlTranscribe; ?>"><?php if (1 == $recentChange['namespace_index']): ?>Talk: <?php endif; ?><?php echo $documentPageName; ?></a></td>
+        <td><a href="<?php echo html_escape($urlTranscribe); ?>"><?php if (1 == $recentChange['namespace_index']): ?>Talk: <?php endif; ?><?php echo $documentPageName; ?></a></td>
         <td><?php echo date('H:i:s M d, Y', strtotime($recentChange['timestamp'])); ?></td>
         <td><?php echo $lengthChanged; ?></td>
         <td><?php echo $recentChange['user']; ?></td>
-        <td><a href="<?php echo $urlItem; ?>"><?php echo $documentTitle; ?></a></td>
+        <td><a href="<?php echo html_escape($urlItem); ?>"><?php echo $documentTitle; ?></a></td>
     </tr>
 <?php endforeach; ?>
     </tbody>

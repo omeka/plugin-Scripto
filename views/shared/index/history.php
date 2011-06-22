@@ -10,16 +10,16 @@ head($head);
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
-Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
-(<a href="<?php echo uri('scripto/logout'); ?>">logout</a>) 
- | <a href="<?php echo uri('scripto/watchlist'); ?>">Your watchlist</a> 
+Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
+(<a href="<?php echo html_escape(uri('scripto/logout')); ?>">logout</a>) 
+ | <a href="<?php echo html_escape(uri('scripto/watchlist')); ?>">Your watchlist</a> 
 <?php else: ?>
-<a href="<?php echo uri('scripto/login'); ?>">Log in to Scripto</a>
+<a href="<?php echo html_escape(uri('scripto/login')); ?>">Log in to Scripto</a>
 <?php endif; ?>
- | <a href="<?php echo uri('scripto/recent-changes'); ?>">Recent changes</a> 
- | <a href="<?php echo uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id'); ?>">View item</a>
- | <a href="<?php echo uri(array('controller' => 'files', 'action' => 'show', 'id' => $this->doc->getPageId()), 'id'); ?>">View file</a>
- | <a href="<?php echo uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file'); ?>">Transcribe page</a>
+ | <a href="<?php echo html_escape(uri('scripto/recent-changes')); ?>">Recent changes</a> 
+ | <a href="<?php echo html_escape(uri(array('controller' => 'items', 'action' => 'show', 'id' => $this->doc->getId()), 'id')); ?>">View item</a>
+ | <a href="<?php echo html_escape(uri(array('controller' => 'files', 'action' => 'show', 'id' => $this->doc->getPageId()), 'id')); ?>">View file</a>
+ | <a href="<?php echo html_escape(uri(array('action' => 'transcribe', 'item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId()), 'scripto_action_item_file')); ?>">Transcribe page</a>
 </p>
 
 <h2><?php if (1 == $this->namespaceIndex): ?>Discussion<?php else: ?>Transcription<?php endif; ?> Page History</h2>
@@ -56,7 +56,7 @@ Logged in as <a href="<?php echo uri('scripto'); ?>"><?php echo $this->scripto->
                        'scripto_diff');
     ?>
     <tr>
-        <td>(<?php if ($revision['revision_id'] != $this->info['last_revision_id']): ?><a href="<?php echo $urlCurrent; ?>">current</a><?php else: ?>current<?php endif; ?> | <?php if (0 != $revision['parent_id']): ?><a href="<?php echo $urlPrevious; ?>">previous</a><?php else: ?>previous<?php endif; ?>)</td>
+        <td>(<?php if ($revision['revision_id'] != $this->info['last_revision_id']): ?><a href="<?php echo html_escape($urlCurrent); ?>">current</a><?php else: ?>current<?php endif; ?> | <?php if (0 != $revision['parent_id']): ?><a href="<?php echo html_escape($urlPrevious); ?>">previous</a><?php else: ?>previous<?php endif; ?>)</td>
         <td><?php echo date('H:i:s M d, Y', strtotime($revision['timestamp'])); ?></td>
         <td><?php echo $revision['user']; ?></td>
         <td><?php echo $revision['size']; ?></td>
