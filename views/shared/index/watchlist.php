@@ -63,7 +63,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
     }
     
     // document title
-    $documentTitle = ScriptoPlugin::truncate($revision['document_title'], 30);
+    $documentTitle = ScriptoPlugin::truncate($revision['document_title'], 30, 'Untitled');
     $urlItem = uri(array(
         'controller' => 'items', 
         'action' => 'show', 

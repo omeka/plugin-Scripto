@@ -307,12 +307,17 @@ class ScriptoPlugin
      * Primarily used for truncating long document page names that would 
      * otherwise break tables.
      * 
-     * @param string $str
-     * @param int $length
+     * @param string $str The string to truncate.
+     * @param int $length The trancate length.
+     * @param string $default The string to return if the string is empty.
      * @return string
      */
-    public static function truncate($str, $length)
+    public static function truncate($str, $length, $default = '')
     {
+        $str = trim($str);
+        if (empty($str)) {
+            return $default;
+        }
         if (strlen($str) <= $length) {
             return $str;
         }

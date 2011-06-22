@@ -65,7 +65,7 @@ required by the administrator.</p>
     }
     
     // document title
-    $documentTitle = ScriptoPlugin::truncate($documentPage['document_title'], 60);
+    $documentTitle = ScriptoPlugin::truncate($documentPage['document_title'], 60, 'Untitled');
     $urlItem = uri(array(
         'controller' => 'items', 
         'action' => 'show', 
