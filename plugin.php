@@ -1,13 +1,4 @@
 <?php
-// Debugging.
-function d($var, $dump = false, $exit = true)
-{
-    echo '<pre>';
-    $dump ? var_dump($var) : print_r($var);
-    echo '</pre>';
-    if ($exit) exit;
-}
-
 // Plugin hooks.
 add_plugin_hook('install', 'ScriptoPlugin::install');
 add_plugin_hook('uninstall', 'ScriptoPlugin::uninstall');
@@ -144,7 +135,7 @@ class ScriptoPlugin
         // Delete the Scripto element set.
         $db->getTable('ElementSet')->findByName(self::ELEMENT_SET_NAME)->delete();
         
-        // Delete the Scripto-specific options.
+        // Delete options that are specific to Scripto.
         delete_option('scripto_mediawiki_api_url');
         delete_option('scripto_mediawiki_db_name');
         delete_option('scripto_use_openlayers');
@@ -180,6 +171,7 @@ class ScriptoPlugin
      */
     public static function configForm()
     {
+        // Set form defaults.
         $useOpenlayers = get_option('scripto_use_openlayers');
         if (is_null($useOpenlayers)) {
             $useOpenlayers = 1;
@@ -192,6 +184,7 @@ class ScriptoPlugin
         if (is_null($exportType)) {
             $exportType = 'html';
         }
+        
         include 'config_form.php';
     }
     
@@ -205,6 +198,7 @@ class ScriptoPlugin
             throw new Omeka_Validator_Exception('Invalid MediaWiki API URL');
         }
         
+        // Set options that are specific to Scripto.
         set_option('scripto_mediawiki_api_url', $_POST['scripto_mediawiki_api_url']);
         set_option('scripto_mediawiki_db_name', $_POST['scripto_mediawiki_db_name']);
         set_option('scripto_use_openlayers', $_POST['scripto_use_openlayers']);

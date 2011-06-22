@@ -10,7 +10,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
     private $_db;
     
     /**
-     * Set the database object on construvtion.
+     * Set the database object on construction.
      */
     public function __construct()
     {
