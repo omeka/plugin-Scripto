@@ -36,19 +36,13 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
 <h3><?php echo $this->doc->getPageName(); ?></h3>
 
 <!-- difference -->
-<?php
-$actions = array('Protected', 'Unprotected', 'Created');
-$pattern = '/^(' . implode('|', $actions) . ').+$/';
-$actionOldRevision = preg_replace($pattern, '$1', $this->oldRevision['comment']);
-$actionRevision = preg_replace($pattern, '$1', $this->revision['comment']);
-?>
 <table>
     <thead>
     <tr>
         <th colspan="2">Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->oldRevision['timestamp'])); ?><br />
-        <?php echo $actionOldRevision; ?> by <?php echo $this->oldRevision['user']; ?></th>
+        <?php echo $this->oldRevision['action']; ?> by <?php echo $this->oldRevision['user']; ?></th>
         <th colspan="2">Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->revision['timestamp'])); ?><br />
-        <?php echo $actionRevision; ?> by <?php echo $this->revision['user']; ?></th>
+        <?php echo $this->revision['action']; ?> by <?php echo $this->revision['user']; ?></th>
     </tr>
     </thead>
     <tbody>

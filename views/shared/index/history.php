@@ -54,10 +54,15 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
                              'old-revision-id' => $revision['parent_id'], 
                              'revision-id' => $revision['revision_id']), 
                        'scripto_diff');
+    $urlRevert = uri(array('item-id' => $this->doc->getId(), 
+                           'file-id' => $this->doc->getPageId(), 
+                           'namespace-index' => $this->namespaceIndex, 
+                           'revision-id' => $revision['revision_id']), 
+                     'scripto_revision');
     ?>
     <tr>
         <td>(<?php if ($revision['revision_id'] != $this->info['last_revision_id']): ?><a href="<?php echo html_escape($urlCurrent); ?>">current</a><?php else: ?>current<?php endif; ?> | <?php if (0 != $revision['parent_id']): ?><a href="<?php echo html_escape($urlPrevious); ?>">previous</a><?php else: ?>previous<?php endif; ?>)</td>
-        <td><?php echo date('H:i:s M d, Y', strtotime($revision['timestamp'])); ?></td>
+        <td><a href="<?php echo html_escape($urlRevert); ?>"><?php echo date('H:i:s M d, Y', strtotime($revision['timestamp'])); ?></a></td>
         <td><?php echo $revision['user']; ?></td>
         <td><?php echo $revision['size']; ?></td>
         <td><?php echo $revision['action']; ?></td>

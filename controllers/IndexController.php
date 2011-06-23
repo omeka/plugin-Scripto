@@ -210,6 +210,41 @@ class Scripto_IndexController extends Omeka_Controller_Action
     }
     
     /**
+     * View a page revision.
+     */
+    public function revisionAction()
+    {
+        try {
+            $scripto = ScriptoPlugin::getScripto();
+            $doc = $scripto->getDocument($this->_getParam('item-id'));
+            $doc->setPage($this->_getParam('file-id'));
+            $revision = $scripto->getRevision($this->_getParam('revision-id'));
+            
+            // Handle a revert.
+            if ($this->_getParam('scripto-page-revert')) {
+                if (1 == $this->_getParam('namespace-index')) {
+                    $doc->editTalkPage($revision['wikitext']);
+                } else {
+                    $doc->editTranscriptionPage($revision['wikitext']);
+                }
+                $this->flashSuccess('Successfully reverted the page to a previous revision.');
+                $this->_helper->redirector->gotoRoute(array('item-id' => $doc->getId(), 
+                                                            'file-id' => $doc->getPageId(), 
+                                                            'namespace-index' => $this->_getParam('namespace-index')), 
+                                                      'scripto_history');
+            }
+            
+        } catch (Scripto_Exception $e) {
+            $this->flashError($e->getMessage());
+        }
+        
+        $this->view->scripto = $scripto;
+        $this->view->doc = $doc;
+        $this->view->revision = $revision;
+        $this->view->namespaceIndex = $this->_getParam('namespace-index');
+    }
+    
+    /**
      * View diff between page revisions.
      */
     public function diffAction()
