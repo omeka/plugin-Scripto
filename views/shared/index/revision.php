@@ -1,5 +1,7 @@
 <?php
-$head = array('title' => html_escape('Scripto'));
+$title = 'Scripto | Page Revision | ';
+$title .= (1 == $this->namespaceIndex) ? 'Discussion' : 'Transcription';
+$head = array('title' => html_escape($title));
 head($head);
 ?>
 <h1><?php echo $head['title']; ?></h1>
@@ -23,7 +25,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
  | <a href="<?php echo html_escape(uri(array('item-id' => $this->doc->getId(), 'file-id' => $this->doc->getPageId(), 'namespace-index' => $this->namespaceIndex), 'scripto_history')); ?>">View history</a>
 </p>
 
-<h2><?php if (1 == $this->namespaceIndex): ?>Discussion<?php else: ?>Transcription<?php endif; ?> Page Revision</h2>
+<h2><?php if ($this->doc->getTitle()): ?><?php echo $this->doc->getTitle(); ?><?php else: ?>Untitled Document<?php endif; ?></h2>
 <h3><?php echo $this->doc->getPageName(); ?></h3>
 
 <!-- revert -->

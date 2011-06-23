@@ -1,5 +1,5 @@
 <?php
-$head = array('title' => html_escape('Scripto | Transcribe'));
+$head = array('title' => html_escape('Scripto | Transcribe Page'));
 head($head);
 ?>
 <?php echo js('OpenLayers'); ?>
@@ -256,7 +256,7 @@ jQuery(document).ready(function() {
     <?php endif; // end canExport() ?>
 });
 </script>
-<h1><?php echo'Scripto | Transcribe'; ?></h1>
+<h1><?php echo $head['title']; ?></h1>
 <div id="primary">
 <?php echo flash(); ?>
 
