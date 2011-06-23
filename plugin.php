@@ -198,6 +198,12 @@ class ScriptoPlugin
             throw new Omeka_Validator_Exception('Invalid MediaWiki API URL');
         }
         
+        // Validate MediaWiki database name.
+        $dbName = trim($_POST['scripto_mediawiki_db_name']);
+        if (empty($dbName)) {
+            throw new Omeka_Validator_Exception('Invalid MediaWiki database name');
+        }
+        
         // Set options that are specific to Scripto.
         set_option('scripto_mediawiki_api_url', $_POST['scripto_mediawiki_api_url']);
         set_option('scripto_mediawiki_db_name', $_POST['scripto_mediawiki_db_name']);

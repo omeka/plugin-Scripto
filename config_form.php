@@ -12,7 +12,7 @@ last page.</p>
     </div>
 </div>
 <div class="field">
-    <label for="scripto_mediawiki_db_name">MediaWiki database name</label>
+    <label for="scripto_mediawiki_db_name" class="required">MediaWiki database name</label>
         <div class="inputs">
         <?php echo __v()->formText('scripto_mediawiki_db_name', get_option('scripto_mediawiki_db_name')); ?>
         <p class="explanation">Name of your MediaWiki database. This is required 
