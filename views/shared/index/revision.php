@@ -42,7 +42,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
 <?php endif; ?>
 
 <!-- revision -->
-<h2>Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->revision['timestamp'])); ?>, <?php echo $this->revision['action']; ?> by <?php echo $this->revision['user']; ?></h2>
+<h2>Revision as of <?php echo date('H:i:s, M d, Y', strtotime($this->revision['timestamp'])); ?>, <?php echo ucfirst($this->revision['action']); ?> by <?php echo $this->revision['user']; ?></h2>
 <div><?php echo $this->revision['html']; ?></div>
 
 </div><!-- #scripto-history -->

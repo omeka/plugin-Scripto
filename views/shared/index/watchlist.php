@@ -34,14 +34,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
     <?php foreach ($this->watchlist as $revision): ?>
     <?php
     // changes
-    $changes = '';
-    if ($revision['new']) {
-        $changes .= 'Created';
-    } else if (0 == $revision['revision_id']) {
-        $changes = 'Un/protected';
-    } else {
-        $changes .= 'Edited';
-    }
+    $changes = ucfirst($revision['action']);
     $urlHistory = uri(array(
         'item-id' => $revision['document_id'], 
         'file-id' => $revision['document_page_id'], 

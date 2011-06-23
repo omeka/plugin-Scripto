@@ -38,22 +38,8 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
     <?php $types = array('new' => 'Created', 'edit' => 'Edited'); ?>
     <?php foreach ($this->recentChanges as $recentChange): ?>
     <?php
-    // changes
-    $changes = '';
-    if ('log' == $recentChange['type']) {
-        if ('protect' == $recentChange['log_action']) {
-            $changes .= 'Protected';
-        } else if ('unprotect' == $recentChange['log_action']) {
-            $changes .= 'Unprotected';
-        } else {
-            $changes .= $recentChange['log_action'];
-        }
-    } else {
-        if ($recentChange['new']) {
-            $changes .= 'Created';
-        } else {
-            $changes .= 'Edited';
-        }
+    $changes = ucfirst($recentChange['action']);
+    if (!in_array($recentChange['action'], array('Protected', 'Unprotected'))) {
         $urlDiff = uri(array(
             'item-id' => $recentChange['document_id'], 
             'file-id' => $recentChange['document_page_id'], 

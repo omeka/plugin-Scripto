@@ -67,7 +67,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
         <td><a href="<?php echo html_escape($urlRevert); ?>"><?php echo date('H:i:s M d, Y', strtotime($revision['timestamp'])); ?></a></td>
         <td><?php echo $revision['user']; ?></td>
         <td><?php echo $revision['size']; ?></td>
-        <td><?php echo $revision['action']; ?></td>
+        <td><?php echo ucfirst($revision['action']); ?></td>
     </tr>
     <?php endforeach; ?>
     </tbody>
