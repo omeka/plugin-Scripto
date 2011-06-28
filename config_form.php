@@ -6,42 +6,63 @@ can complete the following form and install the plugin.</p>
 last page.</p>
 <div class="field">
     <label for="scripto_mediawiki_api_url" class="required">MediaWiki API URL</label>
-        <div class="inputs">
-        <?php echo __v()->formText('scripto_mediawiki_api_url', get_option('scripto_mediawiki_api_url'), array('size' => 50)); ?>
+    <div class="inputs">
+        <?php echo __v()->formText('scripto_mediawiki_api_url', 
+                                   get_option('scripto_mediawiki_api_url'), 
+                                   array('size' => 50)); ?>
         <p class="explanation">URL to your <a href="http://www.mediawiki.org/wiki/API:Quick_start_guide#What_you_need_to_access_the_API">MediaWiki installation API</a>.</p>
     </div>
 </div>
 <div class="field">
     <label for="scripto_mediawiki_db_name" class="required">MediaWiki database name</label>
         <div class="inputs">
-        <?php echo __v()->formText('scripto_mediawiki_db_name', get_option('scripto_mediawiki_db_name')); ?>
+        <?php echo __v()->formText('scripto_mediawiki_db_name', 
+                                   get_option('scripto_mediawiki_db_name')); ?>
         <p class="explanation">Name of your MediaWiki database. This is required 
         to log in to Scripto.</p>
     </div>
 </div>
 <div class="field">
-    <label for="scripto_use_openlayers">Use OpenLayers image viewer?</label>
-        <div class="inputs">
-        <?php echo __v()->formCheckbox('scripto_use_openlayers', null, array('checked' => (bool) $useOpenlayers)); ?>
-        <p class="explanation">Use the <a href="http://openlayers.org/">OpenLayers</a> 
-        image viewer when transcribing image files? (Highly recommended.)</p>
+    <label for="scripto_use_openlayers">Image viewer</label>
+    <div class="inputs">
+        <?php echo __v()->formRadio('scripto_image_viewer', 
+                                    $imageViewer, 
+                                    null, 
+                                    array('openlayers' => 'OpenLayers', 
+                                          'zoomit' => 'Zoom.it', 
+                                          'default' => 'Omeka default'), 
+                                    null); ?> 
+        <p class="explanation">Select an image viewer to use when transcribing 
+        image files. <a href="http://openlayers.org/">OpenLayers</a> and 
+        <a href="http://zoom.it/">Zoom.it</a> can display JPEG, PNG, GIF, and 
+        BMP formats. Zoom.it can also display TIFF and ICO formats. By using 
+        Zoom.it you awknowledge that you have read and agreed to the 
+        <a href="http://zoom.it/pages/terms/">Microsoft Zoom.it Terms of Service</a>.
+        </p>
     </div>
 </div>
 <div class="field">
     <label for="scripto_use_google_docs_viewer">Use Google Docs Viewer?</label>
-        <div class="inputs">
-        <?php echo __v()->formCheckbox('scripto_use_google_docs_viewer', null, array('checked' => (bool) $useGoogleDocsViewer)); ?>
+    <div class="inputs">
+        <?php echo __v()->formCheckbox('scripto_use_google_docs_viewer', 
+                                       null, 
+                                       array('checked' => (bool) $useGoogleDocsViewer)); ?>
         <p class="explanation">Use Google Docs Viewer when transcribing document 
         files? Document files include PDF, DOC, PPT, XLS, TIFF, PS, and PSD 
-        files. By using this service you acknowledge that you have read and 
+        formats. By using this service you acknowledge that you have read and 
         agreed to the <a href="http://docs.google.com/viewer/TOS?hl=en">Google 
         Docs Viewer Terms of Service</a>.</p>
     </div>
 </div>
 <div class="field">
     <label for="scripto_export_type">Export type</label>
-        <div class="inputs">
-        <?php echo __v()->formRadio('scripto_export_type', $exportType, null, array('html' => 'HTML', 'plain_text' => 'plain text'), null); ?>
+    <div class="inputs">
+        <?php echo __v()->formRadio('scripto_export_type', 
+                                    $exportType, 
+                                    null, 
+                                    array('html' => 'HTML', 
+                                          'plain_text' => 'plain text'), 
+                                    null); ?>
         <p class="explanation">Export transcriptions as HTML or plain text? 
         Exporting will copy document and page transcriptions from MediaWiki to 
         their corresponding items and files in Omeka. Choose HTML if you want to 
@@ -51,7 +72,9 @@ last page.</p>
 <div class="field">
     <label for="scripto_home_page_text">Home page text</label>
         <div class="inputs">
-        <?php echo __v()->formTextarea('scripto_home_page_text', get_option('scripto_home_page_text'), array('cols' => '64', 'rows' => '12')); ?>
+        <?php echo __v()->formTextarea('scripto_home_page_text', 
+                                       get_option('scripto_home_page_text'), 
+                                       array('cols' => '64', 'rows' => '12')); ?>
         <p class="explanation">Enter text that will appear on the Scripto home 
         page. Use this to display custom messages to your users, such as 
         instructions on how to use Scripto and how to register for a MediaWiki 

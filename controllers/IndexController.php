@@ -14,14 +14,22 @@ class Scripto_IndexController extends Omeka_Controller_Action
         $request = Zend_Controller_Front::getInstance()->getRequest();
         if ('transcribe' == $request->getActionName()) {
             
-            // Image viewer.
-            if (get_option('scripto_use_openlayers')) {
-                add_mime_display_type(ScriptoPlugin::$imageMimeTypes, 'ScriptoPlugin::imageViewer');
+            // Image viewers.
+            switch (get_option('scripto_image_viewer')) {
+                case 'openlayers':
+                    add_mime_display_type(ScriptoPlugin::$mimeTypesOpenLayers, 'ScriptoPlugin::openLayers');
+                    break;
+                case 'zoomit':
+                    add_mime_display_type(ScriptoPlugin::$mimeTypesZoomIt, 'ScriptoPlugin::zoomIt');
+                    break;
+                default:
+                    // Do nothing. Use Omeka default file display stategy.
+                    break;
             }
             
             // Google Docs viewer.
             if (get_option('scripto_use_google_docs_viewer')) {
-                add_mime_display_type(ScriptoPlugin::$documentMimeTypes, 'ScriptoPlugin::documentViewer');
+                add_mime_display_type(ScriptoPlugin::$mimeTypesGoogleDocs, 'ScriptoPlugin::googleDocs');
             }
         }
     }
@@ -169,6 +177,14 @@ class Scripto_IndexController extends Omeka_Controller_Action
         } catch (Scripto_Exception $e) {
             $this->flashError($e->getMessage());
             $this->_helper->redirector->goto('index');
+        }
+        
+        // Get the embed HTML for the Zoom.it image viewer.
+        if ('zoomit' == get_option('scripto_image_viewer')) {
+            $client = new Zend_Http_Client('http://api.zoom.it/v1/content');
+            $client->setParameterGet('url', $file->getWebPath('archive'));
+            $response = json_decode($client->request()->getBody(), true);
+            $this->view->zoomIt = $response;
         }
         
         $this->view->file = $file;

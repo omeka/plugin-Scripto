@@ -25,9 +25,9 @@ class ScriptoPlugin
     const ELEMENT_SET_NAME = 'Scripto';
     
     /**
-     * @var Image MIME types compatible with OpenLayers.
+     * @var MIME types compatible with OpenLayers.
      */
-    public static $imageMimeTypes = array(
+    public static $mimeTypesOpenLayers = array(
         // gif
         'image/gif', 'image/x-xbitmap', 'image/gi_', 
         // jpg
@@ -44,9 +44,33 @@ class ScriptoPlugin
     );
     
     /**
-     * @var Document MIME types compatible with Google Docs viewer.
+     * @var MIME types compatible with Zoom.it.
      */
-    public static $documentMimeTypes = array(
+    public static $mimeTypesZoomIt = array(
+        // gif
+        'image/gif', 'image/x-xbitmap', 'image/gi_', 
+        // jpg
+        'image/jpeg', 'image/jpg', 'image/jpe_', 'image/pjpeg', 
+        'image/vnd.swiftview-jpeg', 
+        // png
+        'image/png', 'application/png', 'application/x-png', 
+        // bmp
+        'image/bmp', 'image/x-bmp', 'image/x-bitmap', 
+        'image/x-xbitmap', 'image/x-win-bitmap', 
+        'image/x-windows-bmp', 'image/ms-bmp', 'image/x-ms-bmp', 
+        'application/bmp', 'application/x-bmp', 
+        'application/x-win-bitmap', 
+        // ico
+        'image/ico', 'image/x-icon', 'application/ico', 'application/x-ico', 
+        'application/x-win-bitmap', 'image/x-win-bitmap', 
+        // tiff
+        'image/tiff', 
+    );
+    
+    /**
+     * @var MIME types compatible with Google Docs viewer.
+     */
+    public static $mimeTypesGoogleDocs = array(
         // pdf
         'application/pdf', 'application/x-pdf', 
         'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 
@@ -172,9 +196,9 @@ class ScriptoPlugin
     public static function configForm()
     {
         // Set form defaults.
-        $useOpenlayers = get_option('scripto_use_openlayers');
-        if (is_null($useOpenlayers)) {
-            $useOpenlayers = 1;
+        $imageViewer = get_option('scripto_image_viewer');
+        if (!in_array($imageViewer, array('openlayers', 'zoomit'))) {
+            $imageViewer = 'openlayers';
         }
         $useGoogleDocsViewer = get_option('scripto_use_google_docs_viewer');
         if (is_null($useGoogleDocsViewer)) {
@@ -207,7 +231,7 @@ class ScriptoPlugin
         // Set options that are specific to Scripto.
         set_option('scripto_mediawiki_api_url', $_POST['scripto_mediawiki_api_url']);
         set_option('scripto_mediawiki_db_name', $_POST['scripto_mediawiki_db_name']);
-        set_option('scripto_use_openlayers', $_POST['scripto_use_openlayers']);
+        set_option('scripto_image_viewer', $_POST['scripto_image_viewer']);
         set_option('scripto_use_google_docs_viewer', $_POST['scripto_use_google_docs_viewer']);
         set_option('scripto_export_type', $_POST['scripto_export_type']);
         set_option('scripto_home_page_text', $_POST['scripto_home_page_text']);
@@ -238,33 +262,57 @@ class ScriptoPlugin
     }
     
     /**
-     * add_mime_display_type() callback for image files.
+     * add_mime_display_type() callback for OpenLayers.
      * 
      * @see Scripto_IndexController::init()
      * @param File $file
      */
-    public static function imageViewer($file)
+    public static function openLayers($file)
     {
         $imageUrl = $file->getWebPath('archive');
         $imageSize = ScriptoPlugin::getImageSize($imageUrl, 250);
         
-        include 'image_viewer.php';
+?>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    var scriptoMap = new OpenLayers.Map('scripto-openlayers');
+    var graphic = new OpenLayers.Layer.Image(
+        'Document Page',
+        <?php echo js_escape($imageUrl); ?>,
+        new OpenLayers.Bounds(-<?php echo $imageSize['width']; ?>, -<?php echo $imageSize['height']; ?>, <?php echo $imageSize['width']; ?>, <?php echo $imageSize['height']; ?>),
+        new OpenLayers.Size(<?php echo $imageSize['width']; ?>, <?php echo $imageSize['height']; ?>)
+    );
+    scriptoMap.addLayers([graphic]);
+    scriptoMap.zoomToMaxExtent();
+});
+</script>
+<div id="scripto-openlayers" style="height: 400px; border: 1px grey solid; margin-bottom: 12px;"></div>
+<?php
     }
     
     /**
-     * add_mime_display_type() callback for document files.
+     * add_mime_display_type() callback for Zoom.it.
      * 
      * @see Scripto_IndexController::init()
      * @param File $file
      */
-    public static function documentViewer($file)
+    public static function zoomIt($file)
+    {
+        echo __v()->zoomIt['embedHtml'];
+    }
+    
+    /**
+     * add_mime_display_type() callback for Google Docs.
+     * 
+     * @see Scripto_IndexController::init()
+     * @param File $file
+     */
+    public static function googleDocs($file)
     {
         $uri = Zend_Uri::factory('http://docs.google.com/viewer');
         $uri->setQuery(array('url' => $file->getWebPath('archive'), 
                              'embedded' => 'true'));
-        $docsViewerUrl = $uri->getUri();
-        
-        include 'document_viewer.php';
+        echo '<iframe src="' . $uri->getUri() . '" width="500" height="600" style="border: none;"></iframe>';
     }
     
     /**
@@ -279,13 +327,25 @@ class ScriptoPlugin
             return;
         }
         $doc = $scripto->getDocument($item->id);
-        
-        include 'page_links.php';
+?>
+<h2>Transcribe This Item</h2>
+<ol>
+    <?php foreach ($doc->getPages() as $pageId => $pageName): ?>
+    <li><a href="<?php echo uri(array('action' => 'transcribe', 
+                                      'item-id' => $item->id, 
+                                      'file-id' => $pageId), 
+                                'scripto_action_item_file'); ?>" id="scripto-transcribe-item"><?php echo $pageName; ?></a></li>
+    <?php endforeach; ?>
+</ol>
+<?php
     }
     
     public static function adminAppendToFilesForm($file)
     {
-        include 'files_form.php';
+        echo '<fieldset>' 
+           . '<legend>Scripto</legend>' 
+           . display_element_set_form($file, 'Scripto') 
+           . '</fieldset>';
     }
     
     /**
