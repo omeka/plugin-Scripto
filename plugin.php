@@ -161,7 +161,6 @@ class ScriptoPlugin
         
         // Delete options that are specific to Scripto.
         delete_option('scripto_mediawiki_api_url');
-        delete_option('scripto_mediawiki_db_name');
         delete_option('scripto_use_openlayers');
         delete_option('scripto_use_google_docs_viewer');
         delete_option('scripto_export_type');
@@ -222,15 +221,8 @@ class ScriptoPlugin
             throw new Omeka_Validator_Exception('Invalid MediaWiki API URL');
         }
         
-        // Validate MediaWiki database name.
-        $dbName = trim($_POST['scripto_mediawiki_db_name']);
-        if (empty($dbName)) {
-            throw new Omeka_Validator_Exception('Invalid MediaWiki database name');
-        }
-        
         // Set options that are specific to Scripto.
         set_option('scripto_mediawiki_api_url', $_POST['scripto_mediawiki_api_url']);
-        set_option('scripto_mediawiki_db_name', $_POST['scripto_mediawiki_db_name']);
         set_option('scripto_image_viewer', $_POST['scripto_image_viewer']);
         set_option('scripto_use_google_docs_viewer', $_POST['scripto_use_google_docs_viewer']);
         set_option('scripto_export_type', $_POST['scripto_export_type']);
@@ -352,19 +344,14 @@ jQuery(document).ready(function() {
      * Convenience method to get the Scripto object.
      * 
      * @param string $apiUrl
-     * @param string $dbName
      */
-    public static function getScripto($apiUrl = null, $dbName = null)
+    public static function getScripto($apiUrl = null)
     {
         if (null === $apiUrl) {
             $apiUrl = get_option('scripto_mediawiki_api_url');
         }
-        if (null === $dbName) {
-            $dbName = get_option('scripto_mediawiki_db_name');
-        }
         
-        return new Scripto(new ScriptoAdapterOmeka, 
-                           array('api_url' => $apiUrl, 'db_name' => $dbName));
+        return new Scripto(new ScriptoAdapterOmeka, array('api_url' => $apiUrl));
     }
     
     /**
