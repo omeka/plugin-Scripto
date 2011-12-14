@@ -46,16 +46,16 @@ last page.</p>
     </div>
 </div>
 <div class="field">
-    <label for="scripto_export_type">Export type</label>
+    <label for="scripto_import_type">Import type</label>
     <div class="inputs">
-        <?php echo __v()->formRadio('scripto_export_type', 
-                                    $exportType, 
+        <?php echo __v()->formRadio('scripto_import_type', 
+                                    $importType, 
                                     null, 
                                     array('html' => 'HTML', 
                                           'plain_text' => 'plain text'), 
                                     null); ?>
-        <p class="explanation">Export transcriptions as HTML or plain text? 
-        Exporting will copy document and page transcriptions from MediaWiki to 
+        <p class="explanation">Import transcriptions as HTML or plain text? 
+        Importing will copy document and page transcriptions from MediaWiki to 
         their corresponding items and files in Omeka. Choose HTML if you want to 
         preserve formatting. Choose plain text if formatting is not important.</p>
     </div>

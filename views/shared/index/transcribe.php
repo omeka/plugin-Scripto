@@ -221,34 +221,34 @@ jQuery(document).ready(function() {
     <?php endif; // end canProtect() ?>
     <?php if ($this->scripto->canExport()): ?>
     
-    jQuery('#scripto-transcription-page-export').click(function() {
-        jQuery(this).prop('disabled', true).text('Exporting page...');
+    jQuery('#scripto-transcription-page-import').click(function() {
+        jQuery(this).prop('disabled', true).text('Importing page...');
         jQuery.post(
             <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
             {
-                page_action: 'export-page', 
+                page_action: 'import-page', 
                 page: 'transcription', 
                 item_id: <?php echo js_escape($this->doc->getId()); ?>, 
                 file_id: <?php echo js_escape($this->doc->getPageId()); ?>
             }, 
             function(data) {
-                jQuery('#scripto-transcription-page-export').prop('disabled', false).text('Export page');
+                jQuery('#scripto-transcription-page-import').prop('disabled', false).text('Import page');
             }
         );
     });
     
-    jQuery('#scripto-transcription-document-export').click(function() {
-        jQuery(this).prop('disabled', true).text('Exporting document...');
+    jQuery('#scripto-transcription-document-import').click(function() {
+        jQuery(this).prop('disabled', true).text('Importing document...');
         jQuery.post(
             <?php echo js_escape(uri('scripto/index/page-action')); ?>, 
             {
-                page_action: 'export-document', 
+                page_action: 'import-document', 
                 page: 'transcription', 
                 item_id: <?php echo js_escape($this->doc->getId()); ?>, 
                 file_id: <?php echo js_escape($this->doc->getPageId()); ?>
             }, 
             function(data) {
-                jQuery('#scripto-transcription-document-export').prop('disabled', false).text('Export document');
+                jQuery('#scripto-transcription-document-import').prop('disabled', false).text('Import document');
             }
         );
     });
@@ -276,7 +276,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
 </p> 
 
 <h2><?php if ($this->doc->getTitle()): ?><?php echo $this->doc->getTitle(); ?><?php else: ?>Untitled Document<?php endif; ?></h2>
-<?php if ($this->scripto->canExport()): ?><div><?php echo $this->formButton('scripto-transcription-document-export', 'Export document', array('style' => 'display:inline; float:none;')); ?></div><?php endif; ?>
+<?php if ($this->scripto->canExport()): ?><div><?php echo $this->formButton('scripto-transcription-document-import', 'Import document', array('style' => 'display:inline; float:none;')); ?></div><?php endif; ?>
 <h3><?php echo $this->doc->getPageName(); ?></h3>
 
 <!-- document viewer -->
@@ -309,7 +309,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
     <div>
         <?php if ($this->scripto->isLoggedIn()): ?><?php echo $this->formButton('scripto-page-watch'); ?> <?php endif; ?>
         <?php if ($this->scripto->canProtect()): ?><?php echo $this->formButton('scripto-transcription-page-protect'); ?> <?php endif; ?>
-        <?php if ($this->scripto->canExport()): ?><?php echo $this->formButton('scripto-transcription-page-export', 'Export page', array('style' => 'display:inline; float:none;')); ?><?php endif; ?>
+        <?php if ($this->scripto->canExport()): ?><?php echo $this->formButton('scripto-transcription-page-import', 'Import page', array('style' => 'display:inline; float:none;')); ?><?php endif; ?>
     </div>
     <div id="scripto-transcription-page-html"><?php echo $this->transcriptionPageHtml; ?></div>
 </div><!-- #scripto-transcription -->
