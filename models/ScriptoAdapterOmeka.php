@@ -174,6 +174,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         if ('html' == get_option('scripto_export_type')) {
             $isHtml = true;
         }
+        $text = Scripto::removeNewPPLimitReports($text);
         $file->addTextForElement($element, $text, $isHtml);
         $file->save();
     }
@@ -194,6 +195,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         if ('html' == get_option('scripto_export_type')) {
             $isHtml = true;
         }
+        $text = Scripto::removeNewPPLimitReports($text);
         $item->addTextForElement($element, $text, $isHtml);
         $item->save();
     }
