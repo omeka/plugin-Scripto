@@ -39,25 +39,23 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
     <?php foreach ($this->recentChanges as $recentChange): ?>
     <?php
     $changes = ucfirst($recentChange['action']);
-    if (!in_array($recentChange['action'], array('Protected', 'Unprotected'))) {
-        $urlDiff = uri(array(
-            'item-id' => $recentChange['document_id'], 
-            'file-id' => $recentChange['document_page_id'], 
-            'namespace-index' => $recentChange['namespace_index'], 
-            'old-revision-id' => $recentChange['old_revision_id'], 
-            'revision-id' => $recentChange['revision_id'], 
-        ), 'scripto_diff');
-        $urlHistory = uri(array(
-            'item-id' => $recentChange['document_id'], 
-            'file-id' => $recentChange['document_page_id'], 
-            'namespace-index' => $recentChange['namespace_index'], 
-        ), 'scripto_history');
-        if ($recentChange['new']) {
-            $changes .= ' (diff | <a href="' . html_escape($urlHistory) . '">hist</a>)';
-        } else {
-            $changes .= ' (<a href="' . html_escape($urlDiff) . '">diff</a> | <a href="' . html_escape($urlHistory) . '">hist</a>)';
-        }
-    }
+	$urlDiff = uri(array(
+		'item-id' => $recentChange['document_id'], 
+		'file-id' => $recentChange['document_page_id'], 
+		'namespace-index' => $recentChange['namespace_index'], 
+		'old-revision-id' => $recentChange['old_revision_id'], 
+		'revision-id' => $recentChange['revision_id'], 
+	), 'scripto_diff');
+	$urlHistory = uri(array(
+		'item-id' => $recentChange['document_id'], 
+		'file-id' => $recentChange['document_page_id'], 
+		'namespace-index' => $recentChange['namespace_index'], 
+	), 'scripto_history');
+	if ($recentChange['new'] || in_array($recentChange['action'], array('protected', 'unprotected'))) {
+		$changes .= ' (diff | <a href="' . html_escape($urlHistory) . '">hist</a>)';
+	} else {
+		$changes .= ' (<a href="' . html_escape($urlDiff) . '">diff</a> | <a href="' . html_escape($urlHistory) . '">hist</a>)';
+	}
     
     // document page name
     $documentPageName = ScriptoPlugin::truncate($recentChange['document_page_name'], 30);
