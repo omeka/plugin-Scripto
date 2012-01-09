@@ -30,97 +30,124 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
     /**
      * @var MIME types compatible with OpenLayers.
      */
-    public static $mimeTypesOpenLayers = array(
-        // gif
-        'image/gif', 'image/x-xbitmap', 'image/gi_', 
-        // jpg
-        'image/jpeg', 'image/jpg', 'image/jpe_', 'image/pjpeg', 
-        'image/vnd.swiftview-jpeg', 
-        // png
-        'image/png', 'application/png', 'application/x-png', 
-        // bmp
-        'image/bmp', 'image/x-bmp', 'image/x-bitmap', 
-        'image/x-xbitmap', 'image/x-win-bitmap', 
-        'image/x-windows-bmp', 'image/ms-bmp', 'image/x-ms-bmp', 
-        'application/bmp', 'application/x-bmp', 
-        'application/x-win-bitmap', 
+    public static $fileIdentifiersOpenLayers = array(
+        'mimeTypes' => array(
+            // gif
+            'image/gif', 'image/x-xbitmap', 'image/gi_', 
+            // jpg
+            'image/jpeg', 'image/jpg', 'image/jpe_', 'image/pjpeg', 
+            'image/vnd.swiftview-jpeg', 
+            // png
+            'image/png', 'application/png', 'application/x-png', 
+            // bmp
+            'image/bmp', 'image/x-bmp', 'image/x-bitmap', 
+            'image/x-xbitmap', 'image/x-win-bitmap', 
+            'image/x-windows-bmp', 'image/ms-bmp', 'image/x-ms-bmp', 
+            'application/bmp', 'application/x-bmp', 
+            'application/x-win-bitmap', 
+        ), 
+        'fileExtensions' => array(
+            'gif', 'jpeg', 'jpg', 'jpe', 'png', 'bmp', 
+        ), 
     );
     
     /**
      * @var MIME types compatible with Zoom.it.
      */
-    public static $mimeTypesZoomIt = array(
-        // gif
-        'image/gif', 'image/x-xbitmap', 'image/gi_', 
-        // jpg
-        'image/jpeg', 'image/jpg', 'image/jpe_', 'image/pjpeg', 
-        'image/vnd.swiftview-jpeg', 
-        // png
-        'image/png', 'application/png', 'application/x-png', 
-        // bmp
-        'image/bmp', 'image/x-bmp', 'image/x-bitmap', 
-        'image/x-xbitmap', 'image/x-win-bitmap', 
-        'image/x-windows-bmp', 'image/ms-bmp', 'image/x-ms-bmp', 
-        'application/bmp', 'application/x-bmp', 
-        'application/x-win-bitmap', 
-        // ico
-        'image/ico', 'image/x-icon', 'application/ico', 'application/x-ico', 
-        'application/x-win-bitmap', 'image/x-win-bitmap', 
-        // tiff
-        'image/tiff', 
+    public static $fileIdentifiersZoomIt = array(
+        'mimeTypes' => array(
+            // gif
+            'image/gif', 'image/x-xbitmap', 'image/gi_', 
+            // jpg
+            'image/jpeg', 'image/jpg', 'image/jpe_', 'image/pjpeg', 
+            'image/vnd.swiftview-jpeg', 
+            // png
+            'image/png', 'application/png', 'application/x-png', 
+            // bmp
+            'image/bmp', 'image/x-bmp', 'image/x-bitmap', 
+            'image/x-xbitmap', 'image/x-win-bitmap', 
+            'image/x-windows-bmp', 'image/ms-bmp', 'image/x-ms-bmp', 
+            'application/bmp', 'application/x-bmp', 
+            'application/x-win-bitmap', 
+            // ico
+            'image/ico', 'image/x-icon', 'application/ico', 'application/x-ico', 
+            'application/x-win-bitmap', 'image/x-win-bitmap', 
+            // tiff
+            'image/tiff',
+        ), 
+        'fileExtensions' => array(
+            'gif', 'jpeg', 'jpg', 'jpe', 'png', 'bmp', 'ico', 'tif', 'tiff', 
+        ), 
     );
     
     /**
      * @var MIME types compatible with Google Docs viewer.
      */
-    public static $mimeTypesGoogleDocs = array(
-        // pdf
-        'application/pdf', 'application/x-pdf', 
-        'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 
-        'text/x-pdf', 
-        // docx
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
-        // doc
-        'application/msword', 'application/doc', 'appl/text', 
-        'application/vnd.msword', 'application/vnd.ms-word', 
-        'application/winword', 'application/word', 'application/vnd.ms-office', 
-        'application/x-msw6', 'application/x-msword', 
-        // ppt
-        'application/vnd.ms-powerpoint', 'application/mspowerpoint', 
-        'application/ms-powerpoint', 'application/mspowerpnt', 
-        'application/vnd-mspowerpoint', 'application/powerpoint', 
-        'application/x-powerpoint', 'application/x-m', 
-        // pptx
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation', 
-        // xls
-        'application/vnd.ms-excel', 'application/msexcel', 
-        'application/x-msexcel', 'application/x-ms-excel', 
-        'application/vnd.ms-excel', 'application/x-excel', 
-        'application/x-dos_ms_excel', 'application/xls', 
-        // xlsx
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
-        // tiff
-        'image/tiff', 
-        // ps, ai
-        'application/postscript', 'application/ps', 
-        'application/x-postscript', 'application/x-ps', 
-        'text/postscript', 'application/x-postscript-not-eps', 
-        // eps
-        'application/eps', 'application/x-eps', 'image/eps', 
-        'image/x-eps', 
-        // psd
-        'image/vnd.adobe.photoshop', 'image/photoshop', 
-        'image/x-photoshop', 'image/psd', 'application/photoshop', 
-        'application/psd', 'zz-application/zz-winassoc-psd', 
-        // dxf
-        'application/dxf', 'application/x-autocad', 
-        'application/x-dxf', 'drawing/x-dxf', 'image/vnd.dxf', 
-        'image/x-autocad', 'image/x-dxf', 
-        'zz-application/zz-winassoc-dxf', 
-        // xvg
-        'image/svg+xml', 
-        // xps
-        'application/vnd.ms-xpsdocument', 
+    public static $fileIdentifiersGoogleDocs = array(
+        'mimeTypes' => array(
+            // pdf
+            'application/pdf', 'application/x-pdf', 
+            'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 
+            'text/x-pdf', 
+            // docx
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+            // doc
+            'application/msword', 'application/doc', 'appl/text', 
+            'application/vnd.msword', 'application/vnd.ms-word', 
+            'application/winword', 'application/word', 'application/vnd.ms-office', 
+            'application/x-msw6', 'application/x-msword', 
+            // ppt
+            'application/vnd.ms-powerpoint', 'application/mspowerpoint', 
+            'application/ms-powerpoint', 'application/mspowerpnt', 
+            'application/vnd-mspowerpoint', 'application/powerpoint', 
+            'application/x-powerpoint', 'application/x-m', 
+            // pptx
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation', 
+            // xls
+            'application/vnd.ms-excel', 'application/msexcel', 
+            'application/x-msexcel', 'application/x-ms-excel', 
+            'application/vnd.ms-excel', 'application/x-excel', 
+            'application/x-dos_ms_excel', 'application/xls', 
+            // xlsx
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+            // tiff
+            'image/tiff', 
+            // ps, ai
+            'application/postscript', 'application/ps', 
+            'application/x-postscript', 'application/x-ps', 
+            'text/postscript', 'application/x-postscript-not-eps', 
+            // eps
+            'application/eps', 'application/x-eps', 'image/eps', 
+            'image/x-eps', 
+            // psd
+            'image/vnd.adobe.photoshop', 'image/photoshop', 
+            'image/x-photoshop', 'image/psd', 'application/photoshop', 
+            'application/psd', 'zz-application/zz-winassoc-psd', 
+            // dxf
+            'application/dxf', 'application/x-autocad', 
+            'application/x-dxf', 'drawing/x-dxf', 'image/vnd.dxf', 
+            'image/x-autocad', 'image/x-dxf', 
+            'zz-application/zz-winassoc-dxf', 
+            // xvg
+            'image/svg+xml', 
+            // xps
+            'application/vnd.ms-xpsdocument',
+        ), 
+        'fileExtensions' => array(
+            'pdf', 
+            'docx', 
+            'doc', 'dot', 
+            'ppt', 'pps', 'pot', 
+            'pptx', 
+            'xls', 'xlm', 'xla', 'xlc', 'xlt', 'xlw', 
+            'xlsx', 
+            'tiff', 'tif', 
+            'ai', 'eps', 'ps', 
+            'psd', 
+            'dxf', 
+            'xvg', 
+            'xps', 
+        ), 
     );
     
     /**
@@ -310,7 +337,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
     }
     
     /**
-     * add_mime_display_type() callback for OpenLayers.
+     * add_file_display_callback() callback for OpenLayers.
      * 
      * @see Scripto_IndexController::init()
      * @param File $file
@@ -339,7 +366,7 @@ jQuery(document).ready(function() {
     }
     
     /**
-     * add_mime_display_type() callback for Zoom.it.
+     * add_file_display_callback() callback for Zoom.it.
      * 
      * @see Scripto_IndexController::init()
      * @param File $file
@@ -350,7 +377,7 @@ jQuery(document).ready(function() {
     }
     
     /**
-     * add_mime_display_type() callback for Google Docs.
+     * add_file_display_callback() callback for Google Docs.
      * 
      * @see Scripto_IndexController::init()
      * @param File $file

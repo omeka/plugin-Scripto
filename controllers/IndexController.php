@@ -17,10 +17,10 @@ class Scripto_IndexController extends Omeka_Controller_Action
             // Image viewers.
             switch (get_option('scripto_image_viewer')) {
                 case 'openlayers':
-                    add_mime_display_type(ScriptoPlugin::$mimeTypesOpenLayers, 'ScriptoPlugin::openLayers');
+                    add_file_display_callback(ScriptoPlugin::$fileIdentifiersOpenLayers, 'ScriptoPlugin::openLayers');
                     break;
                 case 'zoomit':
-                    add_mime_display_type(ScriptoPlugin::$mimeTypesZoomIt, 'ScriptoPlugin::zoomIt');
+                    add_file_display_callback(ScriptoPlugin::$fileIdentifiersZoomIt, 'ScriptoPlugin::zoomIt');
                     break;
                 default:
                     // Do nothing. Use Omeka default file display stategy.
@@ -29,7 +29,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
             
             // Google Docs viewer.
             if (get_option('scripto_use_google_docs_viewer')) {
-                add_mime_display_type(ScriptoPlugin::$mimeTypesGoogleDocs, 'ScriptoPlugin::googleDocs');
+                add_file_display_callback(ScriptoPlugin::$fileIdentifiersGoogleDocs, 'ScriptoPlugin::googleDocs');
             }
         }
     }
