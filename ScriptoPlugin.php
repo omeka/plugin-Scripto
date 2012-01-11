@@ -19,7 +19,6 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
         'config', 
         'public_append_to_items_show', 
         'admin_append_to_items_show_primary', 
-        'admin_append_to_files_form', 
     );
     
     protected $_filters = array(
@@ -270,17 +269,6 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
     public function hookAdminAppendToItemsShowPrimary()
     {
         $this->_appendToItemsShow();
-    }
-    
-    /**
-     * Display the Scripto element set on the files form.
-     */
-    public function hookAdminAppendToFilesForm($file)
-    {
-        echo '<fieldset>' 
-           . '<legend>Scripto</legend>' 
-           . display_element_set_form($file, 'Scripto') 
-           . '</fieldset>';
     }
     
     /**
