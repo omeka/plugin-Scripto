@@ -164,19 +164,15 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
             . 'element set to install this plugin.');
         }
         
-        // Must create the element set from scratch since insert_element_set() 
-        // only allows element sets with the Item record type (v1.4).
-        $recordTypeId = $db->getTable('RecordType')->findIdFromName('All');
-        $elementSet = new ElementSet;
-        $elementSet->name = 'Scripto';
-        $elementSet->description = '';
-        $elementSet->record_type_id = $recordTypeId;
-        $elementSet->addElements(array(
+        $elementSetMetadata = array('name' => 'Scripto', 
+                                    'description' => '', 
+                                    'record_type' => 'All');
+        $elements = array(
             array('name' => 'Transcription', 
                   'description' => 'A written representation of a document.', 
-                  'record_type_id' => $recordTypeId)
-        ));
-        $elementSet->save();
+                  'record_type' => 'All')
+        );
+        insert_element_set($elementSetMetadata, $elements);
     }
     
     /**
