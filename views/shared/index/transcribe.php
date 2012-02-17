@@ -55,7 +55,7 @@ jQuery(document).ready(function() {
     }
     
     // Handle transcription/talk visibility.
-    jQuery('#scripto-page-show').click(function() {
+    jQuery('#scripto-page-show').click(function(event) {
         event.preventDefault();
         if ('show discussion' == jQuery('#scripto-page-show').text()) {
             window.location.hash = '#discussion';
