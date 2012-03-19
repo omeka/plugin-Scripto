@@ -171,7 +171,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         $element = $file->getElementByNameAndSetName('Transcription', 'Scripto');
         $file->deleteElementTextsByElementId(array($element->id));
         $isHtml = false;
-        if ('html' == get_option('scripto_export_type')) {
+        if ('html' == get_option('scripto_import_type')) {
             $isHtml = true;
         }
         $text = Scripto::removeNewPPLimitReports($text);
@@ -192,7 +192,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         $element = $item->getElementByNameAndSetName('Transcription', 'Scripto');
         $item->deleteElementTextsByElementId(array($element->id));
         $isHtml = false;
-        if ('html' == get_option('scripto_export_type')) {
+        if ('html' == get_option('scripto_import_type')) {
             $isHtml = true;
         }
         $text = Scripto::removeNewPPLimitReports($text);
