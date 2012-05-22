@@ -70,12 +70,28 @@ class Scripto_IndexController extends Omeka_Controller_Action
             }
             // Redirect if logged in.
             if ($scripto->isLoggedIn()) {
-                $this->_helper->redirector->goto('index');
+                if ($this->_getParam('scripto_redirect_url')) {
+                    $this->_helper->redirector->gotoUrl($this->_getParam('scripto_redirect_url'));
+                } else {
+                    $this->_helper->redirector->goto('index');
+                }
             }
         } catch (Scripto_Service_Exception $e) {
             $this->flashError($e->getMessage());
         }
         
+        // Set the URL to redirect to on a sucessful login.
+        $redirectUrl = null;
+        if ($this->_getParam('scripto_redirect_url')) {
+            // Assume login error and reassign the parameter.
+            $redirectUrl = $this->_getParam('scripto_redirect_url');
+        } else if ('scripto' == $this->getRequest()->getModuleName() && $_SERVER['HTTP_REFERER']) {
+            // Assign HTTP referer to scripto_redirect_url parameter only if 
+            // coming from the Scripto application.
+            $redirectUrl = $_SERVER['HTTP_REFERER'];
+        }
+        
+        $this->view->redirectUrl = $redirectUrl;
         $this->view->scripto = $scripto;
     }
     

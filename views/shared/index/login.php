@@ -27,6 +27,7 @@ administrator.</p>
         <?php echo $this->formPassword('scripto_mediawiki_password', null, array('size' => 18)); ?>
     </div>
 </div>
+<?php echo $this->formHidden('scripto_redirect_url', $this->redirectUrl); ?>
 <?php echo $this->formSubmit('scripto_mediawiki_login', 'Login', array('style' => 'display:inline; float:none;')); ?>
 </form>
 </div><!-- #scripto-login -->
