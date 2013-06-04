@@ -222,7 +222,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
         // Set form defaults.
         $imageViewer = get_option('scripto_image_viewer');
         if (!in_array($imageViewer, array('openlayers', 'zoomit'))) {
-            $imageViewer = 'openlayers';
+            $imageViewer = 'default';
         }
         $useGoogleDocsViewer = get_option('scripto_use_google_docs_viewer');
         if (is_null($useGoogleDocsViewer)) {
