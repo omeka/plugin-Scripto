@@ -1,9 +1,17 @@
 <?php
-require_once 'Omeka/Plugin/Abstract.php';
 /**
- * Contains methods specific to the Scripto plugin.
+ * Collection Tree
+ * 
+ * @copyright Copyright 2007-2012 Roy Rosenzweig Center for History and New Media
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt GNU GPLv3
  */
-class ScriptoPlugin extends Omeka_Plugin_Abstract
+
+/**
+ * The Scripto plugin.
+ * 
+ * @package Omeka\Plugins\Scripto
+ */
+class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
 {
     /**
      * The name of the Scripto element set.
@@ -13,12 +21,12 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
     protected $_hooks = array(
         'install', 
         'uninstall', 
-        'admin_append_to_plugin_uninstall_message', 
+        'uninstall_message', 
         'define_routes', 
         'config_form', 
         'config', 
-        'public_append_to_items_show', 
-        'admin_append_to_items_show_primary', 
+        'public_items_show', 
+        'admin_items_show', 
     );
     
     protected $_filters = array(
@@ -154,22 +162,17 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
      */
     public function hookInstall()
     {
-        $db = get_db();
-        
         // Don't install if an element set by the name "Scripto" already exists.
-        if ($db->getTable('ElementSet')->findByName(self::ELEMENT_SET_NAME)) {
-            throw new Exception('An element set by the name "' 
+        if ($this->_db->getTable('ElementSet')->findByName(self::ELEMENT_SET_NAME)) {
+            throw new Omeka_Plugin_Installer_Exception('An element set by the name "' 
             . self::ELEMENT_SET_NAME . '" already exists. You must delete that ' 
             . 'element set to install this plugin.');
         }
         
-        $elementSetMetadata = array('name' => 'Scripto', 
-                                    'description' => '', 
-                                    'record_type' => 'All');
+        $elementSetMetadata = array('name' => self::ELEMENT_SET_NAME);
         $elements = array(
             array('name' => 'Transcription', 
-                  'description' => 'A written representation of a document.', 
-                  'record_type' => 'All')
+                  'description' => 'A written representation of a document.')
         );
         insert_element_set($elementSetMetadata, $elements);
     }
@@ -179,10 +182,8 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
      */
     public function hookUninstall()
     {
-        $db = get_db();
-        
         // Delete the Scripto element set.
-        $db->getTable('ElementSet')->findByName(self::ELEMENT_SET_NAME)->delete();
+        $this->_db->getTable('ElementSet')->findByName(self::ELEMENT_SET_NAME)->delete();
         
         // Delete options that are specific to Scripto.
         delete_option('scripto_mediawiki_api_url');
@@ -195,7 +196,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
     /**
      * Appends a warning message to the uninstall confirmation page.
      */
-    public function hookAdminAppendToPluginUninstallMessage()
+    public function hookUninstallMessage()
     {
         echo '<p><strong>Warning</strong>: This will permanently delete the "' 
            . self::ELEMENT_SET_NAME . '" element set and all transcriptions ' 
@@ -209,9 +210,9 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
      * 
      * @param Zend_Controller_Router_Rewrite $router
      */
-    public function hookDefineRoutes($router)
+    public function hookDefineRoutes($args)
     {
-        $router->addConfig(new Zend_Config_Ini(dirname(__FILE__) . '/routes.ini', 'routes'));
+        $args['router']->addConfig(new Zend_Config_Ini(dirname(__FILE__) . '/routes.ini', 'routes'));
     }
     
     /**
@@ -233,7 +234,12 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
             $importType = 'html';
         }
         
-        include 'config_form.php';
+        echo get_view()->partial(
+            'plugins/scripto-config-form.php', 
+            array('image_viewer' => $imageViewer, 
+                  'use_google_docs_viewer' => $useGoogleDocsViewer,  
+                  'import_type' => $importType)
+        );
     }
     
     /**
@@ -243,7 +249,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
     {
         // Validate the MediaWiki API URL.
         if (!Scripto::isValidApiUrl($_POST['scripto_mediawiki_api_url'])) {
-            throw new Omeka_Validator_Exception('Invalid MediaWiki API URL');
+            throw new Omeka_Plugin_Installer_Exception('Invalid MediaWiki API URL');
         }
         
         // Set options that are specific to Scripto.
@@ -258,7 +264,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
     /**
      * Append the transcribe link to the public items show page.
      */
-    public function hookPublicAppendToItemsShow()
+    public function hookPublicItemsShow()
     {
         $this->_appendToItemsShow();
     }
@@ -266,7 +272,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
     /**
      * Append the transcribe link to the admin items show page.
      */
-    public function hookAdminAppendToItemsShowPrimary()
+    public function hookAdminItemsShow()
     {
         $this->_appendToItemsShow();
     }
@@ -279,7 +285,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
      */
     public function filterAdminNavigationMain($nav)
     {
-        $nav['Scripto'] = uri('scripto');
+        $nav[] = array('label' => 'Scripto', 'uri' => url('scripto'));
         return $nav;
     }
     
@@ -291,7 +297,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
      */
     public function filterPublicNavigationMain($nav)
     {
-        $nav['Scripto'] = uri('scripto');
+        $nav[] = array('label' => 'Scripto', 'uri' => url('scripto'));
         return $nav;
     }
     
@@ -300,7 +306,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
      */
     protected function _appendToItemsShow()
     {
-        $item = get_current_item();
+        $item = get_current_record('item');
         $scripto = self::getScripto();
         // Do not show page links if document is not valid.
         if (!$scripto->documentExists($item->id)) {
@@ -311,7 +317,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
 <h2>Transcribe This Item</h2>
 <ol>
     <?php foreach ($doc->getPages() as $pageId => $pageName): ?>
-    <li><a href="<?php echo uri(array('action' => 'transcribe', 
+    <li><a href="<?php echo url(array('action' => 'transcribe', 
                                       'item-id' => $item->id, 
                                       'file-id' => $pageId), 
                                 'scripto_action_item_file'); ?>" id="scripto-transcribe-item"><?php echo $pageName; ?></a></li>
@@ -328,7 +334,7 @@ class ScriptoPlugin extends Omeka_Plugin_Abstract
      */
     public static function openLayers($file)
     {
-        $imageUrl = $file->getWebPath('archive');
+        $imageUrl = $file->getWebPath('original');
         $imageSize = ScriptoPlugin::getImageSize($imageUrl, 250);
         
 ?>
@@ -357,7 +363,7 @@ jQuery(document).ready(function() {
      */
     public static function zoomIt($file)
     {
-        echo __v()->zoomIt['embedHtml'];
+        echo get_view()->zoomIt['embedHtml'];
     }
     
     /**
@@ -369,7 +375,7 @@ jQuery(document).ready(function() {
     public static function googleDocs($file)
     {
         $uri = Zend_Uri::factory('http://docs.google.com/viewer');
-        $uri->setQuery(array('url' => $file->getWebPath('archive'), 
+        $uri->setQuery(array('url' => $file->getWebPath('original'), 
                              'embedded' => 'true'));
         echo '<iframe src="' . $uri->getUri() . '" width="500" height="600" style="border: none;"></iframe>';
     }

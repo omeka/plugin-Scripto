@@ -1,6 +1,6 @@
 <?php
 $head = array('title' => html_escape('Scripto'));
-head($head);
+echo head($head);
 ?>
 <h1><?php echo $head['title']; ?></h1>
 <div id="primary">
@@ -9,9 +9,9 @@ head($head);
 <div id="scripto-watchlist" class="scripto">
 <!-- navigation -->
 <p>
-Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
-(<a href="<?php echo html_escape(uri('scripto/logout')); ?>">logout</a>) 
- | <a href="<?php echo html_escape(uri('scripto/recent-changes')); ?>">Recent changes</a>
+Logged in as <a href="<?php echo html_escape(url('scripto')); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
+(<a href="<?php echo html_escape(url('scripto/logout')); ?>">logout</a>) 
+ | <a href="<?php echo html_escape(url('scripto/recent-changes')); ?>">Recent changes</a>
 </p>
 
 <!-- watchlist -->
@@ -35,7 +35,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
     <?php
     // changes
     $changes = ucfirst($revision['action']);
-    $urlHistory = uri(array(
+    $urlHistory = url(array(
         'item-id' => $revision['document_id'], 
         'file-id' => $revision['document_page_id'], 
         'namespace-index' => $revision['namespace_index'], 
@@ -44,7 +44,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
     
     // document page name
     $documentPageName = ScriptoPlugin::truncate($revision['document_page_name'], 30);
-    $urlTranscribe = uri(array(
+    $urlTranscribe = url(array(
         'action' => 'transcribe', 
         'item-id' => $revision['document_id'], 
         'file-id' => $revision['document_page_id']
@@ -57,7 +57,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
     
     // document title
     $documentTitle = ScriptoPlugin::truncate($revision['document_title'], 30, 'Untitled');
-    $urlItem = uri(array(
+    $urlItem = url(array(
         'controller' => 'items', 
         'action' => 'show', 
         'id' => $revision['document_id']
@@ -83,4 +83,4 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
 <?php endif; ?>
 </div><!-- #scripto-watchlist -->
 </div>
-<?php foot(); ?>
+<?php echo foot(); ?>

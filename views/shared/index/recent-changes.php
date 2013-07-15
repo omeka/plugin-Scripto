@@ -1,6 +1,6 @@
 <?php
 $head = array('title' => html_escape('Scripto'));
-head($head);
+echo head($head);
 ?>
 <h1><?php echo $head['title']; ?></h1>
 <div id="primary">
@@ -10,11 +10,11 @@ head($head);
 <!-- navigation -->
 <p>
 <?php if ($this->scripto->isLoggedIn()): ?>
-Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
-(<a href="<?php echo html_escape(uri('scripto/logout')); ?>">logout</a>) 
- | <a href="<?php echo html_escape(uri('scripto/watchlist')); ?>">Your watchlist</a> 
+Logged in as <a href="<?php echo html_escape(url('scripto')); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
+(<a href="<?php echo html_escape(url('scripto/logout')); ?>">logout</a>) 
+ | <a href="<?php echo html_escape(url('scripto/watchlist')); ?>">Your watchlist</a> 
 <?php else: ?>
-<a href="<?php echo html_escape(uri('scripto/login')); ?>">Log in to Scripto</a>
+<a href="<?php echo html_escape(url('scripto/login')); ?>">Log in to Scripto</a>
 <?php endif; ?>
 </p>
 
@@ -39,27 +39,27 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
     <?php foreach ($this->recentChanges as $recentChange): ?>
     <?php
     $changes = ucfirst($recentChange['action']);
-	$urlDiff = uri(array(
-		'item-id' => $recentChange['document_id'], 
-		'file-id' => $recentChange['document_page_id'], 
-		'namespace-index' => $recentChange['namespace_index'], 
-		'old-revision-id' => $recentChange['old_revision_id'], 
-		'revision-id' => $recentChange['revision_id'], 
-	), 'scripto_diff');
-	$urlHistory = uri(array(
-		'item-id' => $recentChange['document_id'], 
-		'file-id' => $recentChange['document_page_id'], 
-		'namespace-index' => $recentChange['namespace_index'], 
-	), 'scripto_history');
-	if ($recentChange['new'] || in_array($recentChange['action'], array('protected', 'unprotected'))) {
-		$changes .= ' (diff | <a href="' . html_escape($urlHistory) . '">hist</a>)';
-	} else {
-		$changes .= ' (<a href="' . html_escape($urlDiff) . '">diff</a> | <a href="' . html_escape($urlHistory) . '">hist</a>)';
-	}
+        $urlDiff = url(array(
+            'item-id' => $recentChange['document_id'], 
+            'file-id' => $recentChange['document_page_id'], 
+            'namespace-index' => $recentChange['namespace_index'], 
+            'old-revision-id' => $recentChange['old_revision_id'], 
+            'revision-id' => $recentChange['revision_id'], 
+        ), 'scripto_diff');
+        $urlHistory = url(array(
+            'item-id' => $recentChange['document_id'], 
+            'file-id' => $recentChange['document_page_id'], 
+            'namespace-index' => $recentChange['namespace_index'], 
+        ), 'scripto_history');
+        if ($recentChange['new'] || in_array($recentChange['action'], array('protected', 'unprotected'))) {
+            $changes .= ' (diff | <a href="' . html_escape($urlHistory) . '">hist</a>)';
+        } else {
+            $changes .= ' (<a href="' . html_escape($urlDiff) . '">diff</a> | <a href="' . html_escape($urlHistory) . '">hist</a>)';
+        }
     
     // document page name
     $documentPageName = ScriptoPlugin::truncate($recentChange['document_page_name'], 30);
-    $urlTranscribe = uri(array(
+    $urlTranscribe = url(array(
         'action' => 'transcribe', 
         'item-id' => $recentChange['document_id'], 
         'file-id' => $recentChange['document_page_id']
@@ -72,7 +72,7 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
     
     // document title
     $documentTitle = ScriptoPlugin::truncate($recentChange['document_title'], 30, 'Untitled');
-    $urlItem = uri(array(
+    $urlItem = url(array(
         'controller' => 'items', 
         'action' => 'show', 
         'id' => $recentChange['document_id']
@@ -98,4 +98,4 @@ Logged in as <a href="<?php echo html_escape(uri('scripto')); ?>"><?php echo $th
 <?php endif; ?>
 </div><!-- #scripto-recent-changes -->
 </div>
-<?php foot(); ?>
+<?php echo foot(); ?>

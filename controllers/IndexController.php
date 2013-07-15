@@ -2,7 +2,7 @@
 /**
  * The index controller for the Scripto plugin.
  */
-class Scripto_IndexController extends Omeka_Controller_Action
+class Scripto_IndexController extends Omeka_Controller_AbstractActionController
 {
     /**
      * Initiate this controller.
@@ -11,8 +11,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
     {
         // Change the display strategy for certain files on the transcribe 
         // action.
-        $request = Zend_Controller_Front::getInstance()->getRequest();
-        if ('transcribe' == $request->getActionName()) {
+        if ('transcribe' == $this->getRequest()->getActionName()) {
             
             // Image viewers.
             switch (get_option('scripto_image_viewer')) {
@@ -47,7 +46,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
                 $documentPages = $scripto->getUserDocumentPages(500);
             }
         } catch (Scripto_Exception $e) {
-            $this->flashError($e->getMessage());
+            $this->_helper->flashMessenger($e->getMessage());
         }
         
         $this->view->scripto = $scripto;
@@ -66,7 +65,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
             if ($this->_getParam('scripto_mediawiki_login')) {
                 $scripto->login($this->_getParam('scripto_mediawiki_username'), 
                                 $this->_getParam('scripto_mediawiki_password'));
-                $this->flashSuccess('Successfully logged into Scripto.');
+                $this->_helper->flashMessenger('Successfully logged into Scripto.', 'success');
             }
             // Redirect if logged in.
             if ($scripto->isLoggedIn()) {
@@ -77,7 +76,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
                 }
             }
         } catch (Scripto_Service_Exception $e) {
-            $this->flashError($e->getMessage());
+            $this->_helper->flashMessenger($e->getMessage());
         }
         
         // Set the URL to redirect to on a sucessful login.
@@ -103,9 +102,9 @@ class Scripto_IndexController extends Omeka_Controller_Action
         try {
             $scripto = ScriptoPlugin::getScripto();
             $scripto->logout();
-            $this->flashSuccess('Successfully logged out of Scripto.');
+            $this->_helper->flashMessenger('Successfully logged out of Scripto.', 'success');
         } catch (Scripto_Exception $e) {
-            $this->flashError($e->getMessage());
+            $this->_helper->flashMessenger($e->getMessage());
         }
         
         // Always redirect.
@@ -125,7 +124,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
             }
             $watchlist = $scripto->getWatchlist(500);
         } catch (Scripto_Exception $e) {
-            $this->flashError($e->getMessage());
+            $this->_helper->flashMessenger($e->getMessage());
         }
         
         $this->view->scripto = $scripto;
@@ -141,7 +140,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
             $scripto = ScriptoPlugin::getScripto();
             $recentChanges = $scripto->getRecentChanges(500);
         } catch (Scripto_Exception $e) {
-            $this->flashError($e->getMessage());
+            $this->_helper->flashMessenger($e->getMessage());
         }
         
         $this->view->scripto = $scripto;
@@ -159,7 +158,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
             $doc->setPage($this->_getParam('file-id'));
             
             // Set the File object.
-            $file = $this->getDb()->getTable('File')->find($doc->getPageId());
+            $file = $this->_helper->db->getTable('File')->find($doc->getPageId());
             
             // Set the page HTML.
             $transcriptionPageHtml = Scripto::removeHtmlAttributes($doc->getTranscriptionPageHtml());
@@ -191,14 +190,14 @@ class Scripto_IndexController extends Omeka_Controller_Action
             }
             
         } catch (Scripto_Exception $e) {
-            $this->flashError($e->getMessage());
+            $this->_helper->flashMessenger($e->getMessage());
             $this->_helper->redirector->goto('index');
         }
         
         // Get the embed HTML for the Zoom.it image viewer.
         if ('zoomit' == get_option('scripto_image_viewer')) {
             $client = new Zend_Http_Client('http://api.zoom.it/v1/content');
-            $client->setParameterGet('url', $file->getWebPath('archive'));
+            $client->setParameterGet('url', $file->getWebPath('original'));
             $response = json_decode($client->request()->getBody(), true);
             $this->view->zoomIt = $response;
         }
@@ -230,7 +229,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
                 $history = $doc->getTranscriptionPageHistory(100);
             }
         } catch (Scripto_Exception $e) {
-            $this->flashError($e->getMessage());
+            $this->_helper->flashMessenger($e->getMessage());
             $this->_helper->redirector->goto('index');
         }
         
@@ -259,7 +258,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
                 } else {
                     $doc->editTranscriptionPage($revision['wikitext']);
                 }
-                $this->flashSuccess('Successfully reverted the page to a previous revision.');
+                $this->_helper->flashMessenger('Successfully reverted the page to a previous revision.', 'success');
                 $this->_helper->redirector->gotoRoute(array('item-id' => $doc->getId(), 
                                                             'file-id' => $doc->getPageId(), 
                                                             'namespace-index' => $this->_getParam('namespace-index')), 
@@ -267,7 +266,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
             }
             
         } catch (Scripto_Exception $e) {
-            $this->flashError($e->getMessage());
+            $this->_helper->flashMessenger($e->getMessage());
         }
         
         $this->view->scripto = $scripto;
@@ -289,7 +288,7 @@ class Scripto_IndexController extends Omeka_Controller_Action
             $oldRevision = $scripto->getRevision($this->_getParam('old-revision-id'));
             $revision = $scripto->getRevision($this->_getParam('revision-id'));
         } catch (Scripto_Exception $e) {
-            $this->flashError($e->getMessage());
+            $this->_helper->flashMessenger($e->getMessage());
             $this->_helper->redirector->goto('index');
         }
         

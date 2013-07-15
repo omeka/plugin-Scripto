@@ -65,7 +65,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         foreach ($item->Files as $file) {
             // The page name is either the Dublin Core title of the file or the 
             // file's original filename.
-            $titles = $file->getElementTextsByElementNameAndSetName('Title', 'Dublin Core');
+            $titles = $file->getElementTexts('Dublin Core', 'Title');
             if (empty($titles)) {
                 $pageName = $file->original_filename;
             } else {
@@ -86,7 +86,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
     public function getDocumentPageFileUrl($documentId, $pageId)
     {
         $file = $this->_getFile($pageId);
-        return $file->getWebPath('archive');
+        return $file->getWebPath('original');
     }
     
     /**
@@ -110,7 +110,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
     public function getDocumentTitle($documentId)
     {
         $item = $this->_getItem($documentId);
-        $titles = $item->getElementTextsByElementNameAndSetName('Title', 'Dublin Core');
+        $titles = $item->getElementTexts('Dublin Core', 'Title');
         if (empty($titles)) {
             return '';
         }
@@ -130,7 +130,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         
         // The page name is either the Dublin Core title of the file or the 
         // file's original filename.
-        $titles = $file->getElementTextsByElementNameAndSetName('Title', 'Dublin Core');
+        $titles = $file->getElementTexts('Dublin Core', 'Title');
         if (empty($titles)) {
             $pageName = $file->original_filename;
         } else {
@@ -168,7 +168,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
     public function importDocumentPageTranscription($documentId, $pageId, $text)
     {
         $file = $this->_getFile($pageId);
-        $element = $file->getElementByNameAndSetName('Transcription', 'Scripto');
+        $element = $file->getElement('Scripto', 'Transcription');
         $file->deleteElementTextsByElementId(array($element->id));
         $isHtml = false;
         if ('html' == get_option('scripto_import_type')) {
@@ -189,7 +189,7 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
     public function importDocumentTranscription($documentId, $text)
     {
         $item = $this->_getItem($documentId);
-        $element = $item->getElementByNameAndSetName('Transcription', 'Scripto');
+        $element = $item->getElement('Scripto', 'Transcription');
         $item->deleteElementTextsByElementId(array($element->id));
         $isHtml = false;
         if ('html' == get_option('scripto_import_type')) {

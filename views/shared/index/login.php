@@ -1,6 +1,6 @@
 <?php
 $head = array('title' => html_escape('Scripto | Login'));
-head($head);
+echo head($head);
 ?>
 <h1><?php echo $head['title']; ?></h1>
 <div id="primary">
@@ -8,13 +8,13 @@ head($head);
 
 <div id="scripto-login" class="scripto">
 <!-- navigation -->
-<p><a href="<?php echo html_escape(uri('scripto/index/recent-changes')); ?>">Recent changes</a></p>
+<p><a href="<?php echo html_escape(url('scripto/index/recent-changes')); ?>">Recent changes</a></p>
 <p>Log in to Scripto using your MediaWiki username and password to access your 
 account and enable certain Scripto features. Login may not be required by the 
 administrator.</p>
 
 <!-- login -->
-<form action="<?php echo uri('scripto/index/login'); ?>" method="post">
+<form action="<?php echo html_escape(url('scripto/index/login')); ?>" method="post">
 <div class="field">
     <label for="scripto_mediawiki_username">Username</label>
         <div class="inputs">
@@ -32,4 +32,4 @@ administrator.</p>
 </form>
 </div><!-- #scripto-login -->
 </div>
-<?php foot(); ?>
+<?php echo foot(); ?>
