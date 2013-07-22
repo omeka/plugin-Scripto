@@ -65,7 +65,7 @@ class Scripto_IndexController extends Omeka_Controller_AbstractActionController
             if ($this->_getParam('scripto_mediawiki_login')) {
                 $scripto->login($this->_getParam('scripto_mediawiki_username'), 
                                 $this->_getParam('scripto_mediawiki_password'));
-                $this->_helper->flashMessenger('Successfully logged into Scripto.', 'success');
+                $this->_helper->flashMessenger(__('Successfully logged into Scripto.'), 'success');
             }
             // Redirect if logged in.
             if ($scripto->isLoggedIn()) {
@@ -102,7 +102,7 @@ class Scripto_IndexController extends Omeka_Controller_AbstractActionController
         try {
             $scripto = ScriptoPlugin::getScripto();
             $scripto->logout();
-            $this->_helper->flashMessenger('Successfully logged out of Scripto.', 'success');
+            $this->_helper->flashMessenger(__('Successfully logged out of Scripto.'), 'success');
         } catch (Scripto_Exception $e) {
             $this->_helper->flashMessenger($e->getMessage());
         }
@@ -258,7 +258,7 @@ class Scripto_IndexController extends Omeka_Controller_AbstractActionController
                 } else {
                     $doc->editTranscriptionPage($revision['wikitext']);
                 }
-                $this->_helper->flashMessenger('Successfully reverted the page to a previous revision.', 'success');
+                $this->_helper->flashMessenger(__('Successfully reverted the page to a previous revision.'), 'success');
                 $this->_helper->redirector->gotoRoute(array('item-id' => $doc->getId(), 
                                                             'file-id' => $doc->getPageId(), 
                                                             'namespace-index' => $this->_getParam('namespace-index')), 

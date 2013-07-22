@@ -1,46 +1,48 @@
 <?php
-$head = array('title' => html_escape('Scripto'));
+$head = array('title' => html_escape(__('Scripto')));
 echo head($head);
 ?>
+<?php if (!is_admin_theme()): ?>
 <h1><?php echo $head['title']; ?></h1>
+<?php endif; ?>
 <div id="primary">
 <?php echo flash(); ?>
 
 <div id="scripto-watchlist" class="scripto">
 <!-- navigation -->
 <p>
-Logged in as <a href="<?php echo html_escape(url('scripto')); ?>"><?php echo $this->scripto->getUserName(); ?></a> 
-(<a href="<?php echo html_escape(url('scripto/logout')); ?>">logout</a>) 
- | <a href="<?php echo html_escape(url('scripto/recent-changes')); ?>">Recent changes</a>
+<?php echo __('Logged in as %s', '<a href="' . html_escape(url('scripto')) . '">' . $this->scripto->getUserName() . '</a>'); ?> 
+(<a href="<?php echo html_escape(url('scripto/index/logout')); ?>"><?php echo __('logout'); ?></a>) 
+ | <a href="<?php echo html_escape(url('scripto/recent-changes')); ?>"><?php echo __('Recent changes'); ?></a> 
 </p>
 
 <!-- watchlist -->
-<h2>Your Watchlist</h2>
+<h2><?php echo __('Your Watchlist'); ?></h2>
 <?php if (empty($this->watchlist)): ?>
-<p>There are no document pages in your watchlist.</p>
+<p><?php echo __('There are no document pages in your watchlist.'); ?></p>
 <?php else: ?>
 <table>
     <thead>
     <tr>
-        <th>Changes</th>
-        <th>Document Page Name</th>
-        <th>Changed on</th>
-        <th>Changed</th>
-        <th>Changed by</th>
-        <th>Document Title</th>
+        <th><?php echo __('Changes'); ?></th>
+        <th><?php echo __('Document Page Name'); ?></th>
+        <th><?php echo __('Changed on'); ?></th>
+        <th><?php echo __('Changed'); ?></th>
+        <th><?php echo __('Changed by'); ?></th>
+        <th><?php echo __('Document Title'); ?></th>
     </tr>
     </thead>
     <tbody>
     <?php foreach ($this->watchlist as $revision): ?>
     <?php
     // changes
-    $changes = ucfirst($revision['action']);
+    $changes = __($revision['action']);
     $urlHistory = url(array(
         'item-id' => $revision['document_id'], 
         'file-id' => $revision['document_page_id'], 
         'namespace-index' => $revision['namespace_index'], 
     ), 'scripto_history');
-    $changes .= ' (<a href="' . html_escape($urlHistory) . '">hist</a>)';
+    $changes .= ' (<a href="' . html_escape($urlHistory) . '">' . __('hist') . '</a>)';
     
     // document page name
     $documentPageName = ScriptoPlugin::truncate($revision['document_page_name'], 30);
@@ -56,7 +58,7 @@ Logged in as <a href="<?php echo html_escape(url('scripto')); ?>"><?php echo $th
     }
     
     // document title
-    $documentTitle = ScriptoPlugin::truncate($revision['document_title'], 30, 'Untitled');
+    $documentTitle = ScriptoPlugin::truncate($revision['document_title'], 30, __('Untitled'));
     $urlItem = url(array(
         'controller' => 'items', 
         'action' => 'show', 
@@ -71,8 +73,8 @@ Logged in as <a href="<?php echo html_escape(url('scripto')); ?>"><?php echo $th
     ?>
     <tr>
         <td><?php echo $changes; ?></td>
-        <td><a href="<?php echo html_escape($urlTranscribe); ?>"><?php if ('Talk' == $revision['namespace_name']): ?>Talk: <?php endif; ?><?php echo $documentPageName; ?></a></td>
-        <td><?php echo date('H:i:s M d, Y', strtotime($revision['timestamp'])); ?></td>
+        <td><a href="<?php echo html_escape($urlTranscribe); ?>"><?php if ('Talk' == $revision['namespace_name']): ?><?php echo __('Talk'); ?>: <?php endif; ?><?php echo $documentPageName; ?></a></td>
+        <td><?php echo format_date(strtotime($revision['timestamp']), Zend_Date::DATETIME_MEDIUM); ?></td>
         <td><?php echo $lengthChanged; ?></td>
         <td><?php echo $revision['user']; ?></td>
         <td><a href="<?php echo html_escape($urlItem); ?>"><?php echo $documentTitle; ?></a></td>

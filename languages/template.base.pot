@@ -1,0 +1,51 @@
+# Translation for the Scripto plugin for Omeka.
+# Copyright (C) 2012 Roy Rosenzweig Center for History and New Media
+# This file is distributed under the same license as the Omeka package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Scripto\n"
+"Report-Msgid-Bugs-To: http://github.com/omeka/plugin-Scripto/issues\n"
+"POT-Creation-Date: 2012-11-30 21:49-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "un/protected"
+msgstr ""
+
+msgid "protected"
+msgstr ""
+
+msgid "unprotected"
+msgstr ""
+
+msgid "replaced"
+msgstr ""
+
+msgid "created"
+msgstr ""
+
+msgid "edited"
+msgstr ""
+
+msgid "protected by"
+msgstr ""
+
+msgid "unprotected by"
+msgstr ""
+
+msgid "replaced by"
+msgstr ""
+
+msgid "created by"
+msgstr ""
+
+msgid "edited by"
+msgstr ""

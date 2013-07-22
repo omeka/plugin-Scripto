@@ -19,6 +19,7 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
     const ELEMENT_SET_NAME = 'Scripto';
     
     protected $_hooks = array(
+        'initialize', 
         'install', 
         'uninstall', 
         'uninstall_message', 
@@ -158,15 +159,25 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
     );
     
     /**
+     * Initialize Scripto.
+     */
+    public function hookInitialize()
+    {
+        // Add translation.
+        add_translation_source(dirname(__FILE__) . '/languages');
+    }
+    
+    /**
      * Install Scripto.
      */
     public function hookInstall()
     {
         // Don't install if an element set by the name "Scripto" already exists.
         if ($this->_db->getTable('ElementSet')->findByName(self::ELEMENT_SET_NAME)) {
-            throw new Omeka_Plugin_Installer_Exception('An element set by the name "' 
-            . self::ELEMENT_SET_NAME . '" already exists. You must delete that ' 
-            . 'element set to install this plugin.');
+            throw new Omeka_Plugin_Installer_Exception(
+                __('An element set by the name "%s" already exists. You must delete '
+                 . 'that element set to install this plugin.', self::ELEMENT_SET_NAME)
+            );
         }
         
         $elementSetMetadata = array('name' => self::ELEMENT_SET_NAME);
@@ -187,7 +198,7 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
         
         // Delete options that are specific to Scripto.
         delete_option('scripto_mediawiki_api_url');
-        delete_option('scripto_use_openlayers');
+        delete_option('scripto_image_viewer');
         delete_option('scripto_use_google_docs_viewer');
         delete_option('scripto_import_type');
         delete_option('scripto_home_page_text');
@@ -198,11 +209,12 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function hookUninstallMessage()
     {
-        echo '<p><strong>Warning</strong>: This will permanently delete the "' 
-           . self::ELEMENT_SET_NAME . '" element set and all transcriptions ' 
-           . 'imported from MediaWiki. You may deactivate this plugin if you do ' 
-           . 'not want to lose data. Uninstalling this plugin will not affect ' 
-           . 'your MediaWiki database in any way.</p>';
+        echo '<p>' . __(
+            '%1$sWarning%2$s: This will permanently delete the "%3$s" element set and ' 
+          . 'all transcriptions imported from MediaWiki. You may deactivate this ' 
+          . 'plugin if you do not want to lose data. Uninstalling this plugin will ' 
+          . 'not affect your MediaWiki database in any way.', 
+            '<strong>', '</strong>', self::ELEMENT_SET_NAME) . '</p>';
     }
     
     /**
@@ -285,7 +297,7 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function filterAdminNavigationMain($nav)
     {
-        $nav[] = array('label' => 'Scripto', 'uri' => url('scripto'));
+        $nav[] = array('label' => __('Scripto'), 'uri' => url('scripto'));
         return $nav;
     }
     
@@ -297,7 +309,7 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public function filterPublicNavigationMain($nav)
     {
-        $nav[] = array('label' => 'Scripto', 'uri' => url('scripto'));
+        $nav[] = array('label' => __('Scripto'), 'uri' => url('scripto'));
         return $nav;
     }
     
@@ -314,7 +326,7 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
         }
         $doc = $scripto->getDocument($item->id);
 ?>
-<h2>Transcribe This Item</h2>
+<h2><?php echo __('Transcribe This Item'); ?></h2>
 <ol>
     <?php foreach ($doc->getPages() as $pageId => $pageName): ?>
     <li><a href="<?php echo url(array('action' => 'transcribe', 
