@@ -353,7 +353,10 @@ jQuery(document).ready(function() {
 <div id="scripto-transcription">
     <?php if ($this->doc->canEditTranscriptionPage()): ?>
     <div id="scripto-transcription-edit" style="display: none;">
-        <div><?php echo $this->formTextarea('scripto-transcription-page-wikitext', $this->doc->getTranscriptionPageWikitext(), array('cols' => '76', 'rows' => '16')); ?></div>
+        <div>
+            <label for="scripto-transcription-page-wikitext"><?php echo __('Transcription'); ?></label>
+            <?php echo $this->formTextarea('scripto-transcription-page-wikitext', $this->doc->getTranscriptionPageWikitext(), array('cols' => '76', 'rows' => '16')); ?>
+        </div>
         <div>
             <?php echo $this->formButton('scripto-transcription-page-edit', __('Edit transcription'), array('style' => 'display:inline; float:none;')); ?> 
         </div>
