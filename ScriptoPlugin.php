@@ -389,7 +389,7 @@ jQuery(document).ready(function() {
         $uri = Zend_Uri::factory('http://docs.google.com/viewer');
         $uri->setQuery(array('url' => $file->getWebPath('original'), 
                              'embedded' => 'true'));
-        echo '<iframe src="' . $uri->getUri() . '" width="500" height="600" style="border: none;"></iframe>';
+        echo '<iframe src="' . $uri->getUri() . '" id="scripto-iframe"></iframe>';
     }
     
     /**

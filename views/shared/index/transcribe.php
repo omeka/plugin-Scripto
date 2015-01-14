@@ -1,5 +1,6 @@
 <?php
 $titleArray = array(__('Scripto'), __('Transcribe Page'));
+queue_css_file('scripto-transcribe');
 $head = array('title' => html_escape(implode(' | ', $titleArray)));
 echo head($head);
 ?>
@@ -341,6 +342,7 @@ jQuery(document).ready(function() {
 
 <!-- document viewer -->
 <?php echo file_markup($this->file, array('imageSize' => 'fullsize')); ?>
+
 
 <!-- pagination -->
 <p>
