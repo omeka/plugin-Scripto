@@ -4,7 +4,6 @@ $head = array('title' => html_escape(implode(' | ', $titleArray)));
 echo head($head);
 ?>
 <?php echo js_tag('OpenLayers'); ?>
-<?php echo js_tag('jquery', 'javascripts/vendor'); ?>
 <script type="text/javascript">
 jQuery(document).ready(function() {
     
