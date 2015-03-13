@@ -332,7 +332,7 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
     <li><a href="<?php echo url(array('action' => 'transcribe', 
                                       'item-id' => $item->id, 
                                       'file-id' => $pageId), 
-                                'scripto_action_item_file'); ?>" id="scripto-transcribe-item"><?php echo $pageName; ?></a></li>
+                                'scripto_action_item_file'); ?>" class="scripto-transcribe-item"><?php echo $pageName; ?></a></li>
     <?php endforeach; ?>
 </ol>
 <?php
