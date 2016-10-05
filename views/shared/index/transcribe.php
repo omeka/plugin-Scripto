@@ -28,7 +28,14 @@ jQuery(document).ready(function() {
                     text('<?php echo __('Edit transcription'); ?>');
                 jQuery('#scripto-transcription-page-html').html(data);
             }
-        );
+        ).fail(function(error) {
+            alert('<?php echo __('There was an error:'); ?>' + "\n\n"
+                + error.responseText + "\n\n"
+                + '<?php echo __('Save your work elsewhere and try again. Contact the administrator if this error persists.'); ?>');
+            jQuery('#scripto-transcription-page-edit').
+                prop('disabled', false).
+                text('<?php echo __('Edit transcription'); ?>');
+        });
     });
     
     // Handle edit talk page.

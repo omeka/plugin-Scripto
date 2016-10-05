@@ -383,7 +383,9 @@ class Scripto_IndexController extends Omeka_Controller_AbstractActionController
             
             $this->getResponse()->setBody($body);
         } catch (Scripto_Exception $e) {
-            $this->getResponse()->setHttpResponseCode(500);
+            $this->getResponse()
+                ->setHttpResponseCode(500)
+                ->setBody($e->getMessage());
         }
     }
 }
