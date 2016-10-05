@@ -60,35 +60,6 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
     );
     
     /**
-     * @var MIME types compatible with Zoom.it.
-     */
-    public static $fileIdentifiersZoomIt = array(
-        'mimeTypes' => array(
-            // gif
-            'image/gif', 'image/x-xbitmap', 'image/gi_', 
-            // jpg
-            'image/jpeg', 'image/jpg', 'image/jpe_', 'image/pjpeg', 
-            'image/vnd.swiftview-jpeg', 
-            // png
-            'image/png', 'application/png', 'application/x-png', 
-            // bmp
-            'image/bmp', 'image/x-bmp', 'image/x-bitmap', 
-            'image/x-xbitmap', 'image/x-win-bitmap', 
-            'image/x-windows-bmp', 'image/ms-bmp', 'image/x-ms-bmp', 
-            'application/bmp', 'application/x-bmp', 
-            'application/x-win-bitmap', 
-            // ico
-            'image/ico', 'image/x-icon', 'application/ico', 'application/x-ico', 
-            'application/x-win-bitmap', 'image/x-win-bitmap', 
-            // tiff
-            'image/tiff',
-        ), 
-        'fileExtensions' => array(
-            'gif', 'jpeg', 'jpg', 'jpe', 'png', 'bmp', 'ico', 'tif', 'tiff', 
-        ), 
-    );
-    
-    /**
      * @var MIME types compatible with Google Docs viewer.
      */
     public static $fileIdentifiersGoogleDocs = array(
@@ -234,7 +205,7 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
     {
         // Set form defaults.
         $imageViewer = get_option('scripto_image_viewer');
-        if (!in_array($imageViewer, array('openlayers', 'zoomit'))) {
+        if (!in_array($imageViewer, array('openlayers'))) {
             $imageViewer = 'default';
         }
         $useGoogleDocsViewer = get_option('scripto_use_google_docs_viewer');
@@ -365,17 +336,6 @@ jQuery(document).ready(function() {
 </script>
 <div id="scripto-openlayers" style="height: 400px; border: 1px grey solid; margin-bottom: 12px;"></div>
 <?php
-    }
-    
-    /**
-     * add_file_display_callback() callback for Zoom.it.
-     * 
-     * @see Scripto_IndexController::init()
-     * @param File $file
-     */
-    public static function zoomIt($file)
-    {
-        echo get_view()->zoomIt['embedHtml'];
     }
     
     /**
