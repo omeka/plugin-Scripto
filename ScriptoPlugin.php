@@ -346,7 +346,7 @@ jQuery(document).ready(function() {
      */
     public static function googleDocs($file)
     {
-        $uri = Zend_Uri::factory('http://docs.google.com/viewer');
+        $uri = Zend_Uri::factory('https://docs.google.com/viewer');
         $uri->setQuery(array('url' => $file->getWebPath('original'), 
                              'embedded' => 'true'));
         echo '<iframe src="' . $uri->getUri() . '" width="500" height="600" style="border: none;"></iframe>';

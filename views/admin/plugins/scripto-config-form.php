@@ -55,8 +55,8 @@
         <p class="explanation"><?php echo __(
             'Use Google Docs Viewer when transcribing document files? Document files ' 
           . 'include PDF, DOC, PPT, XLS, TIFF, PS, and PSD formats. By using this service ' 
-          . 'you acknowledge that you have read and agreed to the %1$sGoogle Docs Viewer Terms of Service%2$s.', 
-          '<a href="http://docs.google.com/viewer/TOS?hl=en">', '</a>'
+          . 'you acknowledge that you have read and agreed to the %1$sGoogle Terms of Service%2$s.', 
+          '<a href="https://www.google.com/intl/en/policies/terms/">', '</a>'
         ); ?></p>
         <?php echo $this->formCheckbox(
             'scripto_use_google_docs_viewer', 
