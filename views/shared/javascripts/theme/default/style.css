@@ -1,3 +1,7 @@
+div#wrap {
+    width: 90%; 
+}
+
 div.olMap {
     z-index: 0;
     padding: 0px!important;
