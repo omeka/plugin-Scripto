@@ -52,7 +52,7 @@ class Scripto_Service_MediaWiki extends Zend_Service_Abstract
      */
     protected $_actions = array(
         'parse' => array(
-            'text', 'title', 'page', 'prop', 'pst', 'uselang'
+            'text', 'title', 'page', 'prop', 'pst', 'uselang', 'disablepp'
         ), 
         'edit' => array(
             'title', 'section', 'text', 'token', 'summary', 'minor', 'notminor', 
@@ -395,7 +395,7 @@ class Scripto_Service_MediaWiki extends Zend_Service_Abstract
     {
         // To exclude [edit] links in the parsed wikitext, we must use the 
         // following hack.
-        $response = $this->parse(array('text' => '__NOEDITSECTION__{{:' . $title . '}}'));
+        $response = $this->parse(array('text' => '__NOEDITSECTION__{{:' . $title . '}}', 'disablepp' => true));
         
         // Return the text only if the page already exists. Otherwise, the 
         // returned HTML is a link to the document's MediaWiki edit page. The 
@@ -656,7 +656,7 @@ class Scripto_Service_MediaWiki extends Zend_Service_Abstract
         // Set default parameters.
         self::getHttpClient()->setParameterPost('format', 'json')
                              ->setParameterPost('action', $action);
-        
+
         // Get the response body and reset the request.
         $body = self::getHttpClient()->request('POST')->getBody();
         self::getHttpClient()->resetParameters();
