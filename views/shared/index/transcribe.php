@@ -58,7 +58,14 @@ jQuery(document).ready(function() {
                     text('<?php echo __('Edit discussion'); ?>');
                 jQuery('#scripto-talk-page-html').html(data);
             }
-        );
+        ).fail(function(error) {
+            alert('<?php echo __('There was an error:'); ?>' + "\n\n"
+                + error.responseText + "\n\n"
+                + '<?php echo __('Save your work elsewhere and try again. Contact the administrator if this error persists.'); ?>');
+            jQuery('#scripto-talk-page-edit').
+                prop('disabled', false).
+                text('<?php echo __('Edit discussion'); ?>');
+        });
     });
     
     // Handle default transcription/talk visibility.
