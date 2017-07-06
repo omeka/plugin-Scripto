@@ -237,6 +237,7 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
         
         // Set options that are specific to Scripto.
         set_option('scripto_mediawiki_api_url', $_POST['scripto_mediawiki_api_url']);
+        set_option('scripto_mediawiki_cookie_prefix', $_POST['scripto_mediawiki_cookie_prefix']);
         set_option('scripto_image_viewer', $_POST['scripto_image_viewer']);
         set_option('scripto_use_google_docs_viewer', $_POST['scripto_use_google_docs_viewer']);
         set_option('scripto_import_type', $_POST['scripto_import_type']);
@@ -362,8 +363,12 @@ jQuery(document).ready(function() {
         if (null === $apiUrl) {
             $apiUrl = get_option('scripto_mediawiki_api_url');
         }
+        $cookiePrefix = get_option('scripto_mediawiki_cookie_prefix');
         
-        return new Scripto(new ScriptoAdapterOmeka, array('api_url' => $apiUrl));
+        return new Scripto(new ScriptoAdapterOmeka, array(
+            'api_url' => $apiUrl,
+            'cookie_prefix' => $cookiePrefix ? $cookiePrefix : null,
+        ));
     }
     
     /**
