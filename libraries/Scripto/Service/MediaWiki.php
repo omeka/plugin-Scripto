@@ -95,7 +95,7 @@ class Scripto_Service_MediaWiki extends Zend_Service_Abstract
         'login' => array(
             'lgname', 'lgpassword', 'lgtoken'
         ), 
-        'logout' => array()
+        'logout' => array('token')
     );
     
     /**
@@ -619,8 +619,13 @@ class Scripto_Service_MediaWiki extends Zend_Service_Abstract
      */
     public function logout()
     {
+        // As of A CSRF token is required to log out as of MW 1.34.0.
+        // @see https://github.com/wikimedia/mediawiki-api-demos/issues/118
+        $response = $this->query(['meta' => 'tokens']);
+        $token = $response['query']['tokens']['csrftoken'];
+
         // Log out.
-        $this->_request('logout');
+        $this->_request('logout', ['token' => $token]);
         
         // Reset the cookie jar.
         self::getHttpClient()->getCookieJar()->reset();
