@@ -439,9 +439,7 @@ class Scripto_Document
         if (is_null($this->_pageId)) {
             throw new Scripto_Exception('The document page must be set before editing the transcription page.');
         }
-        $this->_mediawiki->edit($this->_baseTitle, 
-                                $text, 
-                                $this->_transcriptionPageInfo['edit_token']);
+        $this->_mediawiki->edit($this->_baseTitle, $text);
     }
     
     /**
@@ -455,9 +453,7 @@ class Scripto_Document
         if (is_null($this->_pageId)) {
             throw new Scripto_Exception('The document page must be set before editing the talk page.');
         }
-        $this->_mediawiki->edit('Talk:' . $this->_baseTitle, 
-                                $text, 
-                                $this->_talkPageInfo['edit_token']);
+        $this->_mediawiki->edit('Talk:' . $this->_baseTitle, $text);
     }
     
     /**
@@ -468,7 +464,7 @@ class Scripto_Document
         if (is_null($this->_pageId)) {
             throw new Scripto_Exception('The document page must be set before protecting the transcription page.');
         }
-        $this->_protectPage($this->_baseTitle, $this->_transcriptionPageInfo['protect_token']);
+        $this->_protectPage($this->_baseTitle, null);
         
         // Update information about this page.
         $this->_transcriptionPageInfo = $this->_getPageInfo($this->_baseTitle);
@@ -482,7 +478,7 @@ class Scripto_Document
         if (is_null($this->_pageId)) {
             throw new Scripto_Exception('The document page must be set before protecting the talk page.');
         }
-        $this->_protectPage('Talk:' . $this->_baseTitle, $this->_talkPageInfo['protect_token']);
+        $this->_protectPage('Talk:' . $this->_baseTitle, null);
         
         // Update information about this page.
         $this->_talkPageInfo = $this->_getPageInfo('Talk:' . $this->_baseTitle);
@@ -496,7 +492,7 @@ class Scripto_Document
         if (is_null($this->_pageId)) {
             throw new Scripto_Exception('The document page must be set before unprotecting the transcription page.');
         }
-        $this->_unprotectPage($this->_baseTitle, $this->_transcriptionPageInfo['protect_token']);
+        $this->_unprotectPage($this->_baseTitle, null);
         
         // Update information about this page.
         $this->_transcriptionPageInfo = $this->_getPageInfo($this->_baseTitle);
@@ -510,7 +506,7 @@ class Scripto_Document
         if (is_null($this->_pageId)) {
             throw new Scripto_Exception('The document page must be set before unprotecting the talk page.');
         }
-        $this->_unprotectPage('Talk:' . $this->_baseTitle, $this->_talkPageInfo['protect_token']);
+        $this->_unprotectPage('Talk:' . $this->_baseTitle, null);
         
         // Update information about this page.
         $this->_talkPageInfo = $this->_getPageInfo('Talk:' . $this->_baseTitle);
@@ -799,8 +795,7 @@ class Scripto_Document
      */
     protected function _getPageInfo($title)
     {
-        $params = array('inprop' => 'protection|talkid|subjectid|url|watched', 
-                        'intoken' => 'edit|move|delete|protect');
+        $params = array('inprop' => 'protection|talkid|subjectid|url|watched');
         $response = $this->_mediawiki->getInfo($title, $params);
         $page = current($response['query']['pages']);
         $pageInfo = array('page_id'            => isset($page['pageid']) ? $page['pageid'] : null, 
@@ -810,10 +805,6 @@ class Scripto_Document
                           'counter'            => isset($page['counter']) ? $page['counter'] : null, 
                           'length'             => isset($page['length']) ? $page['length'] : null, 
                           'start_timestamp'    => isset($page['starttimestamp']) ? $page['starttimestamp'] : null, 
-                          'edit_token'         => isset($page['edittoken']) ? $page['edittoken'] : null, 
-                          'move_token'         => isset($page['movetoken']) ? $page['movetoken'] : null, 
-                          'delete_token'       => isset($page['deletetoken']) ? $page['deletetoken'] : null, 
-                          'protect_token'      => isset($page['protecttoken']) ? $page['protecttoken'] : null, 
                           'protections'        => isset($page['protection']) ? $page['protection'] : null, 
                           'talk_id'            => isset($page['talkid']) ? $page['talkid'] : null, 
                           'mediawiki_full_url' => isset($page['fullurl']) ? $page['fullurl'] : null, 

@@ -70,7 +70,7 @@ class Scripto_Service_MediaWiki extends Zend_Service_Abstract
             // title specifications
             'titles', 'revids', 'pageids', 
             // submodules
-            'meta', 'prop', 'list', 
+            'meta', 'prop', 'list', 'type',
             // meta submodule
             'siprop', 'sifilteriw', 'sishowalldb', 'sinumberingroup',
             'uiprop', 
@@ -304,14 +304,8 @@ class Scripto_Service_MediaWiki extends Zend_Service_Abstract
      */
     public function getEditToken($title)
     {
-        $response = $this->getInfo($title, array('intoken' => 'edit'));
-        $page = current($response['query']['pages']);
-        
-        $edittoken = null;
-        if (isset($page['edittoken'])) {
-            $edittoken = $page['edittoken'];
-        }
-        return $edittoken;
+        $response = $this->query(['meta' => 'tokens', 'type' => 'csrf']);
+        return $response['query']['tokens']['csrftoken'];
     }
     
     /**
@@ -323,14 +317,8 @@ class Scripto_Service_MediaWiki extends Zend_Service_Abstract
      */
     public function getProtectToken($title)
     {
-        $response = $this->getInfo($title, array('intoken' => 'protect'));
-        $page = current($response['query']['pages']);
-        
-        $protecttoken = null;
-        if (isset($page['protecttoken'])) {
-            $protecttoken = $page['protecttoken'];
-        }
-        return $protecttoken;
+        $response = $this->query(['meta' => 'tokens', 'type' => 'csrf']);
+        return $response['query']['tokens']['csrftoken'];
     }
     
     /**
@@ -342,14 +330,8 @@ class Scripto_Service_MediaWiki extends Zend_Service_Abstract
      */
     public function getWatchToken($title)
     {
-        $response = $this->getInfo($title, array('intoken' => 'watch'));
-        $page = current($response['query']['pages']);
-        
-        $watchtoken = null;
-        if (isset($page['watchtoken'])) {
-            $watchtoken = $page['watchtoken'];
-        }
-        return $watchtoken;
+        $response = $this->query(['meta' => 'tokens', 'type' => 'watch']);
+        return $response['query']['tokens']['watchtoken'];
     }
     
     /**
