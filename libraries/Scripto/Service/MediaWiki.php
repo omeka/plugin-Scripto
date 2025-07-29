@@ -568,7 +568,7 @@ class Scripto_Service_MediaWiki extends Zend_Service_Abstract
 
                 // Persist MediaWiki authentication cookies in the browser.
                 foreach (self::getHttpClient()->getCookieJar()->getAllCookies() as $cookie) {
-                    setcookie(self::COOKIE_NS . $this->_cookiePrefix . $cookie->getName(),
+                    setcookie(self::COOKIE_NS . $cookie->getName(),
                               $cookie->getValue(),
                               $cookie->getExpiryTime(),
                               '/');
